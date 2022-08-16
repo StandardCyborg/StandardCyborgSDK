@@ -1,0 +1,9 @@
+==================================
+
+libigl
+Copied from: https://libigl.github.io/
+On: July 8, 2019
+
+License:
+
+libigl is primarily MPL2 licensed (FAQ). Some files contain third-party code under other licenses. We’re currently in the processes of identifying these and marking appropriately.

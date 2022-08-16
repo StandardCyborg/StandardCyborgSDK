@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.SceneKitIBPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ExperimentWindowController" customModule="VisualTesterMac" customModuleProvider="target">
+            <connections>
+                <outlet property="_controlsStackView" destination="Zaw-82-MqE" id="tgW-Oh-gJt"/>
+                <outlet property="_sceneView" destination="ov9-Kn-2kV" id="dvA-jF-Cgf"/>
+                <outlet property="window" destination="QvC-M9-y7g" id="C7a-bl-mwE"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="680" height="600"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1669"/>
+            <value key="minSize" type="size" width="680" height="600"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="680" height="600"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <sceneView sceneName="ExperimentViewController.scn" autoenablesDefaultLighting="YES" allowsCameraControl="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ov9-Kn-2kV">
+                        <rect key="frame" x="0.0" y="20" width="680" height="580"/>
+                    </sceneView>
+                    <stackView distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zaw-82-MqE">
+                        <rect key="frame" x="0.0" y="0.0" width="680" height="20"/>
+                        <edgeInsets key="edgeInsets" left="10" right="10" top="10" bottom="10"/>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ov9-Kn-2kV" secondAttribute="trailing" id="3zj-3H-F41"/>
+                    <constraint firstAttribute="bottom" secondItem="Zaw-82-MqE" secondAttribute="bottom" id="4KF-P2-9A7"/>
+                    <constraint firstAttribute="trailing" secondItem="Zaw-82-MqE" secondAttribute="trailing" id="5wD-oa-aH3"/>
+                    <constraint firstItem="Zaw-82-MqE" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="Pt4-fz-Vl7"/>
+                    <constraint firstItem="Zaw-82-MqE" firstAttribute="top" secondItem="ov9-Kn-2kV" secondAttribute="bottom" id="Ynk-tZ-z5q"/>
+                    <constraint firstItem="ov9-Kn-2kV" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="f4G-CF-iiT"/>
+                    <constraint firstItem="ov9-Kn-2kV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="tsQ-gJ-1sy"/>
+                </constraints>
+            </view>
+        </window>
+    </objects>
+</document>

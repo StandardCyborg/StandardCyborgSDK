@@ -1,0 +1,8 @@
+#!/bin/sh
+export CCACHE_MAXSIZE=10G
+export CCACHE_CPP2=true
+export CCACHE_HARDLINK=true
+export CCACHE_SLOPPINESS=file_macro,time_macros,include_file_mtime,include_file_ctime,file_stat_matches
+
+exec /opt/homebrew/bin/ccache clang++ "$@"
+
