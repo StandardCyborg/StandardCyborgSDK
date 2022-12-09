@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -2146,6 +2146,7 @@
 		};
 		7649B80522BC08BF009F07D5 /* Strip Simulator Architectures */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2160,10 +2161,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ $ACTION = \"install\" ]]; then\necho \"Stripping simulator architectures from ZipArchive framework…\"\ncd \"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/ZipArchive.framework\"\nlipo -thin arm64 ZipArchive -output ZipArchive-thin\nrm ZipArchive\nmv ZipArchive-thin ZipArchive\nfi\n";
+			shellScript = "if [[ $ACTION = \"install\" ]]; then\n  echo \"Stripping simulator architectures from ZipArchive framework…\"\n  cd \"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/ZipArchive.framework\"\n  lipo -thin arm64 ZipArchive -output ZipArchive-thin\n  rm ZipArchive\n  mv ZipArchive-thin ZipArchive\nfi\n";
 		};
 		7693FAA3220255EE005EDFB2 /* Strip Private Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2182,6 +2184,7 @@
 		};
 		76FDB62C2220CEBE00DE8B43 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2665,9 +2668,9 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				CXX = "$(SRCROOT)/DependenciesSupport/ccache-clang++";
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = KAW83335BG;
-				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -2739,9 +2742,9 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				CXX = "$(SRCROOT)/DependenciesSupport/ccache-clang++";
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = KAW83335BG;
-				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
