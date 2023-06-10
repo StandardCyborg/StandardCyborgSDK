@@ -7,24 +7,14 @@
 //
 
 #import "AppDelegate.h"
-#import "ExperimentWindowController.h"
 
-@implementation AppDelegate {
-    ExperimentWindowController *_experimentWC;
-}
+@implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-}
-
-- (IBAction)beginExperiment:(id)sender {
-    [_experimentWC close];
-    
-    _experimentWC = [[ExperimentWindowController alloc] initWithWindowNibName:@"ExperimentWindowController"];
-    [_experimentWC showWindow:nil];
 }
 
 @end

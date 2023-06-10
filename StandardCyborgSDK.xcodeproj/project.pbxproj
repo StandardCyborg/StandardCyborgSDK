@@ -91,8 +91,6 @@
 		7636B633216E987A00A8D5D3 /* PBFAssimilatedFrameMetadata.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7636B62F216E987900A8D5D3 /* PBFAssimilatedFrameMetadata.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
 		76385562212F390500C7DA06 /* DepthColoringFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76385561212F390500C7DA06 /* DepthColoringFilter.swift */; };
 		7639967A212E360D000E5D3D /* DepthColoringFilter.metal in Sources */ = {isa = PBXBuildFile; fileRef = 76399679212E360D000E5D3D /* DepthColoringFilter.metal */; };
-		763E0E8922AF676300EADECA /* ExperimentWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 763E0E8822AF676300EADECA /* ExperimentWindowController.mm */; };
-		763E0E8D22B0213200EADECA /* ExperimentViewController.scn in Resources */ = {isa = PBXBuildFile; fileRef = 763E0E8C22B0213200EADECA /* ExperimentViewController.scn */; };
 		764269A42308C45900ED9F59 /* SceneKit+Plane.h in Headers */ = {isa = PBXBuildFile; fileRef = 075815DB2294568E00D13A32 /* SceneKit+Plane.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		7648B7B923595EAD005F6756 /* SCMesh+Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7648B7B723595EAD005F6756 /* SCMesh+Geometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7648B7BA23595EAD005F6756 /* SCMesh+Geometry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7648B7B823595EAD005F6756 /* SCMesh+Geometry.mm */; };
@@ -129,7 +127,6 @@
 		76603F6E224D749B00C4C0C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76603F6C224D749B00C4C0C4 /* LaunchScreen.storyboard */; };
 		76603F71224D749B00C4C0C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76603F70224D749B00C4C0C4 /* main.m */; };
 		766569DA227D6A59001919C1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766569D9227D6A59001919C1 /* Default-568h@2x.png */; };
-		7666FEA122B0308B0037EA84 /* ExperimentWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7666FEA022B0308B0037EA84 /* ExperimentWindowController.xib */; };
 		7667811221CD77F8005BFAA2 /* UIImageHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7667810E21CD77F7005BFAA2 /* UIImageHelpers.swift */; };
 		767001C3227B82580037210E /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A52430AE213F482D00A39A38 /* MetalKit.framework */; };
 		767001C4227B827C0037210E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7649BF54210A490A006030E0 /* Metal.framework */; };
@@ -172,7 +169,6 @@
 		768F650E21215BD500C1B1DA /* Scan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 768F650D21215BD500C1B1DA /* Scan.mm */; };
 		768F651221215F8C00C1B1DA /* StandardCyborgFusion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76539C9720F5B1FE009C332E /* StandardCyborgFusion.framework */; };
 		768F6514212168F300C1B1DA /* StandardCyborgFusion.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76539C9720F5B1FE009C332E /* StandardCyborgFusion.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		768F65162121692300C1B1DA /* Gradient.png in Resources */ = {isa = PBXBuildFile; fileRef = 768F65152121692300C1B1DA /* Gradient.png */; };
 		7692B7FD229DA2FD0070A6BC /* OfflineSurfelLandmarking.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7692B7FB229DA2FD0070A6BC /* OfflineSurfelLandmarking.cpp */; };
 		7692B7FE229DA2FD0070A6BC /* OfflineSurfelLandmarking.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7692B7FC229DA2FD0070A6BC /* OfflineSurfelLandmarking.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
 		7693C45621587EAA005A4772 /* ScanningViewRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7693C45521587EAA005A4772 /* ScanningViewRenderer.swift */; };
@@ -669,9 +665,6 @@
 		7636B62F216E987900A8D5D3 /* PBFAssimilatedFrameMetadata.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PBFAssimilatedFrameMetadata.hpp; sourceTree = "<group>"; };
 		76385561212F390500C7DA06 /* DepthColoringFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepthColoringFilter.swift; sourceTree = "<group>"; };
 		76399679212E360D000E5D3D /* DepthColoringFilter.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = DepthColoringFilter.metal; sourceTree = "<group>"; };
-		763E0E8722AF676300EADECA /* ExperimentWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExperimentWindowController.h; sourceTree = "<group>"; };
-		763E0E8822AF676300EADECA /* ExperimentWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExperimentWindowController.mm; sourceTree = "<group>"; };
-		763E0E8C22B0213200EADECA /* ExperimentViewController.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = ExperimentViewController.scn; sourceTree = "<group>"; };
 		7648B7B723595EAD005F6756 /* SCMesh+Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCMesh+Geometry.h"; sourceTree = "<group>"; };
 		7648B7B823595EAD005F6756 /* SCMesh+Geometry.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "SCMesh+Geometry.mm"; sourceTree = "<group>"; };
 		7649BF54210A490A006030E0 /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
@@ -718,7 +711,6 @@
 		76603F6F224D749B00C4C0C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76603F70224D749B00C4C0C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766569D9227D6A59001919C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		7666FEA022B0308B0037EA84 /* ExperimentWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExperimentWindowController.xib; sourceTree = "<group>"; };
 		7667810E21CD77F7005BFAA2 /* UIImageHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageHelpers.swift; sourceTree = "<group>"; };
 		767A795B21BEFB2400A3CADD /* SCReconstructionManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCReconstructionManager.mm; sourceTree = "<group>"; };
 		767A795F21BEFB2400A3CADD /* SCReconstructionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCReconstructionManager.h; sourceTree = "<group>"; };
@@ -757,7 +749,6 @@
 		768F650A21215B3C00C1B1DA /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		768F650C21215BD500C1B1DA /* Scan.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scan.h; sourceTree = "<group>"; };
 		768F650D21215BD500C1B1DA /* Scan.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Scan.mm; sourceTree = "<group>"; };
-		768F65152121692300C1B1DA /* Gradient.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Gradient.png; sourceTree = "<group>"; };
 		7692B7FB229DA2FD0070A6BC /* OfflineSurfelLandmarking.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OfflineSurfelLandmarking.cpp; sourceTree = "<group>"; };
 		7692B7FC229DA2FD0070A6BC /* OfflineSurfelLandmarking.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OfflineSurfelLandmarking.hpp; sourceTree = "<group>"; };
 		7693C45521587EAA005A4772 /* ScanningViewRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningViewRenderer.swift; sourceTree = "<group>"; };
@@ -1026,14 +1017,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1F23236C28AB6434007143EE /* FaceLandmarking */ = {
+		1F23236C28AB6434007143EE /* EarLandmarking */ = {
 			isa = PBXGroup;
 			children = (
 				1F23236D28AB6434007143EE /* SCEarLandmarking.mlmodel */,
 				1F23236E28AB6434007143EE /* EarLandmarkingAnalysis.m */,
 				1F23236F28AB6434007143EE /* EarLandmarkingAnalysis.h */,
 			);
-			path = FaceLandmarking;
+			path = EarLandmarking;
 			sourceTree = "<group>";
 		};
 		3ABB72D98D8717B89DD61411 /* Frameworks */ = {
@@ -1105,7 +1096,6 @@
 		76539C9920F5B1FE009C332E /* StandardCyborgFusion */ = {
 			isa = PBXGroup;
 			children = (
-				1F23236C28AB6434007143EE /* FaceLandmarking */,
 				76539C9B20F5B1FE009C332E /* Info.plist */,
 				76539C9A20F5B1FE009C332E /* StandardCyborgFusion.h */,
 				A5375AFA21C866FB005B2BED /* Public */,
@@ -1113,6 +1103,7 @@
 				767A795721BEF23800A3CADD /* Algorithm */,
 				767A795821BEF25900A3CADD /* IO */,
 				767A795921BEF27000A3CADD /* Helpers */,
+				1F23236C28AB6434007143EE /* EarLandmarking */,
 				766A9C66214EBCD300689BD6 /* MetalDepthProcessor */,
 			);
 			path = StandardCyborgFusion;
@@ -1143,10 +1134,6 @@
 				76539CB820F5BBC0009C332E /* AppDelegate.m */,
 				7636487320F7F1150046E9A7 /* ViewController.h */,
 				7636487420F7F1150046E9A7 /* ViewController.mm */,
-				763E0E8722AF676300EADECA /* ExperimentWindowController.h */,
-				763E0E8822AF676300EADECA /* ExperimentWindowController.mm */,
-				7666FEA022B0308B0037EA84 /* ExperimentWindowController.xib */,
-				763E0E8C22B0213200EADECA /* ExperimentViewController.scn */,
 				7636489320FA9C070046E9A7 /* EigenSceneKitHelpers.hpp */,
 				76D4FA3A214740660013CED9 /* Visualization */,
 				76539CC320F5BBC1009C332E /* main.mm */,
@@ -1374,11 +1361,10 @@
 				7685718C222CCB8500066B6E /* BPLYDepthDataAccumulator.h */,
 				7685718D222CCB8500066B6E /* BPLYDepthDataAccumulator.mm */,
 				768F65032121591E00C1B1DA /* TrueDepthFusion-Bridging-Header.h */,
-				768F64F22121570600C1B1DA /* Main.storyboard */,
-				768F64F52121570700C1B1DA /* Assets.xcassets */,
 				76EE33D4212E10A800D62C3D /* SoundEffects */,
-				768F65152121692300C1B1DA /* Gradient.png */,
+				768F64F22121570600C1B1DA /* Main.storyboard */,
 				768F64F72121570700C1B1DA /* LaunchScreen.storyboard */,
+				768F64F52121570700C1B1DA /* Assets.xcassets */,
 				768F64FA2121570700C1B1DA /* Info.plist */,
 				76FFDF112150559300500A84 /* Settings.bundle */,
 			);
@@ -1963,8 +1949,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				76539CBE20F5BBC1009C332E /* Assets.xcassets in Resources */,
-				7666FEA122B0308B0037EA84 /* ExperimentWindowController.xib in Resources */,
-				763E0E8D22B0213200EADECA /* ExperimentViewController.scn in Resources */,
 				76539CC120F5BBC1009C332E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1991,7 +1975,6 @@
 				76EE33D9212E131800D62C3D /* ScanningBegan.m4a in Resources */,
 				76EE33DB212E131800D62C3D /* ScanningFinished.m4a in Resources */,
 				768F650821215A6100C1B1DA /* ScanPreviewViewController.scn in Resources */,
-				768F65162121692300C1B1DA /* Gradient.png in Resources */,
 				76FFDF122150559300500A84 /* Settings.bundle in Resources */,
 				768F64F92121570700C1B1DA /* LaunchScreen.storyboard in Resources */,
 				768F64F62121570700C1B1DA /* Assets.xcassets in Resources */,
@@ -2392,7 +2375,6 @@
 				7636487520F7F1150046E9A7 /* ViewController.mm in Sources */,
 				A567309C2139F96D001A81DA /* MetalVisualizationEngine.mm in Sources */,
 				76539CC420F5BBC1009C332E /* main.mm in Sources */,
-				763E0E8922AF676300EADECA /* ExperimentWindowController.mm in Sources */,
 				760D410B214332D300AB99FA /* CameraControl.m in Sources */,
 				A584B62D214B2DE200BEF8EE /* DrawAxes.mm in Sources */,
 				A584B62E214B2DE200BEF8EE /* DrawAxes.metal in Sources */,
