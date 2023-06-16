@@ -50,7 +50,10 @@ using namespace standard_cyborg;
         if ([[NSFileManager defaultManager] fileExistsAtPath:_containerDirectory]) {
             [[NSFileManager defaultManager] removeItemAtPath:_containerDirectory error:NULL];
         }
-        [[NSFileManager defaultManager] createDirectoryAtPath:_containerDirectory withIntermediateDirectories:NO attributes:nil error:NULL];
+        NSError *error;
+        if (![[NSFileManager defaultManager] createDirectoryAtPath:_containerDirectory withIntermediateDirectories:NO attributes:nil error:NULL]) {
+            NSLog(@"Error creating container directory at %@: %@", _containerDirectory, error);
+        }
     }
     return self;
 }

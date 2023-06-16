@@ -295,6 +295,7 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
     private func _stopScanning(reason: ScanningTerminationReason) {
         guard _scanning else { return }
         
+        let accumulator = _bplyDepthDataAccumulator!
         _bplyDepthDataAccumulator = nil
         _scanning = false
         _scanningTimer?.invalidate()
@@ -305,6 +306,13 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
         switch reason {
         case .canceled: AudioAndHapticEngine.shared.scanningCanceled()
         case .finished: AudioAndHapticEngine.shared.scanningFinished()
+        }
+        
+        if reason == .finished {
+            let zipURL = accumulator.exportFrameSequenceToZip()
+            let controller = UIActivityViewController(activityItems: [zipURL], applicationActivities: nil)
+            controller.popoverPresentationController?.sourceView = elapsedDurationLabel
+            present(controller, animated: true, completion: nil)
         }
     }
     

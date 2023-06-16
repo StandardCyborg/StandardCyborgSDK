@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -63,11 +63,6 @@
                                         <menuItem title="Open…" keyEquivalent="o" id="IAo-SY-fd9">
                                             <connections>
                                                 <action selector="openDocument:" target="Ady-hI-5gd" id="bVn-NM-KNZ"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="Experiment" keyEquivalent="e" id="FXu-cw-ngV" userLabel="Experiment">
-                                            <connections>
-                                                <action selector="beginExperiment:" target="Voe-Tx-rLC" id="Rah-mX-rey"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -205,11 +200,11 @@
             <objects>
                 <viewController title="Control Panel" showSeguePresentationStyle="single" id="chi-WR-KS9" customClass="ViewController" sceneMemberID="viewController">
                     <view key="view" id="aj5-Zu-QCF">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="202" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NgM-PW-Pcg">
-                                <rect key="frame" x="107" y="564" width="54" height="16"/>
+                                <rect key="frame" x="109" y="564" width="54" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Frame #" id="ihh-2A-TSv">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -217,7 +212,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pnV-Gj-Ks2">
-                                <rect key="frame" x="167" y="564" width="13" height="16"/>
+                                <rect key="frame" x="169" y="564" width="13" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" refusesFirstResponder="YES" sendsActionOnEndEditing="YES" state="on" title="0" drawsBackground="YES" usesSingleLineMode="YES" id="vg5-cn-1k6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -225,19 +220,19 @@
                                 </textFieldCell>
                             </textField>
                             <tabView translatesAutoresizingMaskIntoConstraints="NO" id="Ctw-tk-Z9A">
-                                <rect key="frame" x="3" y="282" width="194" height="274"/>
+                                <rect key="frame" x="3" y="274" width="196" height="282"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="ICP" identifier="" id="Hfg-CE-9t5">
                                         <view key="view" id="2h3-J7-Z9v">
-                                            <rect key="frame" x="10" y="33" width="174" height="228"/>
+                                            <rect key="frame" x="10" y="33" width="176" height="236"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sQV-8p-Ssv">
-                                                    <rect key="frame" x="6" y="147" width="163" height="78"/>
+                                                    <rect key="frame" x="6" y="154" width="165" height="79"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="CJE-ED-QbA">
-                                                            <rect key="frame" x="-2" y="67" width="72" height="11"/>
+                                                            <rect key="frame" x="-2" y="68" width="72" height="11"/>
                                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ICP Percentage" id="FoV-kh-NPc">
                                                                 <font key="font" metaFont="miniSystem"/>
                                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -245,7 +240,7 @@
                                                             </textFieldCell>
                                                         </textField>
                                                         <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BBI-Q7-AOo">
-                                                            <rect key="frame" x="-2" y="37" width="161" height="24"/>
+                                                            <rect key="frame" x="-2" y="34" width="161" height="28"/>
                                                             <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="0.5" maxValue="20" doubleValue="0.5" tickMarkPosition="below" numberOfTickMarks="20" sliderType="linear" id="heM-xU-8wl">
                                                                 <connections>
                                                                     <action selector="_setICPDownsamplePercent:" target="chi-WR-KS9" id="2qa-J0-MVp"/>
@@ -253,13 +248,13 @@
                                                             </sliderCell>
                                                         </slider>
                                                         <customView translatesAutoresizingMaskIntoConstraints="NO" id="EZV-4R-oNS" userLabel="Spacer">
-                                                            <rect key="frame" x="0.0" y="22" width="163" height="8"/>
+                                                            <rect key="frame" x="0.0" y="24" width="163" height="8"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="8" id="FCs-SO-rYt"/>
                                                             </constraints>
                                                         </customView>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3f1-qU-T1S">
-                                                            <rect key="frame" x="-2" y="-2" width="163" height="18"/>
+                                                            <rect key="frame" x="-2" y="-1" width="167" height="18"/>
                                                             <buttonCell key="cell" type="check" title="Draw correspondences" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="MfX-pm-A0X">
                                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                                 <font key="font" metaFont="system"/>
@@ -353,10 +348,10 @@
                                 </tabViewItems>
                             </tabView>
                             <stackView distribution="fillEqually" orientation="vertical" alignment="leading" spacing="12" horizontalStackHuggingPriority="750" verticalStackHuggingPriority="250" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z9I-X1-H1n">
-                                <rect key="frame" x="10" y="20" width="180" height="252"/>
+                                <rect key="frame" x="10" y="20" width="182" height="244"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WJe-0E-igk">
-                                        <rect key="frame" x="-6" y="224" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="217" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Assimilate Next" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ZDo-g5-QCZ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -369,7 +364,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W6j-C2-9bm">
-                                        <rect key="frame" x="-6" y="191" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="185" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Assimilate All" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="QHh-kg-CbJ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -379,7 +374,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ugg-qU-XoU">
-                                        <rect key="frame" x="-6" y="158" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="153" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yzz-SW-GRV">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -389,7 +384,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UqS-2u-a8h">
-                                        <rect key="frame" x="-6" y="125" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="121" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Open Directory…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hxT-op-bhg">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -401,7 +396,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QwO-as-c1d">
-                                        <rect key="frame" x="-6" y="92" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="89" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Export USDA…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="yKS-Fe-t6h">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -413,7 +408,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qww-L5-AKl">
-                                        <rect key="frame" x="-6" y="59" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="57" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Export PLY…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="3s5-Aa-25R">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -425,7 +420,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="scJ-V0-htY">
-                                        <rect key="frame" x="-6" y="26" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="25" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Export poses to JSON…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aDJ-Y9-6Gb">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -437,7 +432,7 @@ DQ
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Lvx-cN-x6t">
-                                        <rect key="frame" x="-6" y="-7" width="192" height="32"/>
+                                        <rect key="frame" x="-7" y="-7" width="196" height="32"/>
                                         <buttonCell key="cell" type="push" title="Export Scenegraph…" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ltY-to-hkm">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
