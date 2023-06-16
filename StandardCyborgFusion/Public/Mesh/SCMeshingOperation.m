@@ -9,9 +9,8 @@
 
 #import <MeshingOperation.h>
 
-NSString * const SCMeshingAPIErrorDomain = @"SCMeshingAPI";
-
 @implementation SCMeshingParameters
+
 - (instancetype)init
 {
     self = [super init];
@@ -23,6 +22,7 @@ NSString * const SCMeshingAPIErrorDomain = @"SCMeshingAPI";
     }
     return self;
 }
+
 @end
 
 @implementation SCMeshingOperation {
