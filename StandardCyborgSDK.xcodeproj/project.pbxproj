@@ -1880,7 +1880,8 @@
 		76539C8E20F5B1FE009C332E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1320;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Standard Cyborg";
 				TargetAttributes = {
 					76539C9620F5B1FE009C332E = {
@@ -2111,6 +2112,7 @@
 		};
 		763A81802332986C001EAAF0 /* Copy C++ Headers */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2763,6 +2765,7 @@
 			baseConfigurationReference = 927CBAD83870E97BE0537CAB /* Pods-StandardCyborgFusion.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2811,6 +2814,7 @@
 			baseConfigurationReference = 393601E903C325BFB12CF074 /* Pods-StandardCyborgFusion.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -3139,6 +3143,7 @@
 			baseConfigurationReference = 2061932908399EE22C9AFE48 /* Pods-StandardCyborgFusionOSX.debug.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -3168,6 +3173,7 @@
 			baseConfigurationReference = 7DE545049E45E18955D27995 /* Pods-StandardCyborgFusionOSX.release.xcconfig */;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
