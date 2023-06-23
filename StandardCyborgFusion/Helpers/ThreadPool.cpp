@@ -7,9 +7,12 @@
 //
 
 #include "ThreadPool.hpp"
+#include <pthread/qos.h>
 
-ThreadPool::ThreadPool(int threadCount)
+ThreadPool::ThreadPool(int threadCount, qos_class_t qosClass)
 {
+    _qosClass = qosClass;
+    
     for (int i = 0; i < threadCount; ++i)
     {
         _threads.emplace_back(std::bind(&ThreadPool::_threadMain, this, i));
@@ -42,6 +45,8 @@ void ThreadPool::addJob(std::function<void (void)> function)
 
 void ThreadPool::_threadMain(int i)
 {
+    pthread_set_qos_class_self_np(_qosClass, 0);
+    
     std::function<void (void)> job;
     
     while (true)

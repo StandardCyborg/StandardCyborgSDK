@@ -168,7 +168,7 @@ static _ICPCorrespondence _computeCorrespondence(const std::vector<math::Vec3>& 
     
     // Just doing 2 threads for now, because iPhone X is 2 cores, one of which is mostly busy doing UI and other AR work anyway
 #define MULTITHREAD 1
-    static ThreadPool threadPool(config.threadCount);
+    static ThreadPool threadPool(config.threadCount, QOS_CLASS_USER_INTERACTIVE);
     static dispatch_group_t group = dispatch_group_create();
     double sumSquaredError = 0;
     

@@ -17,7 +17,7 @@
 class ThreadPool
 {
 public:
-    ThreadPool(int threadCount);
+    ThreadPool(int threadCount, qos_class_t qosClass);
     ~ThreadPool();
     
     void addJob(std::function<void (void)> function);
@@ -26,6 +26,7 @@ private:
     void _threadMain(int i);
     
     std::vector<std::thread> _threads;
+    qos_class_t _qosClass;
     std::mutex _lock;
     std::condition_variable _semaphore;
     std::queue<std::function <void (void)>> _jobs;
