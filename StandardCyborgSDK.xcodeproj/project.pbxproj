@@ -111,7 +111,6 @@
 		76558B9D2135C0C0005AECFE /* ThreadPool.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 76558B9B2135C0C0005AECFE /* ThreadPool.hpp */; };
 		76558BA52135FE2B005AECFE /* ScanningContinued.wav in Resources */ = {isa = PBXBuildFile; fileRef = 76558BA12135FE2B005AECFE /* ScanningContinued.wav */; };
 		76558BA72135FF86005AECFE /* ScanningCanceled.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 76558BA62135FF6D005AECFE /* ScanningCanceled.m4a */; };
-		765749642234A1C50073B2E0 /* ScanSequenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765749632234A1C50073B2E0 /* ScanSequenceViewController.swift */; };
 		765749692236D9090073B2E0 /* PointCloudIO_USDZ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 765749682236D9090073B2E0 /* PointCloudIO_USDZ.cpp */; };
 		7657496B2236D9660073B2E0 /* PointCloudIO_JSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7657496A2236D9660073B2E0 /* PointCloudIO_JSON.cpp */; };
 		7657496D2236E4CA0073B2E0 /* PointCloudIO_PLY.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7657496C2236E4CA0073B2E0 /* PointCloudIO_PLY.mm */; };
@@ -691,7 +690,6 @@
 		76558B9B2135C0C0005AECFE /* ThreadPool.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ThreadPool.hpp; sourceTree = "<group>"; };
 		76558BA12135FE2B005AECFE /* ScanningContinued.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ScanningContinued.wav; sourceTree = "<group>"; };
 		76558BA62135FF6D005AECFE /* ScanningCanceled.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ScanningCanceled.m4a; sourceTree = "<group>"; };
-		765749632234A1C50073B2E0 /* ScanSequenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSequenceViewController.swift; sourceTree = "<group>"; };
 		765749682236D9090073B2E0 /* PointCloudIO_USDZ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointCloudIO_USDZ.cpp; sourceTree = "<group>"; };
 		7657496A2236D9660073B2E0 /* PointCloudIO_JSON.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointCloudIO_JSON.cpp; sourceTree = "<group>"; };
 		7657496C2236E4CA0073B2E0 /* PointCloudIO_PLY.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PointCloudIO_PLY.mm; sourceTree = "<group>"; };
@@ -1348,7 +1346,6 @@
 				76857187222CCB4000066B6E /* BPLYScanningViewController.swift */,
 				768F650621215A6000C1B1DA /* ScanPreviewViewController.scn */,
 				768F650721215A6100C1B1DA /* ScanPreviewViewController.swift */,
-				765749632234A1C50073B2E0 /* ScanSequenceViewController.swift */,
 				76E2E7E2212BC452006BEAC6 /* ScansViewController.swift */,
 				768F650C21215BD500C1B1DA /* Scan.h */,
 				768F650D21215BD500C1B1DA /* Scan.mm */,
@@ -2425,7 +2422,6 @@
 				76999472215C9FF0007CF275 /* PaddedLabel.swift in Sources */,
 				76385562212F390500C7DA06 /* DepthColoringFilter.swift in Sources */,
 				76871D032193AB9D00C1ABA0 /* InitialViewController.swift in Sources */,
-				765749642234A1C50073B2E0 /* ScanSequenceViewController.swift in Sources */,
 				768F650E21215BD500C1B1DA /* Scan.mm in Sources */,
 				768F650B21215B3C00C1B1DA /* AppDelegate.swift in Sources */,
 			);
