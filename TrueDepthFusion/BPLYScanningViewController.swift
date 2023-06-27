@@ -115,7 +115,7 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
                 alertController.addAction(UIAlertAction(title: NSLocalizedString("Settings", comment: "Alert button to open Settings"),
                                                         style: .`default`)
                 { _ in
-                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: convertToUIApplicationOpenExternalURLOptionsKeyDictionary([:]), completionHandler: nil)
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
                 })
                 
                 self.present(alertController, animated: true, completion: nil)
@@ -189,9 +189,14 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
                          depthTime: CMTime,
                          depthCalibrationData: AVCameraCalibrationData)
     {
+        let pointCloud = _reconstructionManager.reconstructSingleDepthBuffer(depthBuffer,
+                                                                             colorBuffer: colorBuffer,
+                                                                             with: depthCalibrationData,
+                                                                             smoothingPoints: !self._useFullResolutionDepthFrames)
+        
         _scanningViewRenderer.draw(colorBuffer: colorBuffer,
                                    depthBuffer: depthBuffer,
-                                   pointCloud: nil,
+                                   pointCloud: pointCloud,
                                    depthCameraCalibrationData: depthCalibrationData,
                                    viewMatrix: matrix_identity_float4x4,
                                    into: _metalLayer,
@@ -316,9 +321,4 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
         }
     }
     
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-private func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
-	return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
