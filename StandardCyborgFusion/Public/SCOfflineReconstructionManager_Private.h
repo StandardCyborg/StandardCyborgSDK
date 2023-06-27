@@ -29,12 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, nullable) id<SCOfflineReconstructionManagerDelegate> delegate;
 
+/** The most recently processed rawFrame */
+- (std::shared_ptr<RawFrame>)lastRawFrame;
+
 - (const Surfels&)surfels;
 - (const std::vector<uint32_t>&)surfelIndexMap;
 - (id<MTLTexture>)surfelIndexMapTexture;
 - (std::unique_ptr<RawFrame>)readBPLYWithPath:(NSString *)filePath;
 - (SCAssimilatedFrameMetadata)accumulateFromRawFrame:(const RawFrame&)rawFrame;
-- (const std::vector<PBFAssimilatedFrameMetadata>)getAssimilatedFrameMetadata;
+- (const std::vector<PBFAssimilatedFrameMetadata>)assimilatedFrameMetadata;
 
 @end
 

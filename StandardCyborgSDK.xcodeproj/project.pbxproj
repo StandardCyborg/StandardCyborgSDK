@@ -126,6 +126,8 @@
 		76603F6E224D749B00C4C0C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 76603F6C224D749B00C4C0C4 /* LaunchScreen.storyboard */; };
 		76603F71224D749B00C4C0C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76603F70224D749B00C4C0C4 /* main.m */; };
 		766569DA227D6A59001919C1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 766569D9227D6A59001919C1 /* Default-568h@2x.png */; };
+		7665CBC22A49E944006ED69D /* DrawRawDepths.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7665CBC12A49E944006ED69D /* DrawRawDepths.mm */; };
+		7665CBC52A49E96C006ED69D /* DrawRawDepths.metal in Sources */ = {isa = PBXBuildFile; fileRef = 7665CBC42A49E96C006ED69D /* DrawRawDepths.metal */; };
 		7667811221CD77F8005BFAA2 /* UIImageHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7667810E21CD77F7005BFAA2 /* UIImageHelpers.swift */; };
 		767001C3227B82580037210E /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A52430AE213F482D00A39A38 /* MetalKit.framework */; };
 		767001C4227B827C0037210E /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7649BF54210A490A006030E0 /* Metal.framework */; };
@@ -709,6 +711,9 @@
 		76603F6F224D749B00C4C0C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		76603F70224D749B00C4C0C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		766569D9227D6A59001919C1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		7665CBC12A49E944006ED69D /* DrawRawDepths.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DrawRawDepths.mm; sourceTree = "<group>"; };
+		7665CBC32A49E96C006ED69D /* DrawRawDepths.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DrawRawDepths.hpp; sourceTree = "<group>"; };
+		7665CBC42A49E96C006ED69D /* DrawRawDepths.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = DrawRawDepths.metal; sourceTree = "<group>"; };
 		7667810E21CD77F7005BFAA2 /* UIImageHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageHelpers.swift; sourceTree = "<group>"; };
 		767A795B21BEFB2400A3CADD /* SCReconstructionManager.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCReconstructionManager.mm; sourceTree = "<group>"; };
 		767A795F21BEFB2400A3CADD /* SCReconstructionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCReconstructionManager.h; sourceTree = "<group>"; };
@@ -1441,6 +1446,9 @@
 				A584B627214B2DE100BEF8EE /* DrawAxes.mm */,
 				A584B62C214B2DE100BEF8EE /* DrawAxes.metal */,
 				767F074D2177E75700764A33 /* DrawSurfelIndexMap.hpp */,
+				7665CBC32A49E96C006ED69D /* DrawRawDepths.hpp */,
+				7665CBC12A49E944006ED69D /* DrawRawDepths.mm */,
+				7665CBC42A49E96C006ED69D /* DrawRawDepths.metal */,
 				767F074E2177E75700764A33 /* DrawSurfelIndexMap.mm */,
 				767F07532177E76300764A33 /* DrawSurfelIndexMap.metal */,
 			);
@@ -2229,6 +2237,7 @@
 		};
 		E8EB32B824739C8C00EF7A01 /* Strip Private Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2247,6 +2256,7 @@
 		};
 		E8EB32B924739C8C00EF7A01 /* Copy C++ Headers */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -2371,6 +2381,7 @@
 			files = (
 				767F074F2177E75700764A33 /* DrawSurfelIndexMap.mm in Sources */,
 				A584B618214B1D1600BEF8EE /* ClearPass.mm in Sources */,
+				7665CBC52A49E96C006ED69D /* DrawRawDepths.metal in Sources */,
 				7636487520F7F1150046E9A7 /* ViewController.mm in Sources */,
 				A567309C2139F96D001A81DA /* MetalVisualizationEngine.mm in Sources */,
 				76539CC420F5BBC1009C332E /* main.mm in Sources */,
@@ -2379,6 +2390,7 @@
 				A584B62E214B2DE200BEF8EE /* DrawAxes.metal in Sources */,
 				76B242D321506FB9001A0E57 /* DrawCorrespondences.mm in Sources */,
 				767F07542177E76300764A33 /* DrawSurfelIndexMap.metal in Sources */,
+				7665CBC22A49E944006ED69D /* DrawRawDepths.mm in Sources */,
 				A53C1BDC2139E5F200CBC63A /* DrawPointCloud.mm in Sources */,
 				A584B61F214B1D3900BEF8EE /* ClearPass.metal in Sources */,
 				76B242D521507874001A0E57 /* DrawCorrespondences.metal in Sources */,

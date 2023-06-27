@@ -65,6 +65,9 @@ post_install do |installer|
       if configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
         configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
+      if configuration.build_settings['MACOSX_DEPLOYMENT_TARGET'].to_f < 11.0
+        configuration.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '11.0'
+      end
     end
   end
 end

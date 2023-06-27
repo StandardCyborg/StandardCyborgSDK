@@ -28,6 +28,7 @@
 #import "DrawAxes.hpp"
 #import "DrawCorrespondences.hpp"
 #import "DrawPointCloud.hpp"
+#import "DrawRawDepths.hpp"
 #import "DrawSurfelIndexMap.hpp"
 #import "EigenSceneKitHelpers.hpp"
 #import "ViewController.h"
@@ -71,6 +72,7 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     
     NSMutableDictionary *_textureDebugWindowsByTitle;
     MetalVisualizationEngine *_visualizationEngine;
+    DrawRawDepths *_drawRawDepths;
     DrawSurfelIndexMap *_drawSurfelIndexMap;
     CameraControl *_cameraControl;
     BOOL _hasCenter;
@@ -188,7 +190,7 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
         
         NSString *JSONPath = [[panel URL] path];
         
-        const std::vector<PBFAssimilatedFrameMetadata> metadata = [_reconstructionManager getAssimilatedFrameMetadata];
+        const std::vector<PBFAssimilatedFrameMetadata> metadata = [_reconstructionManager assimilatedFrameMetadata];
         nlohmann::json poses;
         for (const PBFAssimilatedFrameMetadata& datum : metadata) {
             nlohmann::json pose;
@@ -255,11 +257,8 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     _processingQueue = dispatch_queue_create("ICP", NULL);
     _textureDebugWindowsByTitle = [[NSMutableDictionary alloc] init];
     
-    //_metalDevice = MTLCreateSystemDefaultDevice();
     NSArray<id<MTLDevice>>* allDevices = MTLCopyAllDevices();
-    
-    _metalDevice = allDevices[0];
-    
+    _metalDevice = [allDevices lastObject];
     NSLog(@"GPU: %@", [_metalDevice name]);
     
     _algorithmCommandQueue = [_metalDevice newCommandQueue];
@@ -288,7 +287,9 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
                                                                commandQueue:_visualizationCommandQueue
                                                                     library:library
                                                              visualizations:visualizations];
-    
+    _drawRawDepths = [[DrawRawDepths alloc] initWithDevice:_metalDevice
+                                              commandQueue:_visualizationCommandQueue
+                                                   library:library];
     _drawSurfelIndexMap = [[DrawSurfelIndexMap alloc] initWithDevice:_metalDevice
                                                         commandQueue:_visualizationCommandQueue
                                                              library:library];
@@ -449,11 +450,11 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
         [metalLayer setFramebufferOnly:NO];
         [view setLayer:metalLayer];
         
-        window = [[NSWindow alloc] initWithContentRect:NSMakeRect(_textureDebugWindowsByTitle.count * view.bounds.size.width + 0,
+        window = [[NSWindow alloc] initWithContentRect:NSMakeRect(_textureDebugWindowsByTitle.count * view.bounds.size.width + 250,
                                                                   _textureDebugWindowsByTitle.count * view.bounds.size.height + 100,
                                                                   view.bounds.size.width,
                                                                   view.bounds.size.height)
-                                             styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskClosable|NSWindowStyleMaskFullSizeContentView
+                                             styleMask:NSWindowStyleMaskTitled|NSWindowStyleMaskFullSizeContentView
                                                backing:NSBackingStoreBuffered
                                                  defer:NO];
         [window setTitle:title];
@@ -478,9 +479,11 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
 - (void)_redraw
 {
     const Surfels& surfels = [_reconstructionManager surfels];
+    auto rawFrame = [_reconstructionManager lastRawFrame];
+    CGSize rawFrameSize = rawFrame == nullptr ? CGSizeZero : CGSizeMake(rawFrame->width, rawFrame->height);
     const std::vector<uint32_t>& surfelIndexMap = [_reconstructionManager surfelIndexMap];
     id<MTLTexture> surfelIndexMapTexture = [_reconstructionManager surfelIndexMapTexture];
-    CGSize surfelIndexMapSize = surfelIndexMapTexture == nil ? CGSizeMake(640, 360) : CGSizeMake(surfelIndexMapTexture.width, surfelIndexMapTexture.height);
+    CGSize surfelIndexMapSize = surfelIndexMapTexture == nil ? CGSizeMake(360, 240) : CGSizeMake(surfelIndexMapTexture.width, surfelIndexMapTexture.height);
     
     if (!_hasCenter && surfels.size() > 0) {
         SCNVector3 center = SurfelsBoundingBoxCenter(surfels);
@@ -500,6 +503,11 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
                        projectionMatrix:[_cameraControl projectionMatrix]
                            intoDrawable:drawable];
     
+    id<CAMetalDrawable> rawDepthsDrawable = [self _nextDrawableForWindowWithTitle:@"Raw Depths"
+                                                                             size:rawFrameSize
+                                                                    configuration:^(NSWindow *window){}];
+    [_drawRawDepths draw:rawFrame into:rawDepthsDrawable];
+
     id<CAMetalDrawable> mapDrawable = [self _nextDrawableForWindowWithTitle:@"Surfel Index Map"
                                                                        size:surfelIndexMapSize
                                                               configuration:^(NSWindow *window){}];

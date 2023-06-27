@@ -39,6 +39,7 @@ using namespace standard_cyborg;
     std::shared_ptr<DepthProcessor> _depthProcessor;
     std::shared_ptr<MetalSurfelIndexMap> _surfelIndexMap;
     std::shared_ptr<PBFModel> _pbfModel;
+    std::shared_ptr<RawFrame> _lastRawFrame;
 
     GravityEstimator _gravityEstimator;
 
@@ -182,7 +183,13 @@ using namespace standard_cyborg;
 
 - (SCAssimilatedFrameMetadata)accumulateFromBPLYWithPath:(NSString *)filePath
 {
-    return [self accumulateFromRawFrame:*[self readBPLYWithPath:filePath]];
+    auto rawFrame = [self readBPLYWithPath:filePath];
+    
+    auto result = [self accumulateFromRawFrame:*rawFrame];
+    
+    _lastRawFrame = std::move(rawFrame);
+    
+    return result;
 }
 
 - (SCPointCloud *)reconstructRawFrameFromBPLYAtPath:(NSString *)bplyPath
@@ -226,6 +233,8 @@ using namespace standard_cyborg;
     pointCloud.intrinsicMatrixReferenceDimensions = toSimdFloat2(camera.getIntrinsicMatrixReferenceSize());
     pointCloud.depthFrameSize = simd_make_float2(rawFrame->width, rawFrame->height);
     //toSimdFloat2(Vec2(camera.getLegacyImageSize()));
+    
+    _lastRawFrame = std::move(rawFrame);
 
     return pointCloud;
 }
@@ -303,13 +312,14 @@ using namespace standard_cyborg;
     _delegate = delegate;
 }
 
-- (const std::vector<PBFAssimilatedFrameMetadata>)getAssimilatedFrameMetadata {
-    return _pbfModel->getAssimilatedFrameMetadata();
-}
-
 - (id<SCOfflineReconstructionManagerDelegate>)delegate
 {
     return _delegate;
+}
+
+- (const std::vector<PBFAssimilatedFrameMetadata>)assimilatedFrameMetadata
+{
+    return _pbfModel->getAssimilatedFrameMetadata();
 }
 
 - (const Surfels &)surfels
@@ -325,6 +335,11 @@ using namespace standard_cyborg;
 - (id<MTLTexture>)surfelIndexMapTexture
 {
     return _surfelIndexMap->getIndexTexture();
+}
+
+- (const std::shared_ptr<RawFrame>)lastRawFrame
+{
+    return _lastRawFrame;
 }
 
 - (std::unique_ptr<RawFrame>)readBPLYWithPath:(NSString *)bplyPath
