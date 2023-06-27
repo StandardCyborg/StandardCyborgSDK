@@ -12,6 +12,11 @@
 #include <standard_cyborg/math/Vec3.hpp>
 #include <standard_cyborg/sc3d/Geometry.hpp>
 
+#include <TargetConditionals.h>
+#if DEBUG
+#include <vector>
+#endif
+
 using namespace standard_cyborg;
 
 struct ICPConfiguration {
@@ -35,6 +40,11 @@ struct ICPResult {
     
     // Whether ICP succeed at the alignment.
     bool succeeded = false;
+    
+#if DEBUG && TARGET_OS_MAC
+    // For debugging visualization
+    std::shared_ptr<std::vector<math::Vec3>> sourceVertices, targetVertices, targetNormals;
+#endif
 };
 
 typedef std::function<void(ICPResult)> ICPIterationCallback;

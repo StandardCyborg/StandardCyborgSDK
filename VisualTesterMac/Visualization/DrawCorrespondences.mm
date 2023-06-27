@@ -88,29 +88,58 @@ struct SharedUniforms {
                      intoTexture:(id<MTLTexture>)texture
                     depthTexture:(id<MTLTexture>)depthTexture
 {
+    size_t vertexCount = 0;
+    id<MTLBuffer> vertexBuffer = [self _createVertexBufferFromSourceVertices:icpResult.sourceVertices
+                                                              targetVertices:icpResult.targetVertices
+                                                              getVertexCount:&vertexCount];
+    [self _updateSharedUniformsBufferWithViewMatrix:viewMatrix
+                                   projectionMatrix:projectionMatrix];
+    
+    MTLRenderPassDescriptor *passDescriptor = [MTLRenderPassDescriptor renderPassDescriptor];
+    passDescriptor.colorAttachments[0].texture = texture;
+    passDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+    passDescriptor.colorAttachments[0].loadAction = MTLLoadActionLoad;
+    passDescriptor.depthAttachment.texture = depthTexture;
+    passDescriptor.depthAttachment.storeAction = MTLStoreActionStore;
+    passDescriptor.depthAttachment.loadAction = MTLLoadActionLoad;
+    
+    id<MTLRenderCommandEncoder> commandEncoder = [commandBuffer renderCommandEncoderWithDescriptor:passDescriptor];
+    commandEncoder.label = @"DrawCorrespondences.commandEncoder";
+    
+    if (vertexCount > 0) {
+        [commandEncoder setRenderPipelineState:_pipelineState];
+        [commandEncoder setViewport:(MTLViewport){ 0, 0, (double)texture.width, (double)texture.height, -1, 1 }];
+        [commandEncoder setDepthStencilState:_depthStencilState];
+        [commandEncoder setCullMode:MTLCullModeNone];
+        [commandEncoder setVertexBuffer:vertexBuffer offset:0 atIndex:0];
+        [commandEncoder setVertexBuffer:_sharedUniformsBuffer offset:0 atIndex:1];
+        [commandEncoder drawPrimitives:MTLPrimitiveTypeLine vertexStart:0 vertexCount:vertexCount];
+    }
+    
+    [commandEncoder endEncoding];
 }
 
 // MARK: - Private
 
-- (id<MTLBuffer> _Nullable)_createVertexBufferFromSourceVertices:(std::shared_ptr<Eigen::Matrix3Xf>)sourceVertices
-                                                  targetVertices:(std::shared_ptr<Eigen::Matrix3Xf>)targetVertices
+- (id<MTLBuffer> _Nullable)_createVertexBufferFromSourceVertices:(std::shared_ptr<std::vector<math::Vec3>>)sourceVertices
+                                                  targetVertices:(std::shared_ptr<std::vector<math::Vec3>>)targetVertices
                                                   getVertexCount:(size_t *)vertexCountOut
 {
     size_t vertexCount = 0;
     id<MTLBuffer> result = nil;
     
     if (sourceVertices != nullptr && targetVertices != nullptr) {
-        vertexCount = MIN(sourceVertices->cols(), targetVertices->cols());
+        vertexCount = MIN(sourceVertices->size(), targetVertices->size());
     }
     
     if (vertexCount > 0) {
         Vertex vertices[vertexCount * 2];
         
         for (size_t i = 0; i < vertexCount; ++i) {
-            Vector3f source = sourceVertices->col(i);
-            Vector3f ref = targetVertices->col(i);
-            vertices[i * 2 + 0] = { source.x(), source.y(), source.z(), 0 };
-            vertices[i * 2 + 1] = { ref.x(), ref.y(), ref.z(), 1 };
+            math::Vec3 source = (*sourceVertices)[i];
+            math::Vec3 ref = (*targetVertices)[i];
+            vertices[i * 2 + 0] = { source.x, source.y, source.z, 0 };
+            vertices[i * 2 + 1] = { ref.x, ref.y, ref.z, 1 };
         }
         
         result = [_device newBufferWithBytes:(void *)&vertices

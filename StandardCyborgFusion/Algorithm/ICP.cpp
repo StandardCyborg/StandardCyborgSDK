@@ -343,10 +343,7 @@ ICPResult ICP::run(ICPConfiguration config,
     size_t vertexCount = sourceVertices.size();
     
     std::vector<math::Vec3> targetVertices(vertexCount, math::Vec3());
-    
-    
     std::vector<math::Vec3> targetNormals(vertexCount, math::Vec3());
-    
     std::unique_ptr<Eigen::VectorXf> squaredErrors(new Eigen::VectorXf(vertexCount));
     std::unique_ptr<Eigen::VectorXf> weights(new Eigen::VectorXf(vertexCount));
     
@@ -393,6 +390,11 @@ ICPResult ICP::run(ICPConfiguration config,
         result.sourceTransform = standard_cyborg::toMat4x4(sourceTransform);
         result.rmsCorrespondenceError = rmsError;
         result.iterationCount = iteration;
+        
+#if DEBUG && TARGET_OS_MAC
+        result.sourceVertices = std::make_shared<std::vector<math::Vec3>>(correspondence.sourceVertices);
+        result.targetVertices = std::make_shared<std::vector<math::Vec3>>(correspondence.targetVertices);
+#endif
         
         if (callback != nullptr) { callback(result); }
     }
