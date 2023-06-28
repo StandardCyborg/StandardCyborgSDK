@@ -1,33 +1,16 @@
 # VisualTesterMac
 
-You can feed a trace obtained from `TrueDepthFusion` into this program, and reconstruct a fused point cloud from it. 
-
-# Running SCEyewear to get data (sample data included in project)
-```
-// Running SCEyewear Demo
-git clone git@github.com:StandardCyborg/SCEyewearDemo.git
-cd SCEyewearDemo
-pod update
-open *.xcw*
-// run app on a device, login, click "find your fit" in top and go through flow.
-// - Diagnostics will airdrop a zip to your computer you can run in VisualTesterMac later
-// - Upload scene will upload it to your personal scene folder, this is not directly accessible in UI, but you can replace scans for scenes to nav there directly
-```
+You can feed raw frames obtained from **TrueDepthFusion** into this program, and reconstruct a point cloud from it after the fact. 
 
 # Running VisualTesterMac to process data
-```
-// Running diagnostic output through VisualTesterMac
-// open StandardCyborgSDK directory
-cd VisualTesterMac
-// swap contents with the contents of the zip you airdropped
-cd ../..
-open *.xc*
-// run VisualTesterMac target
-// With VisualTesterMac selected, use navbar: File -> Experiment or "⌘E"
-// Then click "Do Something" and watch logs in xcode
-// A lot of interesting data is outputted to /tmp
-open /tmp
-```
+1. Build and run TrueDepthFusion on an iOS device
+2. In iOS settings, select TrueDepthFusion, then enable *Dump raw frames to Binary PLY*
+3. Switch back to the app, then tap SCAN
+4. Tap the shutter button to start scanning (this won't actually do the reconstruction, it will just grab raw frames)
+5. After it finishes, the iOS share sheet will come up; AirDrop the zip file to your Mac
+6. Unzip that zip file
+7. Build and run VisualTesterMac
+8. Click Open Directory…, then select the folder where you unzipped that scan data
+9. Click Assimilate All
 
-I suggest running in DEBUG mode to get the most outputs by editing your scheme:
-- Edit Scheme -> Build Configuration: Debug
+<img width="528" alt="image" src="https://github.com/StandardCyborg/StandardCyborgSDK/assets/6288076/6ce7077e-12a8-4157-bbb2-0dacd465c6a5">
