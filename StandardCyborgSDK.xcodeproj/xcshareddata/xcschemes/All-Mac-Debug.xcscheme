@@ -14,20 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7609B7022116750D00C0C8D2"
-               BuildableName = "scfusion"
-               BlueprintName = "StandardCyborgFusionCLI"
-               ReferencedContainer = "container:StandardCyborgSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "76539C9F20F5B1FE009C332E"
                BuildableName = "StandardCyborgFusionTests.xctest"
                BlueprintName = "StandardCyborgFusionTests"
@@ -45,20 +31,6 @@
                BlueprintIdentifier = "76539CB420F5BBC0009C332E"
                BuildableName = "VisualTesterMac.app"
                BlueprintName = "VisualTesterMac"
-               ReferencedContainer = "container:StandardCyborgSDK.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A5C60B43229494E200882BF9"
-               BuildableName = "StandardCyborgAlgorithmsTestbedMac.app"
-               BlueprintName = "StandardCyborgAlgorithmsTestbedMac"
                ReferencedContainer = "container:StandardCyborgSDK.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -135,9 +107,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "7609B7022116750D00C0C8D2"
-            BuildableName = "scfusion"
-            BlueprintName = "StandardCyborgFusionCLI"
+            BlueprintIdentifier = "76539C9F20F5B1FE009C332E"
+            BuildableName = "StandardCyborgFusionTests.xctest"
+            BlueprintName = "StandardCyborgFusionTests"
             ReferencedContainer = "container:StandardCyborgSDK.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
