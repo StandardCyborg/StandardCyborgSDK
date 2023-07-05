@@ -45,44 +45,42 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
 
 @implementation ViewController
 {
-    IBOutlet __weak NSButton *_assimilateNextButton;
-    __weak IBOutlet SCNView *sceneView;
-    IBOutlet __weak NSButton *_assimilateAllButton;
-    IBOutlet __weak NSButton *_resetButton;
-    IBOutlet __weak NSButton *_openDirectoryButton;
-    IBOutlet __weak NSTextField *_frameIndexField;
+    IBOutlet __weak NSButton *assimilateNextButton;
+    IBOutlet __weak NSButton *assimilateAllButton;
+    IBOutlet __weak NSButton *resetButton;
+    IBOutlet __weak NSButton *openDirectoryButton;
+    IBOutlet __weak NSTextField *frameIndexField;
+    IBOutlet __weak NSTextField *icpDownsampleField;
+    IBOutlet __weak NSTextField *pbfMinDepthField;
+    IBOutlet __weak NSTextField *pbfMaxDepthField;
+    IBOutlet __weak NSButton *drawCorrespondencesCheckbox;
+    IBOutlet __weak NSButton *colorByNormalsCheckbox;
     
-    IBOutlet __weak NSSliderCell *_icpPercentSlider;
-    IBOutlet __weak NSSliderCell *_pbfMinDepthSlider;
-    IBOutlet __weak NSSliderCell *_pbfMaxDepthSlider;
-    
-    IBOutlet __weak NSTextFieldCell *_icpPercentLabel;
-    IBOutlet __weak NSTextFieldCell *_pbfMinDepthLabel;
-    IBOutlet __weak NSTextFieldCell *_pbfMaxDepthLabel;
-    
-    dispatch_queue_t _processingQueue;
-    NSOperation *_processingOperation;
-    NSString *_dataDirectoryPath;
-    NSInteger _nextFrameIndex;
+    NSMutableDictionary *_textureDebugWindowsByTitle;
+    MetalVisualizationEngine *_visualizationEngine;
+    DrawPointCloud *_drawPointCloud;
+    DrawCorrespondences *_drawCorrespondences;
+    DrawRawDepths *_drawRawDepths;
+    DrawSurfelIndexMap *_drawSurfelIndexMap;
+    CameraControl *_cameraControl;
     
     id<MTLDevice> _metalDevice;
     id<MTLCommandQueue> _algorithmCommandQueue;
     id<MTLCommandQueue> _visualizationCommandQueue;
     SCOfflineReconstructionManager *_reconstructionManager;
     
-    NSMutableDictionary *_textureDebugWindowsByTitle;
-    MetalVisualizationEngine *_visualizationEngine;
-    DrawRawDepths *_drawRawDepths;
-    DrawSurfelIndexMap *_drawSurfelIndexMap;
-    CameraControl *_cameraControl;
+    dispatch_queue_t _processingQueue;
+    BOOL _isProcessing;
+    NSString *_dataDirectoryPath;
+    NSInteger _nextFrameIndex;
+    BOOL _assimilatingAll;
     BOOL _hasCenter;
     ICPResult _lastICPResult;
-    BOOL _drawsCorrespondences;
 }
 
 // MARK: - IBActions
 
-- (IBAction)_openDirectory:(NSButton *)sender {
+- (IBAction)openDirectory:(NSButton *)sender {
     NSOpenPanel *openDialog = [NSOpenPanel openPanel];
     [openDialog setCanChooseFiles:NO];
     [openDialog setAllowsMultipleSelection:NO];
@@ -93,57 +91,44 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
         NSAssert([dirs count] == 1, @"You must select one directory");
         _dataDirectoryPath = [[dirs objectAtIndex:0] path];
         [[NSUserDefaults standardUserDefaults] setObject:_dataDirectoryPath forKey:@"LastDataPath"];
-        [self _reset:nil];
+        [self reset:nil];
     }
 }
 
-- (IBAction)_assimilateNext:(nullable id)sender
+- (IBAction)assimilateNext:(nullable id)sender
 {
-    if ([_processingOperation isExecuting]) { return; }
+    _assimilatingAll = NO;
+    [self _assimilateNextFrame];
+}
+
+- (IBAction)assimilateAll:(nullable id)sender
+{
+    if (_assimilatingAll) {
+        // This is a pause button
+        _assimilatingAll = NO;
+    } else {
+        _assimilatingAll = YES;
+    }
     
-    [self _startProcessingWithContinuation:NO elapsedTime:0];
+    [self _assimilateNextFrame];
 }
 
-- (IBAction)_assimilateAll:(nullable id)sender
+- (IBAction)reset:(nullable id)sender
 {
-    if ([_processingOperation isExecuting]) { return; }
+    [_reconstructionManager reset];
     
-    [self _startProcessingWithContinuation:YES elapsedTime:0];
-}
-
-- (IBAction)_setPBFMinDepth:(NSSliderCell *)sender {
-    [_reconstructionManager setMinDepth:[sender floatValue]];
-    [self _updateUIControls];
-}
-
-- (IBAction)_setPBFMaxDepth:(NSSliderCell *)sender {
-    [_reconstructionManager setMaxDepth:[sender floatValue]];
-    [self _updateUIControls];
-}
-
-- (IBAction)_setICPDownsamplePercent:(NSSliderCell *)sender
-{
-    [_reconstructionManager setICPDownsampleFraction:[sender floatValue] / 100.0f];
-    [self _updateUIControls];
-}
-
-- (IBAction)_reset:(nullable id)sender
-{
     _nextFrameIndex = 0;
-    _frameIndexField.integerValue = _nextFrameIndex;
+    _assimilatingAll = NO;
     _hasCenter = NO;
+    _lastICPResult = ICPResult();
     
-    [self _resetPBFModel];
     [self _loadMotionData];
-
-    //_lastICPResult.sourceVertices = nullptr;
-    //_lastICPResult.targetVertices = nullptr;
     
     // Assimilate the first frame
-    [self _startProcessingWithContinuation:NO elapsedTime:0];
+    [self _assimilateNextFrame];
 }
 
-- (IBAction)_exportUSDA:(id)sender
+- (IBAction)exportUSDA:(id)sender
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setTitle:@"Export USDA"];
@@ -160,7 +145,7 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     }];
 }
 
-- (IBAction)_exportPLY:(id)sender
+- (IBAction)exportPLY:(id)sender
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setTitle:@"Export PLY"];
@@ -177,7 +162,7 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     }];
 }
 
-- (IBAction)_exportPosesToJSON:(id)sender
+- (IBAction)exportPosesToJSON:(id)sender
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setTitle:@"Export Poses to JSON"];
@@ -219,7 +204,7 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     }];
 }
 
-- (IBAction)_exportScenegraph:(id)sender
+- (IBAction)exportSceneGraph:(id)sender
 {
     NSSavePanel *panel = [NSSavePanel savePanel];
     [panel setTitle:@"Export Scenegraph"];
@@ -250,6 +235,13 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     }];
 }
 
+- (IBAction)uiControlDidChange:(id)sender
+{
+    [self _updateValuesFromUI];
+    [self _updateUI];
+    [self _redraw];
+}
+
 // MARK: - NSViewController
 
 - (void)viewDidLoad
@@ -278,10 +270,10 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     id<MTLLibrary> library = [_metalDevice newDefaultLibrary];
     
     ClearPass *clearPass = [[ClearPass alloc] initWithDevice:_metalDevice library:library];
-    DrawPointCloud *drawPointCloud = [[DrawPointCloud alloc] initWithDevice:_metalDevice library:library];
-    DrawCorrespondences *drawCorrespondences = [[DrawCorrespondences alloc] initWithDevice:_metalDevice library:library];
+    _drawPointCloud = [[DrawPointCloud alloc] initWithDevice:_metalDevice library:library];
+    _drawCorrespondences = [[DrawCorrespondences alloc] initWithDevice:_metalDevice library:library];
     DrawAxes *drawAxes = [[DrawAxes alloc] initWithDevice:_metalDevice library:library];
-    NSArray *visualizations = @[clearPass, drawPointCloud, drawAxes, drawCorrespondences];
+    NSArray *visualizations = @[clearPass, _drawPointCloud, drawAxes, _drawCorrespondences];
     
     _visualizationEngine = [[MetalVisualizationEngine alloc] initWithDevice:_metalDevice
                                                                commandQueue:_visualizationCommandQueue
@@ -301,10 +293,10 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
     if ([lastDataPath length] > 0) {
         _dataDirectoryPath = lastDataPath;
         NSLog(@"Using previously opened data directory \"%@\"\n", lastDataPath);
-        [self _reset:nil];
+        [self reset:nil];
     }
     
-    [self _updateUIControls];
+    [self _updateUI];
 }
 
 // MARK: - CameraControlDelegate
@@ -318,7 +310,6 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
 
 - (void)_loadMotionData
 {
-    NSLog(@"motion data");
     if ([[NSFileManager defaultManager] fileExistsAtPath:_dataDirectoryPath] == NO) {
         NSLog(@"No directory found at \"%@\"\n", _dataDirectoryPath);
         return;
@@ -349,89 +340,65 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
         return nil;
     }
     
-    _frameIndexField.integerValue = _nextFrameIndex;
+    frameIndexField.integerValue = _nextFrameIndex;
     
     return filePath;
 }
 
-- (void)_startProcessingWithContinuation:(BOOL)assimilateNextOnCompletion elapsedTime:(NSTimeInterval)elapsedTime
+- (void)_assimilateNextFrame
 {
-    [_assimilateNextButton setEnabled:NO];
-    [_assimilateAllButton setEnabled:NO];
-    [_resetButton setEnabled:NO];
-    
     // Load the next cloud from the queue
     NSString *nextFramePath = [self _loadNextFramePath];
     
     if (nextFramePath == nil) {
         [_reconstructionManager finalize];
-        [self _finishedProcessing];
-        NSLog(@"Completed %d frames in %.3f seconds (%.4f FPS)",
-              (int)_nextFrameIndex, elapsedTime, _nextFrameIndex / elapsedTime);
+        _assimilatingAll = NO;
+        [self _updateUI];
+        [self _redraw];
         return;
     }
     
-    __weak ViewController *weakSelf = self;
+    _isProcessing = true;
+    [self _updateUI];
     
+    SCOfflineReconstructionManager *reconstructionManager = _reconstructionManager;
     dispatch_async(_processingQueue, ^{
-        _processingOperation = [NSBlockOperation blockOperationWithBlock:^{
-            __strong ViewController *strongSelf = weakSelf;
-            if (strongSelf == nil) { return; }
-            if ([strongSelf->_processingOperation isCancelled]) { return; }
-            
-            CFAbsoluteTime startTime = CFAbsoluteTimeGetCurrent();
-            
-            [strongSelf->_reconstructionManager accumulateFromBPLYWithPath:nextFramePath];
+        [reconstructionManager accumulateFromBPLYWithPath:nextFramePath];
 
-            CFAbsoluteTime endTime = CFAbsoluteTimeGetCurrent();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _isProcessing = false;
+            [self _updateUI];
+            [self _redraw];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf _finishedProcessing];
-                
-                if (assimilateNextOnCompletion) {
-                    [weakSelf _startProcessingWithContinuation:YES elapsedTime:elapsedTime + endTime - startTime];
-                } else {
-                    NSLog(@"Completed 1 frame in %.3f seconds", endTime - startTime);
-                }
-            });
-        }];
-        
-        [_processingOperation setName:@"ICP"];
-        [_processingOperation setQualityOfService:NSQualityOfServiceUserInitiated];
-        [_processingOperation start];
+            if (_assimilatingAll) {
+                [self _assimilateNextFrame];
+            }
+        });
     });
 }
 
-- (void)_resetPBFModel
+- (void)_updateValuesFromUI
 {
-    [_reconstructionManager reset];
-    
-    [self _redraw];
+    [_reconstructionManager setICPDownsampleFraction:icpDownsampleField.floatValue];
+    [_reconstructionManager setMinDepth:pbfMinDepthField.floatValue];
+    [_reconstructionManager setMaxDepth:pbfMaxDepthField.floatValue];
+    [_drawCorrespondences setEnabled:(BOOL)drawCorrespondencesCheckbox.integerValue];
+    [_drawPointCloud setColorByNormals:(BOOL)colorByNormalsCheckbox.integerValue];
 }
 
-- (void)_finishedProcessing
+- (void)_updateUI
 {
-    //_lastICPResult.sourceVertices = nullptr;//
-    //_lastICPResult.targetVertices = nullptr;
+    [pbfMinDepthField setFloatValue:_reconstructionManager.minDepth];
+    [pbfMaxDepthField setFloatValue:_reconstructionManager.maxDepth];
+    [icpDownsampleField setFloatValue:_reconstructionManager.icpDownsampleFraction];
+    [drawCorrespondencesCheckbox setIntegerValue:_drawCorrespondences.enabled];
+    [colorByNormalsCheckbox setIntegerValue:_drawPointCloud.colorByNormals];
+    [frameIndexField setIntegerValue:_nextFrameIndex];
     
-    [_assimilateNextButton setEnabled:YES];
-    [_assimilateAllButton setEnabled:YES];
-    [_resetButton setEnabled:YES];
-    
-    [self _redraw];
-}
-
-- (void)_updateUIControls
-{
-    [_pbfMinDepthLabel setStringValue:[NSString stringWithFormat:@"Min Depth: %.3f", [_reconstructionManager minDepth]]];
-    [_pbfMinDepthSlider setFloatValue:_reconstructionManager.minDepth];
-    
-    [_pbfMaxDepthLabel setStringValue:[NSString stringWithFormat:@"Max Depth: %.3f", [_reconstructionManager maxDepth]]];
-    [_pbfMaxDepthSlider setFloatValue:_reconstructionManager.maxDepth];
-    
-    float icpDownsamplePercentage = [_reconstructionManager icpDownsampleFraction] * 100.0f;
-    [_icpPercentLabel setStringValue:[NSString stringWithFormat:@"ICP Percentage: %.1f", icpDownsamplePercentage]];
-    [_icpPercentSlider setFloatValue:icpDownsamplePercentage];
+    [assimilateNextButton setEnabled:!_isProcessing];
+    [assimilateAllButton setEnabled:!_isProcessing || _assimilatingAll];
+    [assimilateAllButton setTitle:_isProcessing && _assimilatingAll ? @"Pause" : @"Assimilate All"];
+    [resetButton setEnabled:!_isProcessing];
 }
 
 - (id<CAMetalDrawable>)_nextDrawableForWindowWithTitle:(NSString *)title
@@ -518,11 +485,11 @@ static SCNVector3 SurfelsBoundingBoxCenter(const Surfels& surfels);
 
 - (void)reconstructionManager:(SCOfflineReconstructionManager *)manager didIterateICPWithResult:(ICPResult)result
 {
-    if (!_drawsCorrespondences) { return; }
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         _lastICPResult = result;
 
+        if (!_drawCorrespondences.enabled) { return; }
+        
         [self _redraw];
     });
 }

@@ -37,11 +37,13 @@ struct SharedUniforms {
     matrix_float4x4 projection;
     matrix_float4x4 view;
     matrix_float4x4 model;
+    bool colorByNormals;
     
-    SharedUniforms(matrix_float4x4 projectionIn, matrix_float4x4 viewIn, matrix_float4x4 modelIn) :
+    SharedUniforms(matrix_float4x4 projectionIn, matrix_float4x4 viewIn, matrix_float4x4 modelIn, bool colorByNormalsIn) :
     projection(projectionIn),
     view(viewIn),
-    model(modelIn)
+    model(modelIn),
+    colorByNormals(colorByNormalsIn)
     { }
 };
 
@@ -154,10 +156,11 @@ struct SharedUniforms {
 }
 
 - (void)_updateSharedUniformsBufferWithViewMatrix:(matrix_float4x4)view
-                                 projectionMatrix:(matrix_float4x4)projection {
+                                 projectionMatrix:(matrix_float4x4)projection
+{
     matrix_float4x4 model = matrix_identity_float4x4;
     
-    SharedUniforms sharedUniforms(projection, view, model);
+    SharedUniforms sharedUniforms(projection, view, model, _colorByNormals);
     memcpy([_sharedUniformsBuffer contents], &sharedUniforms, sizeof(SharedUniforms));
 }
 

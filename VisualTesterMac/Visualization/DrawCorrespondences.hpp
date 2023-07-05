@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DrawCorrespondences : NSObject <MetalVisualization>
 
+@property (nonatomic) BOOL enabled;
+
 @end
 
 NS_ASSUME_NONNULL_END

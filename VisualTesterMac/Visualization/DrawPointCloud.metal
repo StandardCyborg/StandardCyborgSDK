@@ -24,6 +24,7 @@ struct Uniforms {
     float4x4 projection;
     float4x4 view;
     float4x4 model;
+    bool colorByNormals;
 };
 
 vertex ProjectedVertex DrawPointCloudVertex(Vertex v [[stage_in]],
@@ -38,16 +39,19 @@ vertex ProjectedVertex DrawPointCloudVertex(Vertex v [[stage_in]],
     float3 normal = instance.normal;
     float3 tangent = normalize(cross(normal, float3(0, 1, 0)));
     float3 bitangent = normalize(cross(normal, tangent));
-    float scale = instance.surfelSize * SURFEL_ALIASING_SAFETY_FACTOR;
+    float scale = instance.surfelSize * SURFEL_ALIASING_SAFETY_FACTOR * 1.25;
     
     float3 position = instance.position + (v.position.x * tangent + v.position.y * bitangent) * scale;
     
     float4 projected = uniforms->projection * uniforms->view * uniforms->model * float4(position, 1.0);
     
     // To color by normals:
-    // float3 color = 0.5 + 0.5 * normalize(normal);
-    
-    float3 color = pow(instance.color, 1.0 / 2.2);
+    float3 color;
+    if (uniforms->colorByNormals) {
+        color = 0.5 + 0.5 * normalize(normal);
+    } else {
+        color = pow(instance.color, 1.0 / 2.2);
+    }
 
     return ProjectedVertex {
         projected,

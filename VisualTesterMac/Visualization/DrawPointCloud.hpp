@@ -11,4 +11,6 @@
 
 @interface DrawPointCloud : NSObject <MetalVisualization>
 
+@property (nonatomic) BOOL colorByNormals;
+
 @end

@@ -88,6 +88,8 @@ struct SharedUniforms {
                      intoTexture:(id<MTLTexture>)texture
                     depthTexture:(id<MTLTexture>)depthTexture
 {
+    if (!_enabled) return;
+    
     size_t vertexCount = 0;
     id<MTLBuffer> vertexBuffer = [self _createVertexBufferFromSourceVertices:icpResult.sourceVertices
                                                               targetVertices:icpResult.targetVertices
