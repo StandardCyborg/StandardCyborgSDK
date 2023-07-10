@@ -114,7 +114,7 @@ using namespace standard_cyborg;
         {
             const float *floatTexCoords = (const float *)[self.texCoordData bytes];
             for (int iv = 0; iv < self.vertexCount; ++iv) {
-                fprintf(file, "vt %f %f\n", floatTexCoords[2 * iv + 0], 1.0 - floatTexCoords[2 * iv + 1]);
+                fprintf(file, "vt %f %f\n", floatTexCoords[2 * iv + 0], floatTexCoords[2 * iv + 1]);
             }
         }
         
