@@ -1773,17 +1773,17 @@ std::vector<Vec2> parameterize(const Geometry& geometry)
     return vertexUvs;
 }
 
-/*
- Remove all degenerate triangles from the geometry.
+/**
+ Removes all degenerate triangles from the geometry.
  Degenerate triangles are simply triangles with an area of zero.
  */
-
 bool removeDegenerateTriangles(Geometry& geometry)
 {
 
     int numRemoved = 0;
     int totalIterations = 0;
     const int MAX_ITERATIONS = 100;
+    
     do {
         numRemoved = 0;
         const std::vector<Vec3>& positions = geometry.getPositions();
@@ -1904,8 +1904,6 @@ bool removeDegenerateTriangles(Geometry& geometry)
 
         // now merge vertices, in triangles where the vertices are colinear.
         {
-
-
             std::set<int> facesToProcess;
 
             // discard zero-area triangle faces:
@@ -1942,7 +1940,6 @@ bool removeDegenerateTriangles(Geometry& geometry)
                     //newFacesTemp.push_back(face);
                 }
             }
-
 
             std::vector<Face3> newlyCreatedFaces;
             std::set<int> facesToRemove;
@@ -2072,9 +2069,7 @@ bool removeDegenerateTriangles(Geometry& geometry)
     return true;
 }
 
-/*
-     Remove all vertices that are not referenced by any faces.
-     */
+/// Removes all vertices that are not referenced by any faces
 void removeUnusedVertices(Geometry& geometry)
 {
     int freeIndex = 0;
@@ -2151,12 +2146,8 @@ void removeUnusedVertices(Geometry& geometry)
 bool tryPack(
     float textureSize,
     const std::vector<std::pair<float, float>>& chartSizes,
-
-    std::vector<std::tuple<float, float, float, float, bool>>& m_result
-
-)
+    std::vector<std::tuple<float, float, float, float, bool>>& m_result)
 {
-
     // typedef struct maxRectsPosition {
     //     float left;
     //     float top;
@@ -2170,7 +2161,6 @@ bool tryPack(
 
     //float paddingSize = 0.000000001 * width; paddingSize = 0;
     float paddingSize = 0; // 0 for now.
-
 
     float paddingSize2 = paddingSize + paddingSize;
     for (const auto& chartSize : chartSizes) {
@@ -2225,15 +2215,14 @@ bool tryPack(
     return true;
 }
 
-/*
-     Given a list of chart sizes, find an efficient packing.
-     
-     chart packing algorithm was based on this MIT licensed code:
-     https://github.com/huxingyi/simpleuv/blob/master/simpleuv/chartpacker.cpp
-     */
+/**
+    Given a list of chart sizes, finds an efficient packing.
+
+    Chart packing algorithm was based on this MIT licensed code:
+    https://github.com/huxingyi/simpleuv/blob/master/simpleuv/chartpacker.cpp
+*/
 std::vector<std::tuple<float, float, float, float, bool>> packCharts(const std::vector<std::pair<float, float>>& chartSizes, float& textureSize)
 {
-
     {
         float totalChartSize = 0;
 
@@ -2271,13 +2260,12 @@ std::vector<std::tuple<float, float, float, float, bool>> packCharts(const std::
 }
 
 
-/*
-     Concatenate a bunch of geometries into a single geometry.
-     Note that this method doesnt do anything like merge identical vertices with each other
-     It just does straight up concatenation.
-     */
-std::unique_ptr<Geometry> combineGeometries(
-    const std::vector<std::shared_ptr<Geometry>>& geometries)
+/**
+ Concatenates a bunch of geometries into a single geometry.
+ Note that this method doesnt do anything like merge identical vertices with each other
+ It just does straight up concatenation.
+*/
+std::unique_ptr<Geometry> combineGeometries(const std::vector<std::shared_ptr<Geometry>>& geometries)
 {
     std::vector<Vec3> combinedPositions;
     std::vector<Vec3> combinedNormals;
@@ -2601,6 +2589,6 @@ bool uvmapMesh(Geometry& geo)
     return true;
 }
 
-}
+} // namespace algorithms
 
-}
+} // namespace standard_cyborg

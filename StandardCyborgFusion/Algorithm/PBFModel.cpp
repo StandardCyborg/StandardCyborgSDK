@@ -34,10 +34,9 @@ struct CameraVelocity {
 };
 
 
-PBFModel::PBFModel(std::shared_ptr<SurfelIndexMap> surfelIndexMap, unsigned int randomSeed):_surfelFusion(surfelIndexMap)
-
+PBFModel::PBFModel(std::shared_ptr<SurfelIndexMap> surfelIndexMap, unsigned int randomSeed) :
+    _surfelFusion(surfelIndexMap)
 {
-
     _fastRNG.seed(randomSeed);
 }
 
@@ -55,7 +54,6 @@ const std::vector<uint32_t>& PBFModel::getSurfelIndexMap() const
 
 const SparseSurfelLandmarksIndex& PBFModel::getSurfelLandmarksIndex() const
 {
-    
     return _surfelLandmarksIndex;
 }
 
@@ -73,7 +71,6 @@ const std::vector<PBFAssimilatedFrameMetadata> PBFModel::getAssimilatedFrameMeta
 {
     return _assimilatedFrameMetadatas;
 }
-
 
 std::shared_ptr<sc3d::Geometry> PBFModel::buildPointCloud(float downsampledFraction)
 {
@@ -176,10 +173,7 @@ PBFAssimilatedFrameMetadata PBFModel::assimilate(ProcessedFrame& frame,
                                                  double currentTime,
                                                  const std::vector<ScreenSpaceLandmark>* screenSpaceLandmarks)
 {
-    
-
-    
-    // summary of algorithm:
+    // Summary of algorithm:
     // The first frame is defined to be identity for the world coordinates
     // Incoming frames are transformed to world coordinates when un-projecting to point clouds for ICP
     // ICP finds a transform from incoming point cloud back to world coordinates
@@ -200,6 +194,7 @@ PBFAssimilatedFrameMetadata PBFModel::assimilate(ProcessedFrame& frame,
     const RawFrame& rawFrame = frame.rawFrame;
     const size_t width = rawFrame.width;
     const size_t height = rawFrame.height;
+    
     if (_surfels.size() > 0) {
         ICPResult icpResult = _runICP(frame, surfelFusionConfiguration, icpConfig, pbfConfig);
 
@@ -244,7 +239,14 @@ PBFAssimilatedFrameMetadata PBFModel::assimilate(ProcessedFrame& frame,
         _surfels.reserve(width * height);
     }
     
-    if(!_surfelFusion.doFusion(surfelFusionConfiguration, frame, _surfels, toMat4x4(_extrinsicMatrix), screenSpaceLandmarks, _surfelLandmarksIndex, _deletedSurfelIndicesList ) ) {
+    if (!_surfelFusion.doFusion(surfelFusionConfiguration,
+                                frame,
+                                _surfels,
+                                toMat4x4(_extrinsicMatrix),
+                                screenSpaceLandmarks,
+                                _surfelLandmarksIndex,
+                                _deletedSurfelIndicesList)
+    ) {
         DEBUG_LOG("Frame couldn't be fused.");
         frameMeta.icpUnusedIterationFraction = 0;
     } else {
@@ -258,13 +260,8 @@ PBFAssimilatedFrameMetadata PBFModel::assimilate(ProcessedFrame& frame,
 }
 
 
-
-
-
-
 PBFFinalStatistics PBFModel::_calcFinalStatistics()
 {
-
     double startTime = -1, endTime = -1;
     int mergedFrameCount = 0;
     int failedFrameCount = 0;
@@ -292,7 +289,6 @@ PBFFinalStatistics PBFModel::_calcFinalStatistics()
     double duration = endTime - startTime;
     double framerate = mergedFrameCount / duration;
     double averageICPIterations = (double)accumulatedICPIterationCount / (double)mergedFrameCount;
-
 
     PBFFinalStatistics finalStatistics;
     finalStatistics.mergedFrameCount = mergedFrameCount;
@@ -343,7 +339,6 @@ void PBFModel::reset(unsigned int randomSeed)
 }
 
 // MARK: - Private
-
 
 ICPResult PBFModel::_runICP(ProcessedFrame& frame, SurfelFusionConfiguration surfelFusionConfiguration, ICPConfiguration icpConfig, PBFConfiguration pbfConfig)
 {

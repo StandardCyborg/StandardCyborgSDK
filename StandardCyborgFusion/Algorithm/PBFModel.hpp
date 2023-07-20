@@ -36,7 +36,6 @@ public:
 
     void setICPIterationCallback(ICPIterationCallback callback);
 
-    /** @return float  A rough measure of the quality of the assimilated frame, from 0-1. 0 == discarded */
     PBFAssimilatedFrameMetadata assimilate(ProcessedFrame& frame,
                                            PBFConfiguration pbfConfig,
                                            ICPConfiguration icpConfig,
@@ -71,13 +70,10 @@ private:
     Eigen::Matrix4f _extrinsicMatrix = Eigen::Matrix4f::Identity();
 
     void _cullLowConfidence(bool ignoreLifetime, int minWeight, std::vector<int>* deletedSurfelList = NULL);
-    
     ICPResult _runICP(ProcessedFrame& frame, SurfelFusionConfiguration surfelFusionConfiguration, ICPConfiguration icpConfig, PBFConfiguration pbfConfig);
-
     
     PBFAssimilatedFrameMetadata* _nthMostRecentValidFrameMetadata(size_t offset = 0);
     PBFFinalStatistics _calcFinalStatistics();
-    
 
     // Prohibit copying and assignment
     PBFModel(const PBFModel&) = delete;
