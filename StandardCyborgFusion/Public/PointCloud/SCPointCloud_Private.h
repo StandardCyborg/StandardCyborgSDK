@@ -12,11 +12,6 @@
 
 - (instancetype)initWithSurfelData:(NSData *)data gravity:(simd_float3)gravity;
 
-// TODO: Flesh these out, then expose them
-- (void)lockForReading;
-- (void)unlockForReading;
-- (void)performWithReadLock:(dispatch_block_t)block;
-
 @end
 
 @interface SCPointCloud ()

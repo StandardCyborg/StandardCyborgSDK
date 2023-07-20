@@ -68,19 +68,4 @@
     return simd_make_float3(result.x(), result.y(), result.z());
 }
 
-- (void)lockForReading
-{
-    
-}
-
-- (void)unlockForReading
-{
-    
-}
-
-- (void)performWithReadLock:(dispatch_block_t)block
-{
-    
-}
-
 @end

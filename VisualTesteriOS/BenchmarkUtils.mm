@@ -22,6 +22,7 @@
 #import <StandardCyborgFusion/SCOfflineReconstructionManager.h>
 #import <StandardCyborgFusion/SCOfflineReconstructionManager_Private.h>
 #import <standard_cyborg/io/ply/GeometryFileIO_PLY.hpp>
+#import <UIKit/UIKit.h>
 
 using namespace standard_cyborg;
 

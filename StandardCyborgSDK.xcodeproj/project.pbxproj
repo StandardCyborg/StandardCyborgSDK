@@ -619,17 +619,12 @@
 		24AB3219AD18613BCD891673 /* Pods-VisualTesterMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesterMac.debug.xcconfig"; path = "Target Support Files/Pods-VisualTesterMac/Pods-VisualTesterMac.debug.xcconfig"; sourceTree = "<group>"; };
 		24D3338D00CB49BE1B7CC35E /* libPods-StandardCyborgFusionOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusionOSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5B1DA7375E5B9BE3D137F7 /* Pods-VisualTesterMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesterMac.release.xcconfig"; path = "Target Support Files/Pods-VisualTesterMac/Pods-VisualTesterMac.release.xcconfig"; sourceTree = "<group>"; };
-		30C6234F94A8D71BD553064F /* Pods-StandardCyborgData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgData.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgData/Pods-StandardCyborgData.debug.xcconfig"; sourceTree = "<group>"; };
 		393601E903C325BFB12CF074 /* Pods-StandardCyborgFusion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusion.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusion/Pods-StandardCyborgFusion.release.xcconfig"; sourceTree = "<group>"; };
-		4285AFF67D3C054B00834892 /* Pods-StandardCyborgData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgData.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgData/Pods-StandardCyborgData.release.xcconfig"; sourceTree = "<group>"; };
 		4444296B9E2996BC3C82815F /* libPods-StandardCyborgAlgorithmsTestbedMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgAlgorithmsTestbedMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47146284F4E2ED08D4BCBA37 /* Pods-TrueDepthFusion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueDepthFusion.release.xcconfig"; path = "Target Support Files/Pods-TrueDepthFusion/Pods-TrueDepthFusion.release.xcconfig"; sourceTree = "<group>"; };
-		473BCBC645A995C421E96482 /* Pods-UvMapTool.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UvMapTool.debug.xcconfig"; path = "Target Support Files/Pods-UvMapTool/Pods-UvMapTool.debug.xcconfig"; sourceTree = "<group>"; };
 		4B8A869C6ABA6C24FE824293 /* Pods-VisualTesteriOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesteriOS.release.xcconfig"; path = "Target Support Files/Pods-VisualTesteriOS/Pods-VisualTesteriOS.release.xcconfig"; sourceTree = "<group>"; };
-		5A1DBC7ABC40DAF726FBA62A /* Pods-StandardCyborgData-StandardCyborgDataTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgData-StandardCyborgDataTests.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgData-StandardCyborgDataTests/Pods-StandardCyborgData-StandardCyborgDataTests.debug.xcconfig"; sourceTree = "<group>"; };
 		69247DA574AC900403951CD1 /* libPods-VisualTesteriOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VisualTesteriOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA7DCB706A86532C3F884E6 /* libPods-StandardCyborgFusionTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusionTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		704A293A94B50C7C348B86F0 /* Pods-StandardCyborgFusionCLI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusionCLI.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusionCLI/Pods-StandardCyborgFusionCLI.release.xcconfig"; sourceTree = "<group>"; };
 		7609B71221167D4200C0C8D2 /* PointCloudIO_OBJ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointCloudIO_OBJ.cpp; sourceTree = "<group>"; };
 		7609B7182117B4C600C0C8D2 /* ProcessedFrame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProcessedFrame.hpp; sourceTree = "<group>"; };
 		7609B71A21190F0500C0C8D2 /* EigenHelperTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EigenHelperTests.mm; sourceTree = "<group>"; };
@@ -818,12 +813,8 @@
 		76EE33D7212E131800D62C3D /* ScanningFinished.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = ScanningFinished.m4a; sourceTree = "<group>"; };
 		76FFDF112150559300500A84 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		7DE545049E45E18955D27995 /* Pods-StandardCyborgFusionOSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusionOSX.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusionOSX/Pods-StandardCyborgFusionOSX.release.xcconfig"; sourceTree = "<group>"; };
-		84BA58320FF7F06AC335EA87 /* Pods-UvMapBaker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UvMapBaker.release.xcconfig"; path = "Target Support Files/Pods-UvMapBaker/Pods-UvMapBaker.release.xcconfig"; sourceTree = "<group>"; };
-		918E8B749D1FEDEBAD432AB7 /* Pods-StandardCyborgAlgorithmsTestbedMac.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgAlgorithmsTestbedMac.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgAlgorithmsTestbedMac/Pods-StandardCyborgAlgorithmsTestbedMac.debug.xcconfig"; sourceTree = "<group>"; };
 		927CBAD83870E97BE0537CAB /* Pods-StandardCyborgFusion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusion.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusion/Pods-StandardCyborgFusion.debug.xcconfig"; sourceTree = "<group>"; };
-		94D027C81C56B8A3D001C528 /* Pods-StandardCyborgAlgorithmsTestbedMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgAlgorithmsTestbedMac.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgAlgorithmsTestbedMac/Pods-StandardCyborgAlgorithmsTestbedMac.release.xcconfig"; sourceTree = "<group>"; };
 		98E3CF7034A0504BCB87F3BF /* Pods-VisualTesteriOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesteriOS.debug.xcconfig"; path = "Target Support Files/Pods-VisualTesteriOS/Pods-VisualTesteriOS.debug.xcconfig"; sourceTree = "<group>"; };
-		A1C14DA7189383A26145D3A4 /* Pods-StandardCyborgData-StandardCyborgDataTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgData-StandardCyborgDataTests.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgData-StandardCyborgDataTests/Pods-StandardCyborgData-StandardCyborgDataTests.release.xcconfig"; sourceTree = "<group>"; };
 		A5092C2E21C1BC50003B20BC /* crc32.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = crc32.cpp; sourceTree = "<group>"; };
 		A5092C2F21C1BC50003B20BC /* crc32.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = crc32.hpp; sourceTree = "<group>"; };
 		A51A3574225E95650016D70A /* PlaneRemovalViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PlaneRemovalViewController.mm; sourceTree = "<group>"; };
@@ -900,9 +891,6 @@
 		C89A39FC2B177E662133A75F /* Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgAlgorithmsTestbed/Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig"; sourceTree = "<group>"; };
 		E6689CCA27ED6C9280FE8C2A /* Pods-TrueDepthFusion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueDepthFusion.debug.xcconfig"; path = "Target Support Files/Pods-TrueDepthFusion/Pods-TrueDepthFusion.debug.xcconfig"; sourceTree = "<group>"; };
 		E8EB32C024739C8C00EF7A01 /* StandardCyborgFusion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StandardCyborgFusion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE26D1676BA034D9CE50D3A9 /* Pods-UvMapTool.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UvMapTool.release.xcconfig"; path = "Target Support Files/Pods-UvMapTool/Pods-UvMapTool.release.xcconfig"; sourceTree = "<group>"; };
-		F4784F32D32E6953857F2371 /* Pods-UvMapBaker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UvMapBaker.debug.xcconfig"; path = "Target Support Files/Pods-UvMapBaker/Pods-UvMapBaker.debug.xcconfig"; sourceTree = "<group>"; };
-		FD5807E531FEB4326A87364B /* Pods-StandardCyborgFusionCLI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusionCLI.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusionCLI/Pods-StandardCyborgFusionCLI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1536,18 +1524,8 @@
 		D4BAB590CAEC601056B0C070 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				30C6234F94A8D71BD553064F /* Pods-StandardCyborgData.debug.xcconfig */,
-				4285AFF67D3C054B00834892 /* Pods-StandardCyborgData.release.xcconfig */,
-				F4784F32D32E6953857F2371 /* Pods-UvMapBaker.debug.xcconfig */,
-				84BA58320FF7F06AC335EA87 /* Pods-UvMapBaker.release.xcconfig */,
-				473BCBC645A995C421E96482 /* Pods-UvMapTool.debug.xcconfig */,
-				EE26D1676BA034D9CE50D3A9 /* Pods-UvMapTool.release.xcconfig */,
-				5A1DBC7ABC40DAF726FBA62A /* Pods-StandardCyborgData-StandardCyborgDataTests.debug.xcconfig */,
-				A1C14DA7189383A26145D3A4 /* Pods-StandardCyborgData-StandardCyborgDataTests.release.xcconfig */,
 				927CBAD83870E97BE0537CAB /* Pods-StandardCyborgFusion.debug.xcconfig */,
 				393601E903C325BFB12CF074 /* Pods-StandardCyborgFusion.release.xcconfig */,
-				FD5807E531FEB4326A87364B /* Pods-StandardCyborgFusionCLI.debug.xcconfig */,
-				704A293A94B50C7C348B86F0 /* Pods-StandardCyborgFusionCLI.release.xcconfig */,
 				E6689CCA27ED6C9280FE8C2A /* Pods-TrueDepthFusion.debug.xcconfig */,
 				47146284F4E2ED08D4BCBA37 /* Pods-TrueDepthFusion.release.xcconfig */,
 				2061932908399EE22C9AFE48 /* Pods-StandardCyborgFusionOSX.debug.xcconfig */,
@@ -1558,8 +1536,6 @@
 				2F5B1DA7375E5B9BE3D137F7 /* Pods-VisualTesterMac.release.xcconfig */,
 				98E3CF7034A0504BCB87F3BF /* Pods-VisualTesteriOS.debug.xcconfig */,
 				4B8A869C6ABA6C24FE824293 /* Pods-VisualTesteriOS.release.xcconfig */,
-				918E8B749D1FEDEBAD432AB7 /* Pods-StandardCyborgAlgorithmsTestbedMac.debug.xcconfig */,
-				94D027C81C56B8A3D001C528 /* Pods-StandardCyborgAlgorithmsTestbedMac.release.xcconfig */,
 				C89A39FC2B177E662133A75F /* Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig */,
 				BD9F19495B7CE2877D348A64 /* Pods-StandardCyborgAlgorithmsTestbed.release.xcconfig */,
 			);
