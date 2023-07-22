@@ -57,7 +57,7 @@ using namespace standard_cyborg;
     
     auto selection = [self _selectVerticesOfGeometry:_sampleGeometry byNormal:_planeNormalInitialSeed withDegreeTolerance:20.0f];
     
-    std::cout << "selection size = " << selection->size() << std::endl;
+    NSLog(@"selection size = %d", selection->size());
 
     std::unique_ptr<sc3d::Geometry> geoWithColor = std::make_unique<sc3d::Geometry> ();
     geoWithColor->copy(_sampleGeometry);
@@ -132,7 +132,7 @@ using namespace standard_cyborg;
     
     _sampleGeometry.deleteVertices(*planeVertices);
     
-    std::cout << "sampleGeometry post-delete size: " << _sampleGeometry.vertexCount() << std::endl;
+    NSLog(@"sampleGeometry post-delete size: %d", _sampleGeometry.vertexCount());
     
     [_theNode removeFromParentNode];
     _theNode = [SCNNode nodeFromGeometry:_sampleGeometry withDefaultTransform:NO];

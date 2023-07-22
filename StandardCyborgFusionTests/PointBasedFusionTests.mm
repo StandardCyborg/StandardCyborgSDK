@@ -171,8 +171,8 @@ using namespace standard_cyborg;
         float rmsPositionError = std::sqrtf(sumPosSquaredError) / surfels.size();
         float rmsColorError = std::sqrtf(sumColorSquaredError) / surfels.size();
         
-        std::cout << "RMS position error:" << rmsPositionError << std::endl;
-        std::cout << "RMS color error:" << rmsColorError << std::endl;
+        NSLog(@"RMS position error: %f", rmsPositionError);
+        NSLog(@"RMS color error: %f", rmsColorError);
 
         const float maxPosError = 1.0e-5;
         XCTAssertLessThan(rmsPositionError, maxPosError, @"exceeding maxPosError for %@", testCase);
