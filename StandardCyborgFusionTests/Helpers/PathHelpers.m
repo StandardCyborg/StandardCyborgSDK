@@ -15,7 +15,7 @@
 + (NSString *)testCasesPath
 {
     NSString *projectDirectory = [NSString stringWithUTF8String:PROJECT_DIR];
-    return [projectDirectory stringByAppendingPathComponent: @"/scsdk/c++/test_fixture_data/"];
+    return [projectDirectory stringByAppendingPathComponent: @"/StandardCyborgFusionTests"];
 }
 
 @end

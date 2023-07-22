@@ -64,7 +64,7 @@ using namespace standard_cyborg;
     float testDepth = 0.2;
     std::vector<float> depths(width* height, testDepth);
     
-    std::vector<math::Vec3> colors(width* height, math::Vec3());
+    std::vector<math::Vec3> colors(width * height, math::Vec3());
     
     id<MTLDevice> device = MTLCreateSystemDefaultDevice();
     id<MTLCommandQueue> commandQueue = [device newCommandQueue];
@@ -99,16 +99,16 @@ using namespace standard_cyborg;
     surfelFusionConfig.minDepth = 0.0;
     pbfConfig.icpDownsampleFraction = 0.2f;
     
-    NSString* testCasesPath = [PathHelpers testCasesPath];
-    NSArray* testCases = [NSArray arrayWithObjects:@"sven-ear-to-ear-lo-res", nil];
+    NSString *testCasesPath = [PathHelpers testCasesPath];
+    NSArray *testCases = [NSArray arrayWithObjects:@"sven-ear-to-ear-lo-res", nil];
     
     for (size_t iTest = 0; iTest < [testCases count]; ++iTest) {
-        NSString* testCase = testCases[iTest];
+        NSString *testCase = testCases[iTest];
         
         // get the test case paths from the bundle.
-        NSString* testCasePath = [testCasesPath stringByAppendingPathComponent:testCase];
-        NSString* depthFramesDir = [testCasePath stringByAppendingPathComponent:@"DepthFrames"];
-        NSString* expectedPLYPath = [testCasePath stringByAppendingPathComponent:@"Expected.ply"];
+        NSString *testCasePath = [testCasesPath stringByAppendingPathComponent:testCase];
+        NSString *depthFramesDir = [testCasePath stringByAppendingPathComponent:@"DepthFrames"];
+        NSString *expectedPLYPath = [testCasePath stringByAppendingPathComponent:@"Expected.ply"];
 
         std::unique_ptr<PBFModel> pbf(assimilatePointCloud(depthFramesDir, icpConfig, pbfConfig, surfelFusionConfig));
         Surfels surfels = pbf->getSurfels();
@@ -124,17 +124,12 @@ using namespace standard_cyborg;
         std::vector<math::Vec3> colors;
         std::vector<math::Vec3> normals;
         
-        for(int iSurfel = 0; iSurfel < targetSurfels.size(); ++iSurfel) {
-            
-            
+        for (int iSurfel = 0; iSurfel < targetSurfels.size(); ++iSurfel) {
             Surfel s = targetSurfels[iSurfel];
             
             positions.push_back(math::Vec3(s.position.x(), s.position.y(), s.position.z()));
-            
             normals.push_back(math::Vec3(s.normal.x(), s.normal.y(), s.normal.z()));
-            
             colors.push_back(math::Vec3(s.color.x(), s.color.y(), s.color.z()));
-            
         }
         
         sc3d::Geometry target(positions, normals, colors);
@@ -159,13 +154,13 @@ using namespace standard_cyborg;
         }
         
         #if 0
-                // Activate this section to *write* this newly computed point cloud to PLY
-                NSString* outputPLYPath = [testCasePath stringByAppendingPathComponent:@"/Expected-tmp.ply"];
-        
-                PointCloudIO::WriteSurfelsToPLYFile(surfels.data(),
-                                                surfels.size(),
-                                                Eigen::Vector3f(0.0, 0.0, 0.0),
-                                                std::string([outputPLYPath UTF8String]));
+        // Activate this section to *write* this newly computed point cloud to PLY
+        NSString *outputPLYPath = [testCasePath stringByAppendingPathComponent:@"/Expected-tmp.ply"];
+
+        PointCloudIO::WriteSurfelsToPLYFile(surfels.data(),
+                                        surfels.size(),
+                                        Eigen::Vector3f(0.0, 0.0, 0.0),
+                                        std::string([outputPLYPath UTF8String]));
         #endif
         
         float rmsPositionError = std::sqrtf(sumPosSquaredError) / surfels.size();
@@ -183,8 +178,7 @@ using namespace standard_cyborg;
         // The results of this test appear to be platform-dependent, depending on whether the discrete
         // or integrated GPU is used.
         // for this reason, we have to add a bit of a margin to the tests.
-        
-        XCTAssertTrue(abs((float)surfels.size() - 45428.0f) < 350.0f);
+        XCTAssertLessThan(abs((float)surfels.size() - 45428.0f), 350.0f);
     }
 }
 

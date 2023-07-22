@@ -132,9 +132,7 @@
     NSString *testCase = @"sven-ear-to-ear-lo-res";
     NSString *testCasesPath = [PathHelpers testCasesPath];
     NSString *testCasePath = [testCasesPath stringByAppendingPathComponent:testCase];
-    
-  //  printf("%s\n", );
-    
+        
     NSString *depthFramesDirectory = [testCasePath stringByAppendingPathComponent:@"DepthFrames"];
     
     std::unique_ptr<PBFModel> pbf(assimilatePointCloud(depthFramesDirectory, icpConfig, pbfConfig, surfelFusionConfig, [](int frameNumber) {
@@ -157,9 +155,9 @@
     }
     
     // For debugging via PLY output
-    //std::string path = std::string("/Users/rreusser/full.ply");
-    //std::cout<<"writing output to \""<<path<<"\""<<std::endl;
-    //PointCloudIO::WriteSurfelsToPLYFile(surfels.data(), surfels.size(), Eigen::Vector3f(0.0f, 0.0f, 0.0f), path);
+    // std::string path = std::string("/Users/rreusser/full.ply");
+    // std::cout << "writing output to \"" << path << "\"" << std::endl;
+    // PointCloudIO::WriteSurfelsToPLYFile(surfels.data(), surfels.size(), Eigen::Vector3f(0.0f, 0.0f, 0.0f), path);
 
     // The results of this test appear to be platform-dependent, depending on whether the integrated
     // or discrete GPU is used, which means it probably depends the subtle pixel-level details of
@@ -167,7 +165,7 @@
     // which means, we add a bit of a margin to the tests.
     
     printf("surfelLandmarks %d\n", surfelLandmarks.size());
-    XCTAssertTrue(abs((float)surfelLandmarks.size() - 148.0f) < 25.0f);
+    XCTAssertLessThan(abs((float)surfelLandmarks.size() - 148.0f), 25.0f);
 }
 
 - (void)testIterateHits {

@@ -359,8 +359,6 @@ using namespace standard_cyborg::sc3d;
 }
 
 - (void)testRemoveDegenerateTrianglesMoreComplex {
-    
-    
     std::vector<Vec3> positions {
         {1.0f, 1.0f, 0.0f},
         {3.0f, 3.0f, 0.0f},
@@ -369,9 +367,7 @@ using namespace standard_cyborg::sc3d;
         {3.0f, 5.0f, 0.0f},
         {1.0f, 5.0f, 0.0f},
         
-        
         {1.0f, 3.0f, 0.0f},
-        
     };
     
     std::vector<Face3> faces {
@@ -403,7 +399,6 @@ using namespace standard_cyborg::sc3d;
             {3.0f, 5.0f, 0.0f},
             {1.0f, 5.0f, 0.0f},
             {1.0f, 3.0f, 0.0f},
-            
         };
         
         XCTAssertTrue(geometry0.getPositions() == newPositions);
@@ -421,7 +416,6 @@ using namespace standard_cyborg::sc3d;
         {2.0f, 2.0f, 0.0f}, // 3
         {4.0f, 1.0f, 0.0f}, // 4
         {2.0f, 1.0f, 0.0f}, // 5
-         
     };
     
     std::vector<Face3> faces {
@@ -444,7 +438,6 @@ using namespace standard_cyborg::sc3d;
             { 3, 2, 1 },
             { 0, 5, 3 },
             { 3, 1, 0 },
-            
         };
         
         XCTAssertTrue(geometry0.getPositions() == positions);
@@ -454,7 +447,6 @@ using namespace standard_cyborg::sc3d;
 
 
 - (void)testPackCharts {
-        
     {
         std::vector<std::pair<float, float> > chartSizes;
         
@@ -485,13 +477,10 @@ using namespace standard_cyborg::sc3d;
         XCTAssertTrue(1.0f == textureSize);
         XCTAssertTrue(chartSizes.size() == result.size());
     }
-    
-
 }
 
 // test where one segment has a vertex shared between several faces, in that segment.
 - (void)testSeamCutMesh {
-    
     std::vector<Vec3> positions {
         {-1, 0, 1}, // 0
         {1, 0, 1}, // 1
@@ -549,14 +538,12 @@ using namespace standard_cyborg::sc3d;
         {1, 6, 8},
     };
     
-    
     XCTAssertTrue(geometry0.getPositions() == newPos);
     XCTAssertTrue(geometry0.getFaces() == newFaces);
 }
 
 /*
 - (void)testUvmapMeshStressTest {
-    
     using namespace StandardCyborg;
     
     std::vector<NSString*> testCases {
@@ -581,7 +568,5 @@ using namespace standard_cyborg::sc3d;
     
 }
 */
-
-
 
 @end

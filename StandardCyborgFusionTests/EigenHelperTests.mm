@@ -138,7 +138,6 @@
     XCTAssertEqualWithAccuracy(perspective(3, 1), 0.0, FLT_EPSILON);
     XCTAssertEqualWithAccuracy(perspective(3, 2), -1.0, FLT_EPSILON);
     XCTAssertEqualWithAccuracy(perspective(3, 3), 0.0, FLT_EPSILON);
-
 }
 */
 

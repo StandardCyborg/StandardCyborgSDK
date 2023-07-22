@@ -90,6 +90,8 @@ struct SharedUniforms {
 {
     if (!_enabled) return;
     
+    // icpResult.sourceVertices and .targetVertices is only defined and saved in debug builds
+#if DEBUG
     size_t vertexCount = 0;
     id<MTLBuffer> vertexBuffer = [self _createVertexBufferFromSourceVertices:icpResult.sourceVertices
                                                               targetVertices:icpResult.targetVertices
@@ -119,6 +121,7 @@ struct SharedUniforms {
     }
     
     [commandEncoder endEncoding];
+#endif // DEBUG
 }
 
 // MARK: - Private
