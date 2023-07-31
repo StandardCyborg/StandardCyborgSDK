@@ -6,6 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreVideo/CoreVideo.h>
+#import <ImageIO/ImageIO.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -45,7 +47,7 @@ NS_SWIFT_NAME(footTrackingDidLoseTracking(_:));
 
 - (instancetype)init NS_UNAVAILABLE;
 
-//- (void)analyzePixelBuffer:(CVPixelBufferRef)pixelBuffer orientation:(CGImagePropertyOrientation)orientation;
+- (void)analyzePixelBuffer:(CVPixelBufferRef)pixelBuffer orientation:(CGImagePropertyOrientation)orientation;
 
 @end
 
