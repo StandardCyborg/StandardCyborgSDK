@@ -46,8 +46,6 @@ Note on building with bitcode support: https://medium.com/@heitorburger/static-l
 
 To build StandardCyborgFusion.framework for public release:
 
-1. Select `StandardCyborgSDK` from the project navigator, then the `StandardCyborgFusion` target, then update the version number to the desired number
-1. Choose the `TrueDepthFusion` target, and an iPhone X as the device
 1. Run `archive-build-standardcyborgfusion.sh`, which will both update the compiled copy in `../StandardCyborgCocoa/StandardCyborgFusion` and generate a .zip file for you to upload to the StandardCyborgFusion release in GitHub
 1. Commit the updated StandardCyborgFusion/Info.plist (which now has a new version number)
 1. Merge updated Info.plist commit into `main`
