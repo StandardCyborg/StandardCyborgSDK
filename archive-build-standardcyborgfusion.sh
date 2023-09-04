@@ -86,6 +86,10 @@ pushd "build" &>/dev/null
     echo "ERROR: mlmodelc directories were not stripped from the built iOS framework!"
     exit
   fi
+  
+  if test -d "StandardCyborgFusion.xcframework"; then
+    rm -r "StandardCyborgFusion.xcframework"
+  fi
 
   # This creates a combined xcframework that includes binaries for iOS device, simulator, and macOS
   xcrun xcodebuild -create-xcframework \
@@ -96,13 +100,8 @@ pushd "build" &>/dev/null
 
   # Copy files into StandardCyborgCocoa
   echo "Updating StandardCyborgCocoa"
-  mkdir -p "../../StandardCyborgCocoa/StandardCyborgFusion/ios/"
-  mkdir -p "../../StandardCyborgCocoa/StandardCyborgFusion/osx/"
-
-  rm -rf "../../StandardCyborgCocoa/StandardCyborgFusion/ios/StandardCyborgFusion.framework"
-  rm -rf "../../StandardCyborgCocoa/StandardCyborgFusion/osx/StandardCyborgFusion.framework"
-  cp -r "ios/StandardCyborgFusion.framework" "../../StandardCyborgCocoa/StandardCyborgFusion/ios/StandardCyborgFusion.framework"
-  cp -R "osx/StandardCyborgFusion.framework" "../../StandardCyborgCocoa/StandardCyborgFusion/osx/StandardCyborgFusion.framework"
+  rm -rf "../../StandardCyborgCocoa/StandardCyborgFusion/StandardCyborgFusion.xcframework"
+  cp -R "StandardCyborgFusion.xcframework" "../../StandardCyborgCocoa/StandardCyborgFusion/"
 
   echo "Creating zipped version for upload to GitHub release..."
   cp "../../StandardCyborgCocoa/StandardCyborgFusion/LICENSE" .
