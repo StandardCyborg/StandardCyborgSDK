@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
+#if 0
 NS_ASSUME_NONNULL_BEGIN
 
 @class CIImage;
@@ -61,3 +62,5 @@ NS_SWIFT_NAME(earTrackingDidLoseTracking(_:));
 @end
 
 NS_ASSUME_NONNULL_END
+
+#endif
