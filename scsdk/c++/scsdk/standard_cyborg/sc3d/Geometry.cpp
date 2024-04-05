@@ -576,6 +576,9 @@ RayTraceResult Geometry::rayTrace(Vec3 rayOrigin, Vec3 rayDirection, float rayMi
 
 void Geometry::updateDataStructures() const
 {
+    //   pImpl->_kdTree->index->findNei
+    
+    
     if ((!pImpl->_rtAccel || _isDirty) && hasFaces()) {
         nanort::BVHBuildOptions<float> options; // Use default option
         nanort::TriangleMesh<float> triangle_mesh((float*)this->_positions.data(), (unsigned int*)_faces.data(), sizeof(Vec3));

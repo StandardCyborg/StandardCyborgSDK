@@ -31,8 +31,13 @@
 
 //#define SAVE_DIAGNOSTICS
 
+
+#include "standard_cyborg/sc3d/BoundingBox3.hpp"
+
 #import "MetalTextureProjection.hpp"
 #import "SCMeshTexturing.h"
+
+//#import "SceneKit+BoundingBox3.h"
 
 using namespace standard_cyborg;
 
@@ -278,15 +283,8 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         */
         
          
-        // meshGeometry
         
-        //math::Vec3 vv(1.0, 0.0, 1.0);
-        //sc3d::Vec3
-        
-        //std::vector<math::Vec3> colors = meshGeometry.getColors();
-        
-        std::vector<math::Vec3> newColors;
-        
+        /*
         for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
             //vertexUsage.push_back(false);
             
@@ -301,27 +299,70 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             }
             
         }
+        */
         
-        //for(meshGeometry)
+        //std::vector<math::Vec3>  testColors = meshGeometry.getColors();
+        
+        // int Geometry::getClosestVertexIndex(const Vec3& queryPoint) const
+
+        
+        sc3d::Geometry cloudGeometry;
+        [pointCloud toGeometry:cloudGeometry];
+        
+        printf("lotrm ipdum %f %f %f\n", cloudGeometry.getColors()[4].x, cloudGeometry.getColors()[4].y, cloudGeometry.getColors()[4].z );
+        
+        printf("lotrm ipdum2 %f %f %f\n", cloudGeometry.getPositions()[4].x, cloudGeometry.getPositions()[4].y, cloudGeometry.getPositions()[4].z );
+        
+        std::vector<math::Vec3> newColors;
+        
+        
+        sc3d::BoundingBox3 meshBox(meshGeometry);
+        printf("lower %f %f %f\n", meshBox.lower.x,meshBox.lower.y, meshBox.lower.z );
+        printf("upper %f %f %f\n", meshBox.upper.x,meshBox.upper.y, meshBox.upper.z );
+        
+        sc3d::BoundingBox3 cloudBox(cloudGeometry);
+        printf("lower %f %f %f\n", cloudBox.lower.x,cloudBox.lower.y, cloudBox.lower.z );
+        printf("upper %f %f %f\n", cloudBox.upper.x,cloudBox.upper.y, cloudBox.upper.z );
+        
+        
+        for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
+            math::Vec3 pos = meshGeometry.getPositions()[iv];
+            
+            int foundIndex = cloudGeometry.getClosestVertexIndex(pos);
+            
+            if(0 <= foundIndex && foundIndex < meshGeometry.vertexCount()) {
+                
+
+                math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
+                
+                
+                if(iv % 1000 == 0) {
+                    printf("pos: %f %f %f\n", pos.x, pos.y, pos.z);
+                    
+                    printf("index %d\n", foundIndex);
+                    
+                    printf("col %f %f %f\n", closestColor.x, closestColor.y, closestColor.z);
+                    
+                    
+                }
+                
+                
+                //math::Vec3 col(1.0, 0.0, 0.0);
+                //newColors.push_back(col);
+                newColors.push_back(closestColor);
+                
+            } else {
+                math::Vec3 col(1.0, 0.0, 0.0);
+                newColors.push_back(col);
+                
+            }
+            
+            
+        }
         
         meshGeometry.setColors(newColors);
-        //void Geometry::setColor(const Vec3& color, float alpha)
         
         
-        std::vector<math::Vec3>  testColors = meshGeometry.getColors();
-        
-        
-        printf("STATS: succeeded: %d\n", testColors.size() );
-        
-        printf("STATS: color: %f %f %f\n", testColors[3].x, testColors[3].y, testColors[3].z );
-        
-        
-        //NSLog(@"lol2 %@", testColors.size());
-
-        //NSLog(@"Error removing data from previous runs in %@: %@", testColors.size());
-        
-        //NSLog(@"Error removing");
-    
         reportProgress(1.0);
         
         // Step 4: Convert from sc3d::Geometry to SCMesh
@@ -332,6 +373,9 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 return;
             }
         }
+        
+        
+        
         
         if (!reportProgress(1.0)) {
             completion(nil, nil);
