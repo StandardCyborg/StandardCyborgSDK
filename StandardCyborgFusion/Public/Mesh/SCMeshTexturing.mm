@@ -13,9 +13,6 @@
 //#import <StandardCyborgFusion/MeshUvMap.hpp>
 #import "../../Algorithm/MeshUvMap.hpp"
 
-
-#include <cstdio>
-
 #import <standard_cyborg/sc3d/Geometry.hpp>
 #import <standard_cyborg/math/Vec4.hpp>
 #import <StandardCyborgFusion/PerspectiveCamera+AVFoundation.hpp>
@@ -30,9 +27,6 @@
 #import <memory>
 
 //#define SAVE_DIAGNOSTICS
-
-
-#include "standard_cyborg/sc3d/BoundingBox3.hpp"
 
 #import "MetalTextureProjection.hpp"
 #import "SCMeshTexturing.h"
@@ -216,7 +210,6 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
     dispatch_async(_reconstructionQueue, ^{
         NSError *error = nil;
         sc3d::Geometry meshGeometry;
-        //std::vector<float> textureData;
         SCMesh *result = nil;
         
         // Step 1: Build a mesh
@@ -242,6 +235,10 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         
         reportProgress(2.0 / 3.0);
        
+        
+        
+        
+        
         sc3d::Geometry cloudGeometry;
         [pointCloud toGeometry:cloudGeometry];
         
@@ -256,12 +253,14 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
                 newColors.push_back(closestColor);
             } else {
+                // use red if we can't find one.
                 math::Vec3 col(1.0, 0.0, 0.0);
                 newColors.push_back(col);
             }
         }
-        
         meshGeometry.setColors(newColors);
+        
+        
         
         
         reportProgress(1.0);

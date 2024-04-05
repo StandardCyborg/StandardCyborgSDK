@@ -84,9 +84,8 @@ using math::Vec2;
                                          length:textureDataVec.size() * sizeof(float)];
     */
     return [[SCMesh alloc] initWithPositionData:positionData
-                                     normalData:normalData
+                                    normalData:normalData
                                      colorData:colorData
-            
                                       facesData:facesData];
 }
 

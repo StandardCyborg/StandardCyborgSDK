@@ -29,8 +29,6 @@
 }
 
 
-
-
 - (SCNGeometrySource *)buildColorGeometrySource
 {
     return [SCNGeometrySource geometrySourceWithData:self.colorData
@@ -44,8 +42,6 @@
 }
 
 
-
-
 - (SCNGeometrySource *)buildNormalGeometrySource
 {
     return [SCNGeometrySource geometrySourceWithData:self.normalData
@@ -57,8 +53,6 @@
                                           dataOffset:0
                                           dataStride:4 * sizeof(float)];
 }
-// SCNGeometrySourceSemanticColor
-
 
 /*
 - (SCNGeometrySource *)buildTexCoordGeometrySource
