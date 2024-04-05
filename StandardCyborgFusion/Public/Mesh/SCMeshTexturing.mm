@@ -237,8 +237,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
        
         
         
-        
-        
+        // calculate the color of the vertices by finding the closest point in the point cloud.
         sc3d::Geometry cloudGeometry;
         [pointCloud toGeometry:cloudGeometry];
         
