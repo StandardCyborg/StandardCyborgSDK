@@ -14,6 +14,8 @@
 #import "../../Algorithm/MeshUvMap.hpp"
 
 
+#include <cstdio>
+
 #import <standard_cyborg/sc3d/Geometry.hpp>
 #import <standard_cyborg/math/Vec4.hpp>
 #import <StandardCyborgFusion/PerspectiveCamera+AVFoundation.hpp>
@@ -209,7 +211,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
     dispatch_async(_reconstructionQueue, ^{
         NSError *error = nil;
         sc3d::Geometry meshGeometry;
-        std::vector<float> textureData;
+        //std::vector<float> textureData;
         SCMesh *result = nil;
         
         // Step 1: Build a mesh
@@ -233,6 +235,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             return;
         }
         
+        /*
         // Step 2: UV map the mesh
         {
             BOOL uvMapSuccess = algorithms::uvmapMesh(meshGeometry);
@@ -244,6 +247,10 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 return;
             }
         }
+         */
+
+        reportProgress(2.0 / 3.0);
+        /*
         
         if (!reportProgress(2.0 / 3.0)) {
             completion(nil, nil);
@@ -268,12 +275,58 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 return;
             }
         }
+        */
+        
+         
+        // meshGeometry
+        
+        //math::Vec3 vv(1.0, 0.0, 1.0);
+        //sc3d::Vec3
+        
+        //std::vector<math::Vec3> colors = meshGeometry.getColors();
+        
+        std::vector<math::Vec3> newColors;
+        
+        for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
+            //vertexUsage.push_back(false);
+            
+            if(iv % 2 == 0) {
+                
+                math::Vec3 red(1.0, 0.0, 0.0);
+                newColors.push_back(red);
+            } else {
+                
+                math::Vec3 red(0.0, 1.0, 0.0);
+                newColors.push_back(red);
+            }
+            
+        }
+        
+        //for(meshGeometry)
+        
+        meshGeometry.setColors(newColors);
+        //void Geometry::setColor(const Vec3& color, float alpha)
+        
+        
+        std::vector<math::Vec3>  testColors = meshGeometry.getColors();
+        
+        
+        printf("STATS: succeeded: %d\n", testColors.size() );
+        
+        printf("STATS: color: %f %f %f\n", testColors[3].x, testColors[3].y, testColors[3].z );
+        
+        
+        //NSLog(@"lol2 %@", testColors.size());
+
+        //NSLog(@"Error removing data from previous runs in %@: %@", testColors.size());
+        
+        //NSLog(@"Error removing");
+    
+        reportProgress(1.0);
         
         // Step 4: Convert from sc3d::Geometry to SCMesh
         {
-            result = [SCMesh meshFromGeometry:meshGeometry
-                                  textureData:textureData
-                            textureResolution:textureResolution];
+            result = [SCMesh meshFromGeometry:meshGeometry];
             if (result == nil) {
                 completion(error, nil);
                 return;

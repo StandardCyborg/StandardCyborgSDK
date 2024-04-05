@@ -28,6 +28,24 @@
                                           dataStride:4 * sizeof(float)];
 }
 
+
+
+
+- (SCNGeometrySource *)buildColorGeometrySource
+{
+    return [SCNGeometrySource geometrySourceWithData:self.colorData
+                                            semantic:SCNGeometrySourceSemanticColor
+                                         vectorCount:self.vertexCount
+                                     floatComponents:YES
+                                 componentsPerVector:3
+                                   bytesPerComponent:sizeof(float)
+                                          dataOffset:0
+                                          dataStride:4 * sizeof(float)];
+}
+
+
+
+
 - (SCNGeometrySource *)buildNormalGeometrySource
 {
     return [SCNGeometrySource geometrySourceWithData:self.normalData
@@ -39,7 +57,10 @@
                                           dataOffset:0
                                           dataStride:4 * sizeof(float)];
 }
+// SCNGeometrySourceSemanticColor
 
+
+/*
 - (SCNGeometrySource *)buildTexCoordGeometrySource
 {
     // Flip about y to match what SceneKit expects
@@ -59,6 +80,7 @@
                                           dataOffset:0
                                           dataStride:2 * sizeof(float)];
 }
+*/
 
 - (SCNGeometryElement *)buildMeshGeometryElement
 {
@@ -80,13 +102,18 @@
     
     SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
     SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
-    SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
+    
+    SCNGeometrySource *colorSource = [self buildColorGeometrySource];
+    
+    //SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
+    
     SCNGeometryElement *element = [self buildMeshGeometryElement];
     
-    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
+    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, colorSource/*, texCoordSource*/]
                                                     elements:@[element]];
     
-    geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    //geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    
     geometry.firstMaterial.doubleSided = YES;
     
     SCNNode *node = [SCNNode nodeWithGeometry:geometry];
