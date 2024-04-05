@@ -240,90 +240,12 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             return;
         }
         
-        /*
-        // Step 2: UV map the mesh
-        {
-            BOOL uvMapSuccess = algorithms::uvmapMesh(meshGeometry);
-            
-            if (!uvMapSuccess) {
-                error = [self _buildAPIError:SCMeshTexturingAPIErrorArgument
-                                 description:@"UV unwrapping failed: %s", algorithms::getUvmapMeshErrorMessage().c_str()];
-                completion(error, nil);
-                return;
-            }
-        }
-         */
-
         reportProgress(2.0 / 3.0);
-        /*
-        
-        if (!reportProgress(2.0 / 3.0)) {
-            completion(nil, nil);
-            return;
-        }
-        
-        // Step 3: Project onto the UV-mapped mesh
-        {
-            BOOL projectionSuccess = [self _doProjectionWithUvMappedMesh:meshGeometry
-                                                        outputTextureRes:textureResolution
-                                                                  result:textureData
-                                                                   error:&error
-                                                         progressHandler:^(float progress) {
-                // TODO: Support cancelling projection mid-operation
-                reportProgress(2.0 / 3.0 + progress * 1.0 / 3.0);
-            }];
-            
-            if (projectionSuccess == NO || textureData.size() == 0) {
-                error = [self _buildAPIError:SCMeshTexturingAPIErrorArgument
-                                 description:@"textureProjection.finishProjecting failed"];
-                completion(error, nil);
-                return;
-            }
-        }
-        */
-        
-         
-        
-        /*
-        for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
-            //vertexUsage.push_back(false);
-            
-            if(iv % 2 == 0) {
-                
-                math::Vec3 red(1.0, 0.0, 0.0);
-                newColors.push_back(red);
-            } else {
-                
-                math::Vec3 red(0.0, 1.0, 0.0);
-                newColors.push_back(red);
-            }
-            
-        }
-        */
-        
-        //std::vector<math::Vec3>  testColors = meshGeometry.getColors();
-        
-        // int Geometry::getClosestVertexIndex(const Vec3& queryPoint) const
-
-        
+       
         sc3d::Geometry cloudGeometry;
         [pointCloud toGeometry:cloudGeometry];
         
-        printf("lotrm ipdum %f %f %f\n", cloudGeometry.getColors()[4].x, cloudGeometry.getColors()[4].y, cloudGeometry.getColors()[4].z );
-        
-        printf("lotrm ipdum2 %f %f %f\n", cloudGeometry.getPositions()[4].x, cloudGeometry.getPositions()[4].y, cloudGeometry.getPositions()[4].z );
-        
         std::vector<math::Vec3> newColors;
-        
-        
-        sc3d::BoundingBox3 meshBox(meshGeometry);
-        printf("lower %f %f %f\n", meshBox.lower.x,meshBox.lower.y, meshBox.lower.z );
-        printf("upper %f %f %f\n", meshBox.upper.x,meshBox.upper.y, meshBox.upper.z );
-        
-        sc3d::BoundingBox3 cloudBox(cloudGeometry);
-        printf("lower %f %f %f\n", cloudBox.lower.x,cloudBox.lower.y, cloudBox.lower.z );
-        printf("upper %f %f %f\n", cloudBox.upper.x,cloudBox.upper.y, cloudBox.upper.z );
-        
         
         for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
             math::Vec3 pos = meshGeometry.getPositions()[iv];
@@ -331,33 +253,12 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             int foundIndex = cloudGeometry.getClosestVertexIndex(pos);
             
             if(0 <= foundIndex && foundIndex < meshGeometry.vertexCount()) {
-                
-
                 math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
-                
-                
-                if(iv % 1000 == 0) {
-                    printf("pos: %f %f %f\n", pos.x, pos.y, pos.z);
-                    
-                    printf("index %d\n", foundIndex);
-                    
-                    printf("col %f %f %f\n", closestColor.x, closestColor.y, closestColor.z);
-                    
-                    
-                }
-                
-                
-                //math::Vec3 col(1.0, 0.0, 0.0);
-                //newColors.push_back(col);
                 newColors.push_back(closestColor);
-                
             } else {
                 math::Vec3 col(1.0, 0.0, 0.0);
                 newColors.push_back(col);
-                
             }
-            
-            
         }
         
         meshGeometry.setColors(newColors);
@@ -373,9 +274,6 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 return;
             }
         }
-        
-        
-        
         
         if (!reportProgress(1.0)) {
             completion(nil, nil);

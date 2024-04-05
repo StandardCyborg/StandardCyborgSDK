@@ -21,10 +21,7 @@ using namespace standard_cyborg;
 
 - (instancetype)initWithPositionData:(NSData *)positionData
                           normalData:(NSData *)normalData
-
                           colorData:(NSData *)colorData
-
-
                            facesData:(NSData *)facesData
 {
     self = [super init];
