@@ -21,7 +21,7 @@
 
 - (instancetype)initWithPositionData:(NSData *)positionData
                           normalData:(NSData *)normalData
-                          colorData:(NSData *)colorData
+                           colorData:(NSData *)colorData
                            facesData:(NSData *)facesData;
 
 - (instancetype)initWithPositionData:(NSData *)positionData

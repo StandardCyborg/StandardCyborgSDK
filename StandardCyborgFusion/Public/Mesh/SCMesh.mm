@@ -21,7 +21,7 @@ using namespace standard_cyborg;
 
 - (instancetype)initWithPositionData:(NSData *)positionData
                           normalData:(NSData *)normalData
-                          colorData:(NSData *)colorData
+                           colorData:(NSData *)colorData
                            facesData:(NSData *)facesData
 {
     self = [super init];
@@ -30,15 +30,10 @@ using namespace standard_cyborg;
         _normalData = normalData;
         _colorData = colorData;
         
-        //_texCoordData = texCoordData;
         _facesData = facesData;
         
         _vertexCount = [positionData length] / sizeof(math::Vec3);
         _faceCount = [facesData length] / sizeof(sc3d::Face3);
-        
-        //_textureData = textureData;
-        //_textureWidth = textureWidth;
-        //_textureHeight = textureHeight;
     }
     return self;
 }

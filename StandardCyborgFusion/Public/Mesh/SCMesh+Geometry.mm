@@ -106,15 +106,15 @@ using math::Vec2;
     NSData *facesData = [self _facesDataFromGeometry:geo];
 
     NSData *textureData = [NSData dataWithBytes:textureDataVec.data()
-                                             length:textureDataVec.size() * sizeof(float)];
+                                         length:textureDataVec.size() * sizeof(float)];
 
     return [[SCMesh alloc] initWithPositionData:positionData
-                                         normalData:normalData
-                                       texCoordData:texCoordData
-                                          facesData:facesData
-                                        textureData:textureData
-                                       textureWidth:textureResolution
-                                      textureHeight:textureResolution];
+                                     normalData:normalData
+                                   texCoordData:texCoordData
+                                      facesData:facesData
+                                    textureData:textureData
+                                   textureWidth:textureResolution
+                                  textureHeight:textureResolution];
 }
 
 + (SCMesh *)meshFromGeometry:(const sc3d::Geometry &)geo
