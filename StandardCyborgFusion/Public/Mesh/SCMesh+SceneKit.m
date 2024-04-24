@@ -83,37 +83,6 @@
                                          bytesPerIndex:sizeof(int)];
 }
 
-- (SCNNode *)buildColoredMeshNode
-{
-    // Dump the texture to a JPEG image
-    // This is the asiest way to feed the texture to SceneKit
-    if (self.textureJPEGPath == nil) {
-        NSString *tempJPEGPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"temp-buildMeshNode.jpeg"];
-        [self writeTextureToJPEGAtPath:tempJPEGPath];
-        self.textureJPEGPath = tempJPEGPath;
-    }
-    
-    SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
-    SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
-    
-    SCNGeometrySource *colorSource = [self buildColorGeometrySource];
-    
-    //SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
-    
-    SCNGeometryElement *element = [self buildMeshGeometryElement];
-    
-    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, colorSource/*, texCoordSource*/]
-                                                    elements:@[element]];
-    
-    //geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
-    
-    geometry.firstMaterial.doubleSided = YES;
-    
-    SCNNode *node = [SCNNode nodeWithGeometry:geometry];
-    
-    return node;
-}
-
 - (SCNNode *)buildMeshNode
 {
     // Dump the texture to a JPEG image
@@ -127,13 +96,20 @@
     SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
     SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
     
-    SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
-    
     SCNGeometryElement *element = [self buildMeshGeometryElement];
+    SCNGeometry *geometry;
     
-    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
-                                                    elements:@[element]];
-    geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    if (self.colorData != nil) {
+        SCNGeometrySource *colorSource = [self buildColorGeometrySource];
+        geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, colorSource]
+                                                        elements:@[element]];
+
+    } else {
+        SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
+        geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
+                                                        elements:@[element]];
+        geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    }
     
     geometry.firstMaterial.doubleSided = YES;
     
