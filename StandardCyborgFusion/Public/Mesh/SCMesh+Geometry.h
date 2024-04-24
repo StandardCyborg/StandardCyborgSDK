@@ -18,7 +18,11 @@ using namespace standard_cyborg;
 
 @interface SCMesh (StandardCyborgGeometry)
 
-+ (SCMesh * _Nullable)meshFromGeometry:(const sc3d::Geometry &)geometry;
++ (SCMesh * _Nullable)meshWithVertexColorsFromGeometry:(const sc3d::Geometry &)geometry;
+
++ (SCMesh * _Nullable)meshFromGeometry:(const sc3d::Geometry &)geometry
+                           textureData:(const std::vector<float> &)textureData
+                     textureResolution:(NSInteger)textureResolution;
 
 + (SCMesh * _Nullable)meshFromGeometry:(const sc3d::Geometry &)geometry
                        textureJPEGPath:(NSString *)JPEGPath;

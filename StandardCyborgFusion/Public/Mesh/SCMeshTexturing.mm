@@ -179,6 +179,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
 - (void)reconstructMeshWithWithPointCloud:(SCPointCloud *)pointCloud
                         textureResolution:(NSInteger)textureResolution
                         meshingParameters:(SCMeshingParameters *)meshingParameters
+                  textureColoringStrategy:(SCMeshTextureColoringStrategy)textureColoringStrategy
                                  progress:(void (^)(float progress, BOOL *))progressHandler
                                completion:(void (^)(NSError * _Nullable, SCMesh * _Nullable))completion
 {
@@ -233,46 +234,87 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             return;
         }
         
-        reportProgress(2.0 / 3.0);
-       
-        
-        
-        // calculate the color of the vertices by finding the closest point in the point cloud.
-        sc3d::Geometry cloudGeometry;
-        [pointCloud toGeometry:cloudGeometry];
-        
-        std::vector<math::Vec3> newColors;
-        
-        for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
-            math::Vec3 pos = meshGeometry.getPositions()[iv];
+        if (textureColoringStrategy == SCMeshTextureColoringStrategyVertex) {
+            reportProgress(2.0 / 3.0);
+           
+            // calculate the color of the vertices by finding the closest point in the point cloud.
+            sc3d::Geometry cloudGeometry;
+            [pointCloud toGeometry:cloudGeometry];
             
-            int foundIndex = cloudGeometry.getClosestVertexIndex(pos);
+            std::vector<math::Vec3> newColors;
             
-            if(0 <= foundIndex && foundIndex < meshGeometry.vertexCount()) {
-                math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
-                newColors.push_back(closestColor);
-            } else {
-                // use red if we can't find one.
-                math::Vec3 col(1.0, 0.0, 0.0);
-                newColors.push_back(col);
+            for (int iv = 0; iv < meshGeometry.vertexCount(); ++iv) {
+                math::Vec3 pos = meshGeometry.getPositions()[iv];
+                
+                int foundIndex = cloudGeometry.getClosestVertexIndex(pos);
+                
+                if (0 <= foundIndex && foundIndex < meshGeometry.vertexCount()) {
+                    math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
+                    newColors.push_back(closestColor);
+                } else {
+                    // use red if we can't find one.
+                    math::Vec3 col(1.0, 0.0, 0.0);
+                    newColors.push_back(col);
+                }
             }
-        }
-        meshGeometry.setColors(newColors);
-        
-        
-        
-        
-        reportProgress(1.0);
-        
-        // Step 4: Convert from sc3d::Geometry to SCMesh
-        {
-            result = [SCMesh meshFromGeometry:meshGeometry];
-            if (result == nil) {
-                completion(error, nil);
+            meshGeometry.setColors(newColors);
+            
+            reportProgress(1.0);
+            
+            result = [SCMesh meshWithVertexColorsFromGeometry:meshGeometry];
+        } else {
+            std::vector<float> textureData;
+            
+            // Step 2: UV map the mesh
+            {
+                BOOL uvMapSuccess = algorithms::uvmapMesh(meshGeometry);
+                
+                if (!uvMapSuccess) {
+                    error = [self _buildAPIError:SCMeshTexturingAPIErrorArgument
+                                     description:@"UV unwrapping failed: %s", algorithms::getUvmapMeshErrorMessage().c_str()];
+                    completion(error, nil);
+                    return;
+                }
+            }
+            
+            if (!reportProgress(2.0 / 3.0)) {
+                completion(nil, nil);
                 return;
             }
+            
+            // Step 3: Project onto the UV-mapped mesh
+            {
+                BOOL projectionSuccess = [self _doProjectionWithUvMappedMesh:meshGeometry
+                                                            outputTextureRes:textureResolution
+                                                                      result:textureData
+                                                                       error:&error
+                                                             progressHandler:^(float progress) {
+                    // TODO: Support cancelling projection mid-operation
+                    reportProgress(2.0 / 3.0 + progress * 1.0 / 3.0);
+                }];
+                
+                if (projectionSuccess == NO || textureData.size() == 0) {
+                    error = [self _buildAPIError:SCMeshTexturingAPIErrorArgument
+                                     description:@"textureProjection.finishProjecting failed"];
+                    completion(error, nil);
+                    return;
+                }
+            }
+            
+            // Step 4: Convert from sc3d::Geometry to SCMesh
+            {
+                result = [SCMesh meshFromGeometry:meshGeometry
+                                      textureData:textureData
+                                textureResolution:textureResolution];
+            }
         }
         
+                
+        if (result == nil) {
+            completion(error, nil);
+            return;
+        }
+
         if (!reportProgress(1.0)) {
             completion(nil, nil);
             return;
@@ -293,6 +335,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         completion(nil, result);
     });
 }
+
 // clang-format on
 
 - (void)reset

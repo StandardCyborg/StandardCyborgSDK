@@ -54,7 +54,7 @@
                                           dataStride:4 * sizeof(float)];
 }
 
-/*
+
 - (SCNGeometrySource *)buildTexCoordGeometrySource
 {
     // Flip about y to match what SceneKit expects
@@ -74,7 +74,6 @@
                                           dataOffset:0
                                           dataStride:2 * sizeof(float)];
 }
-*/
 
 - (SCNGeometryElement *)buildMeshGeometryElement
 {
@@ -84,7 +83,7 @@
                                          bytesPerIndex:sizeof(int)];
 }
 
-- (SCNNode *)buildMeshNode
+- (SCNNode *)buildColoredMeshNode
 {
     // Dump the texture to a JPEG image
     // This is the asiest way to feed the texture to SceneKit
@@ -107,6 +106,34 @@
                                                     elements:@[element]];
     
     //geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    
+    geometry.firstMaterial.doubleSided = YES;
+    
+    SCNNode *node = [SCNNode nodeWithGeometry:geometry];
+    
+    return node;
+}
+
+- (SCNNode *)buildMeshNode
+{
+    // Dump the texture to a JPEG image
+    // This is the asiest way to feed the texture to SceneKit
+    if (self.textureJPEGPath == nil) {
+        NSString *tempJPEGPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"temp-buildMeshNode.jpeg"];
+        [self writeTextureToJPEGAtPath:tempJPEGPath];
+        self.textureJPEGPath = tempJPEGPath;
+    }
+    
+    SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
+    SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
+    
+    SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
+    
+    SCNGeometryElement *element = [self buildMeshGeometryElement];
+    
+    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
+                                                    elements:@[element]];
+    geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
     
     geometry.firstMaterial.doubleSided = YES;
     

@@ -28,6 +28,14 @@
                           normalData:(NSData *)normalData
                         texCoordData:(NSData *)texCoordData
                            facesData:(NSData *)facesData
+                         textureData:(NSData *)textureData
+                        textureWidth:(NSInteger)textureWidth
+                       textureHeight:(NSInteger)textureHeight;
+
+- (instancetype)initWithPositionData:(NSData *)positionData
+                          normalData:(NSData *)normalData
+                        texCoordData:(NSData *)texCoordData
+                           facesData:(NSData *)facesData
                      textureJPEGPath:(NSString *)textureJPEGPath;
 
 - (CIImage *)textureAsCIImage;

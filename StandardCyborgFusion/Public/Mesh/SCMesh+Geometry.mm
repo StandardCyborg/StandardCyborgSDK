@@ -63,7 +63,7 @@ using math::Vec2;
                           length:geo.faceCount() * sizeof(int) * 3];
 }
 
-+ (SCMesh *)meshFromGeometry:(const sc3d::Geometry &)geo
++ (SCMesh *)meshWithVertexColorsFromGeometry:(const sc3d::Geometry &)geo
 {
     //NSParameterAssert(textureDataVec.size() == textureResolution * textureResolution * 4);
     
@@ -87,6 +87,34 @@ using math::Vec2;
                                     normalData:normalData
                                      colorData:colorData
                                       facesData:facesData];
+}
+
++ (SCMesh *)meshFromGeometry:(const sc3d::Geometry &)geo
+                 textureData:(const std::vector<float> &)textureDataVec
+           textureResolution:(NSInteger)textureResolution
+{
+    NSParameterAssert(textureDataVec.size() == textureResolution * textureResolution * 4);
+
+    if (geo.vertexCount() == 0 || geo.faceCount() == 0 || textureResolution <= 0) {
+        return nil;
+    }
+    
+    NSData *positionData = [self _positionDataFromGeometry:geo];
+    NSData *normalData = [self _normalDataFromGeometry:geo];
+    NSData *texCoordData = [self _texCoordDataFromGeometry:geo];
+
+    NSData *facesData = [self _facesDataFromGeometry:geo];
+
+    NSData *textureData = [NSData dataWithBytes:textureDataVec.data()
+                                             length:textureDataVec.size() * sizeof(float)];
+
+    return [[SCMesh alloc] initWithPositionData:positionData
+                                         normalData:normalData
+                                       texCoordData:texCoordData
+                                          facesData:facesData
+                                        textureData:textureData
+                                       textureWidth:textureResolution
+                                      textureHeight:textureResolution];
 }
 
 + (SCMesh *)meshFromGeometry:(const sc3d::Geometry &)geo

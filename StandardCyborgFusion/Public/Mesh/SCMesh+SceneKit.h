@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (SCNGeometrySource *)buildVertexGeometrySource;
 - (SCNGeometrySource *)buildNormalGeometrySource;
-//- (SCNGeometrySource *)buildTexCoordGeometrySource;
+- (SCNGeometrySource *)buildTexCoordGeometrySource;
 - (SCNGeometryElement *)buildMeshGeometryElement;
 - (SCNNode *)buildMeshNode NS_SWIFT_NAME(buildMeshNode());
 
