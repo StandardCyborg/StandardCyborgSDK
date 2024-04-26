@@ -56,7 +56,6 @@
 {
     self = [super init];
     if (self) {
-    
         // Save this off for later lazy loading of data from the PLY file
         _plyPath = path;
         
@@ -66,7 +65,6 @@
         
         NSString *thumbnailPath = [[self class] _thumbnailPathForPLYPath:path];
         _thumbnail = [UIImage imageWithContentsOfFile:thumbnailPath];
-        
     }
     return self;
 }

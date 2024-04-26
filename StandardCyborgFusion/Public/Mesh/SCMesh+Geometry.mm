@@ -75,17 +75,12 @@ using math::Vec2;
     NSData *normalData = [self _normalDataFromGeometry:geo];
     
     NSData *colorData = [self _colorDataFromGeometry:geo];
-    
-    //NSData *texCoordData = [self _texCoordDataFromGeometry:geo];
-    
+        
     NSData *facesData = [self _facesDataFromGeometry:geo];
-    /*
-    NSData *textureData = [NSData dataWithBytes:textureDataVec.data()
-                                         length:textureDataVec.size() * sizeof(float)];
-    */
+
     return [[SCMesh alloc] initWithPositionData:positionData
-                                    normalData:normalData
-                                     colorData:colorData
+                                     normalData:normalData
+                                      colorData:colorData
                                       facesData:facesData];
 }
 

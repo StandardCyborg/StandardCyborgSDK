@@ -54,7 +54,6 @@
                                           dataStride:4 * sizeof(float)];
 }
 
-
 - (SCNGeometrySource *)buildTexCoordGeometrySource
 {
     // Flip about y to match what SceneKit expects
@@ -102,12 +101,12 @@
     if (self.colorData != nil) {
         SCNGeometrySource *colorSource = [self buildColorGeometrySource];
         geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, colorSource]
-                                                        elements:@[element]];
+                                           elements:@[element]];
 
     } else {
         SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
         geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
-                                                        elements:@[element]];
+                                           elements:@[element]];
         geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
     }
     

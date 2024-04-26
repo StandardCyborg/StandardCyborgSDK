@@ -22,11 +22,8 @@
 @property (nonatomic, readonly) NSInteger textureHeight;
 
 @property (nonatomic, readonly) NSData *positionData;
-
 @property (nonatomic, readonly) NSData *normalData;
 @property (nonatomic, readonly) NSData *colorData;
-
-
 @property (nonatomic, readonly) NSData *texCoordData;
 @property (nonatomic, readonly) NSData *facesData;
 @property (nonatomic, readonly) NSData *textureData;
