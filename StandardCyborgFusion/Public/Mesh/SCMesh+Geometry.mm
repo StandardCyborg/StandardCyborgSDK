@@ -22,7 +22,6 @@ using math::Vec2;
 
 @implementation SCMesh (StandardCyborgGeometry)
 
-
 + (NSData *)_positionDataFromGeometry:(const sc3d::Geometry &)geo
 {
     return [NSData dataWithBytes:geo.getPositions().data()
@@ -97,9 +96,7 @@ using math::Vec2;
     NSData *positionData = [self _positionDataFromGeometry:geo];
     NSData *normalData = [self _normalDataFromGeometry:geo];
     NSData *texCoordData = [self _texCoordDataFromGeometry:geo];
-
     NSData *facesData = [self _facesDataFromGeometry:geo];
-
     NSData *textureData = [NSData dataWithBytes:textureDataVec.data()
                                          length:textureDataVec.size() * sizeof(float)];
 

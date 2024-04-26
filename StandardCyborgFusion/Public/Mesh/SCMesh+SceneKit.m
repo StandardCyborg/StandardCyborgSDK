@@ -94,7 +94,6 @@
     
     SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
     SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
-    
     SCNGeometryElement *element = [self buildMeshGeometryElement];
     SCNGeometry *geometry;
     

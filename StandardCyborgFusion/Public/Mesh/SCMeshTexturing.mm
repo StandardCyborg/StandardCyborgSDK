@@ -31,8 +31,6 @@
 #import "MetalTextureProjection.hpp"
 #import "SCMeshTexturing.h"
 
-//#import "SceneKit+BoundingBox3.h"
-
 using namespace standard_cyborg;
 
 // clang-format off
@@ -337,7 +335,6 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
 }
 
 // clang-format on
-
 - (void)reset
 {
     [self _removeContainerDirectory];

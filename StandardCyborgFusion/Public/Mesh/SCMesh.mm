@@ -29,7 +29,6 @@ using namespace standard_cyborg;
         _positionData = positionData;
         _normalData = normalData;
         _colorData = colorData;
-        
         _facesData = facesData;
         
         _vertexCount = [positionData length] / sizeof(math::Vec3);
