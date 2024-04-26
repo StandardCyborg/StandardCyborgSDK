@@ -88,7 +88,7 @@ using math::Vec2;
            textureResolution:(NSInteger)textureResolution
 {
     NSParameterAssert(textureDataVec.size() == textureResolution * textureResolution * 4);
-
+    
     if (geo.vertexCount() == 0 || geo.faceCount() == 0 || textureResolution <= 0) {
         return nil;
     }
@@ -99,7 +99,7 @@ using math::Vec2;
     NSData *facesData = [self _facesDataFromGeometry:geo];
     NSData *textureData = [NSData dataWithBytes:textureDataVec.data()
                                          length:textureDataVec.size() * sizeof(float)];
-
+    
     return [[SCMesh alloc] initWithPositionData:positionData
                                      normalData:normalData
                                    texCoordData:texCoordData
