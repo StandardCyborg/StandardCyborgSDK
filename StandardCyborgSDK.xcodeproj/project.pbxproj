@@ -50,6 +50,7 @@
 		7609B71D211A1F1600C0C8D2 /* KDTreeAdaptor.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7609B71C211A1F1600C0C8D2 /* KDTreeAdaptor.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
 		760B75A223513A6E00B53A35 /* SCFootTracking.h in Headers */ = {isa = PBXBuildFile; fileRef = 760B75A023513A6E00B53A35 /* SCFootTracking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		760B75A323513A6E00B53A35 /* SCFootTracking.m in Sources */ = {isa = PBXBuildFile; fileRef = 760B75A123513A6E00B53A35 /* SCFootTracking.m */; };
+		760B75A523513EF600B53A35 /* SCFootTrackingModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 760B75A423513EF600B53A35 /* SCFootTrackingModel.mlmodel */; };
 		760D410B214332D300AB99FA /* CameraControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 760D410A214332D300AB99FA /* CameraControl.m */; };
 		761441E7236CBCC80000AD92 /* MetalTextureProjection.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 07196852231F0A4400BEEE89 /* MetalTextureProjection.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
 		761B58DC21C9BC9B00BE4AD8 /* SCOfflineReconstructionManager_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 761B58DB21C9BC9B00BE4AD8 /* SCOfflineReconstructionManager_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -156,6 +157,7 @@
 		768967F223943069007179B2 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 768967EE2394305D007179B2 /* SceneKit.framework */; };
 		768967F42394306D007179B2 /* SceneKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 768967EE2394305D007179B2 /* SceneKit.framework */; };
 		768967F92395DC3B007179B2 /* SCEarTracking.m in Sources */ = {isa = PBXBuildFile; fileRef = 768967F72395DC3A007179B2 /* SCEarTracking.m */; };
+		768967FB2395DC7F007179B2 /* SCEarTrackingModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 768967FA2395DC7F007179B2 /* SCEarTrackingModel.mlmodel */; };
 		768C70982BF0794361E6EDFD /* libPods-StandardCyborgFusionTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6BA7DCB706A86532C3F884E6 /* libPods-StandardCyborgFusionTests.a */; };
 		768F1BE52310BA6300DF02D3 /* SceneKit+StandardCyborgNode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 768F1BE42310BA6300DF02D3 /* SceneKit+StandardCyborgNode.mm */; };
 		768F64F42121570600C1B1DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 768F64F22121570600C1B1DA /* Main.storyboard */; };
@@ -364,11 +366,13 @@
 		E8EB324524739C8C00EF7A01 /* SCMeshingOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 762D5AAC2214FDB90066EE74 /* SCMeshingOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8EB324624739C8C00EF7A01 /* SCPointCloud+FileIO.h in Headers */ = {isa = PBXBuildFile; fileRef = 76AF88CD21CB303D007C47E6 /* SCPointCloud+FileIO.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E8EB324924739C8C00EF7A01 /* SCMesh+Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 7648B7B723595EAD005F6756 /* SCMesh+Geometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E8EB324C24739C8C00EF7A01 /* SCEarTrackingModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 768967FA2395DC7F007179B2 /* SCEarTrackingModel.mlmodel */; };
 		E8EB324D24739C8C00EF7A01 /* SceneKit+Mat3x3.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0743595A22944E0F00BDA6F9 /* SceneKit+Mat3x3.mm */; };
 		E8EB324E24739C8C00EF7A01 /* GeometryHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A599F0222130AE3D0032A65A /* GeometryHelpers.cpp */; };
 		E8EB324F24739C8C00EF7A01 /* SceneKit+Lines.mm in Sources */ = {isa = PBXBuildFile; fileRef = 074B8EBF2295A87700F37E3E /* SceneKit+Lines.mm */; };
 		E8EB325024739C8C00EF7A01 /* ThreadPool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76558B9A2135C0C0005AECFE /* ThreadPool.cpp */; };
 		E8EB325124739C8C00EF7A01 /* SCPointCloud+FileIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 76AF88CE21CB303D007C47E6 /* SCPointCloud+FileIO.mm */; };
+		E8EB325224739C8C00EF7A01 /* SCFootTrackingModel.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 760B75A423513EF600B53A35 /* SCFootTrackingModel.mlmodel */; };
 		E8EB325324739C8C00EF7A01 /* GravityEstimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0779A1F3223C1DF400830666 /* GravityEstimator.cpp */; };
 		E8EB325424739C8C00EF7A01 /* ApplyLensCalibration.metal in Sources */ = {isa = PBXBuildFile; fileRef = 768088E7214EC86C00FEA63B /* ApplyLensCalibration.metal */; };
 		E8EB325524739C8C00EF7A01 /* ComputeNormalsKernel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7627989A21141F6300BD436E /* ComputeNormalsKernel.mm */; };
@@ -627,6 +631,7 @@
 		7609B71C211A1F1600C0C8D2 /* KDTreeAdaptor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KDTreeAdaptor.hpp; sourceTree = "<group>"; };
 		760B75A023513A6E00B53A35 /* SCFootTracking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCFootTracking.h; sourceTree = "<group>"; };
 		760B75A123513A6E00B53A35 /* SCFootTracking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCFootTracking.m; sourceTree = "<group>"; };
+		760B75A423513EF600B53A35 /* SCFootTrackingModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SCFootTrackingModel.mlmodel; sourceTree = "<group>"; };
 		760D4109214332D300AB99FA /* CameraControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CameraControl.h; sourceTree = "<group>"; };
 		760D410A214332D300AB99FA /* CameraControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CameraControl.m; sourceTree = "<group>"; };
 		761B58DB21C9BC9B00BE4AD8 /* SCOfflineReconstructionManager_Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCOfflineReconstructionManager_Private.h; sourceTree = "<group>"; };
@@ -727,6 +732,7 @@
 		768967EE2394305D007179B2 /* SceneKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SceneKit.framework; path = System/Library/Frameworks/SceneKit.framework; sourceTree = SDKROOT; };
 		768967F72395DC3A007179B2 /* SCEarTracking.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCEarTracking.m; sourceTree = "<group>"; };
 		768967F82395DC3B007179B2 /* SCEarTracking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCEarTracking.h; sourceTree = "<group>"; };
+		768967FA2395DC7F007179B2 /* SCEarTrackingModel.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SCEarTrackingModel.mlmodel; sourceTree = "<group>"; };
 		768F1BE32310BA6300DF02D3 /* SceneKit+StandardCyborgNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SceneKit+StandardCyborgNode.h"; sourceTree = "<group>"; };
 		768F1BE42310BA6300DF02D3 /* SceneKit+StandardCyborgNode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "SceneKit+StandardCyborgNode.mm"; sourceTree = "<group>"; };
 		768F64E82121570600C1B1DA /* TrueDepthFusion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TrueDepthFusion.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1466,8 +1472,10 @@
 				76E693B722A7791600D36F37 /* SCAssimilatedFrameMetadata.m */,
 				760B75A023513A6E00B53A35 /* SCFootTracking.h */,
 				760B75A123513A6E00B53A35 /* SCFootTracking.m */,
+				760B75A423513EF600B53A35 /* SCFootTrackingModel.mlmodel */,
 				768967F82395DC3B007179B2 /* SCEarTracking.h */,
 				768967F72395DC3A007179B2 /* SCEarTracking.m */,
+				768967FA2395DC7F007179B2 /* SCEarTrackingModel.mlmodel */,
 				765917CA235C0C3E00543E45 /* Landmark */,
 				765917C4235C09DE00543E45 /* Mesh */,
 				765917C5235C09F500543E45 /* PointCloud */,
@@ -2248,11 +2256,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				768967FB2395DC7F007179B2 /* SCEarTrackingModel.mlmodel in Sources */,
 				761FB79A2307599C004E48F3 /* SceneKit+Mat3x3.mm in Sources */,
 				A599F0242130AE3D0032A65A /* GeometryHelpers.cpp in Sources */,
 				761FB7992307599C004E48F3 /* SceneKit+Lines.mm in Sources */,
 				76558B9C2135C0C0005AECFE /* ThreadPool.cpp in Sources */,
 				76AF88D021CB303D007C47E6 /* SCPointCloud+FileIO.mm in Sources */,
+				760B75A523513EF600B53A35 /* SCFootTrackingModel.mlmodel in Sources */,
 				0779A1F5223C1DF400830666 /* GravityEstimator.cpp in Sources */,
 				768088E8214EC86C00FEA63B /* ApplyLensCalibration.metal in Sources */,
 				7627989C21141F6300BD436E /* ComputeNormalsKernel.mm in Sources */,
@@ -2421,11 +2431,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				07278A1924EC6D4E00564C56 /* maxrects.cpp in Sources */,
+				E8EB324C24739C8C00EF7A01 /* SCEarTrackingModel.mlmodel in Sources */,
 				E8EB324D24739C8C00EF7A01 /* SceneKit+Mat3x3.mm in Sources */,
 				E8EB324E24739C8C00EF7A01 /* GeometryHelpers.cpp in Sources */,
 				E8EB324F24739C8C00EF7A01 /* SceneKit+Lines.mm in Sources */,
 				E8EB325024739C8C00EF7A01 /* ThreadPool.cpp in Sources */,
 				E8EB325124739C8C00EF7A01 /* SCPointCloud+FileIO.mm in Sources */,
+				E8EB325224739C8C00EF7A01 /* SCFootTrackingModel.mlmodel in Sources */,
 				E8EB325324739C8C00EF7A01 /* GravityEstimator.cpp in Sources */,
 				E8EB325424739C8C00EF7A01 /* ApplyLensCalibration.metal in Sources */,
 				E8EB325524739C8C00EF7A01 /* ComputeNormalsKernel.mm in Sources */,
