@@ -63,9 +63,7 @@ using math::Vec2;
 }
 
 + (SCMesh *)meshWithVertexColorsFromGeometry:(const sc3d::Geometry &)geo
-{
-    //NSParameterAssert(textureDataVec.size() == textureResolution * textureResolution * 4);
-    
+{    
     if (geo.vertexCount() == 0 || geo.faceCount() == 0) {
         return nil;
     }

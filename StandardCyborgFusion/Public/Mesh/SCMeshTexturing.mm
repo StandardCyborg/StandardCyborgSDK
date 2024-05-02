@@ -177,7 +177,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
 - (void)reconstructMeshWithWithPointCloud:(SCPointCloud *)pointCloud
                         textureResolution:(NSInteger)textureResolution
                         meshingParameters:(SCMeshingParameters *)meshingParameters
-                  textureColoringStrategy:(SCMeshTextureColoringStrategy)textureColoringStrategy
+                         coloringStrategy:(SCMeshColoringStrategy)coloringStrategy
                                  progress:(void (^)(float progress, BOOL *))progressHandler
                                completion:(void (^)(NSError * _Nullable, SCMesh * _Nullable))completion
 {
@@ -232,7 +232,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             return;
         }
         
-        if (textureColoringStrategy == SCMeshTextureColoringStrategyVertex) {
+        if (coloringStrategy == SCMeshColoringStrategyVertex) {
             reportProgress(2.0 / 3.0);
            
             // calculate the color of the vertices by finding the closest point in the point cloud.
