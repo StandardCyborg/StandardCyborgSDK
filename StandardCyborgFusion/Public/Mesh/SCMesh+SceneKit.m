@@ -28,6 +28,20 @@
                                           dataStride:4 * sizeof(float)];
 }
 
+
+- (SCNGeometrySource *)buildColorGeometrySource
+{
+    return [SCNGeometrySource geometrySourceWithData:self.colorData
+                                            semantic:SCNGeometrySourceSemanticColor
+                                         vectorCount:self.vertexCount
+                                     floatComponents:YES
+                                 componentsPerVector:3
+                                   bytesPerComponent:sizeof(float)
+                                          dataOffset:0
+                                          dataStride:4 * sizeof(float)];
+}
+
+
 - (SCNGeometrySource *)buildNormalGeometrySource
 {
     return [SCNGeometrySource geometrySourceWithData:self.normalData
@@ -80,13 +94,21 @@
     
     SCNGeometrySource *positionSource = [self buildVertexGeometrySource];
     SCNGeometrySource *normalSource = [self buildNormalGeometrySource];
-    SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
     SCNGeometryElement *element = [self buildMeshGeometryElement];
+    SCNGeometry *geometry;
     
-    SCNGeometry *geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
-                                                    elements:@[element]];
+    if (self.colorData != nil) {
+        SCNGeometrySource *colorSource = [self buildColorGeometrySource];
+        geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, colorSource]
+                                           elements:@[element]];
+
+    } else {
+        SCNGeometrySource *texCoordSource = [self buildTexCoordGeometrySource];
+        geometry = [SCNGeometry geometryWithSources:@[positionSource, normalSource, texCoordSource]
+                                           elements:@[element]];
+        geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
+    }
     
-    geometry.firstMaterial.diffuse.contents = [NSURL fileURLWithPath:self.textureJPEGPath];
     geometry.firstMaterial.doubleSided = YES;
     
     SCNNode *node = [SCNNode nodeWithGeometry:geometry];

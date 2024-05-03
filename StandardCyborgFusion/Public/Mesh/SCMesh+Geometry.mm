@@ -28,6 +28,13 @@ using math::Vec2;
                           length:geo.vertexCount() * sizeof(Vec3)];
 }
 
++ (NSData *)_colorDataFromGeometry:(const sc3d::Geometry &)geo
+{
+    return [NSData dataWithBytes:geo.getColors().data()
+                          length:geo.vertexCount() * sizeof(Vec3)];
+}
+
+
 + (NSData *)_normalDataFromGeometry:(const sc3d::Geometry &)geo
 {
     std::vector<Vec3> normalizedNormals;
@@ -53,6 +60,25 @@ using math::Vec2;
 {
     return [NSData dataWithBytes:(const void *)geo.getFaces().data()
                           length:geo.faceCount() * sizeof(int) * 3];
+}
+
++ (SCMesh *)meshWithVertexColorsFromGeometry:(const sc3d::Geometry &)geo
+{    
+    if (geo.vertexCount() == 0 || geo.faceCount() == 0) {
+        return nil;
+    }
+    
+    NSData *positionData = [self _positionDataFromGeometry:geo];
+    NSData *normalData = [self _normalDataFromGeometry:geo];
+    
+    NSData *colorData = [self _colorDataFromGeometry:geo];
+        
+    NSData *facesData = [self _facesDataFromGeometry:geo];
+
+    return [[SCMesh alloc] initWithPositionData:positionData
+                                     normalData:normalData
+                                      colorData:colorData
+                                      facesData:facesData];
 }
 
 + (SCMesh *)meshFromGeometry:(const sc3d::Geometry &)geo

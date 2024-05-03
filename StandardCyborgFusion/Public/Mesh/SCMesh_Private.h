@@ -21,9 +21,13 @@
 
 - (instancetype)initWithPositionData:(NSData *)positionData
                           normalData:(NSData *)normalData
+                           colorData:(NSData *)colorData
+                           facesData:(NSData *)facesData;
+
+- (instancetype)initWithPositionData:(NSData *)positionData
+                          normalData:(NSData *)normalData
                         texCoordData:(NSData *)texCoordData
                            facesData:(NSData *)facesData
-
                          textureData:(NSData *)textureData
                         textureWidth:(NSInteger)textureWidth
                        textureHeight:(NSInteger)textureHeight;
