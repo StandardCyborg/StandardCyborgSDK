@@ -89,7 +89,7 @@ void MeshTopology::compute(const std::vector<Face3>& faces)
             }
             
             // Similarly, check for an edge matching AC or CA
-            if ((edge.vertex0 == vertexA && edge.vertex1 == vertexC) || (edge.vertex0 == vertexC && edge.vertex0 == vertexA)) {
+            if ((edge.vertex0 == vertexA && edge.vertex1 == vertexC) || (edge.vertex0 == vertexC && edge.vertex1 == vertexA)) {
                 edgeCA = edgeIndex;
                 if (edgeAB != -1) break;
             }
