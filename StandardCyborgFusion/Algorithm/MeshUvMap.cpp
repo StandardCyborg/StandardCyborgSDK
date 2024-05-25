@@ -1734,7 +1734,7 @@ std::vector<Vec2> parameterize(const Geometry& geometry)
     // so we pick choose two on the boundary.
     Eigen::VectorXi b(2, 1);
     b(0) = bnd(0);
-    b(1) = bnd(round(bnd.size() / 2));
+    b(1) = bnd((int)round(bnd.size() / 2));
     Eigen::MatrixXd bc(2, 2);
     bc << 0, 0, 1, 0;
 

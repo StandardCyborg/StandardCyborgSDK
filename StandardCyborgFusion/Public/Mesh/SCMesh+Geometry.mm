@@ -70,9 +70,7 @@ using math::Vec2;
     
     NSData *positionData = [self _positionDataFromGeometry:geo];
     NSData *normalData = [self _normalDataFromGeometry:geo];
-    
     NSData *colorData = [self _colorDataFromGeometry:geo];
-        
     NSData *facesData = [self _facesDataFromGeometry:geo];
 
     return [[SCMesh alloc] initWithPositionData:positionData
@@ -134,6 +132,9 @@ using math::Vec2;
     Vec3 *normalsStart = (Vec3 *)[self.normalData bytes];
     Vec3 *normalsEnd = normalsStart + [self.normalData length] / sizeof(Vec3);
     
+    Vec3 *colorsStart = (Vec3 *)[self.colorData bytes];
+    Vec3 *colorsEnd = colorsStart + [self.colorData length] / sizeof(Vec3);
+    
     Vec2 *texCoordsStart = (Vec2 *)[self.texCoordData bytes];
     Vec2 *texCoordsEnd = texCoordsStart + [self.texCoordData length] / sizeof(Vec2);
     
@@ -147,6 +148,10 @@ using math::Vec2;
     
     geo.setPositions(positions);
     geo.setNormals(normals);
+    if ([self.colorData length] > 0) {
+        std::vector<Vec3> colors(colorsStart, colorsEnd);
+        geo.setColors(colors);
+    }
     geo.setTexCoords(texCoords);
     geo.setFaces(faces);
     

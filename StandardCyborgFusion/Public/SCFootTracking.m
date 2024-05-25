@@ -80,7 +80,6 @@ NS_ASSUME_NONNULL_BEGIN
     CVPixelBufferDeepCopy(pixelBuffer, &_pixelBufferToAnalyze);
     
     dispatch_async(_queue, ^{
-        CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
         CGRect boundingBox = CGRectZero;
         CGFloat confidence = 0;
         NSError *error;
@@ -92,9 +91,6 @@ NS_ASSUME_NONNULL_BEGIN
                                                  boundingBox:&boundingBox
                                                   confidence:&confidence
                                                        error:&error];
-        
-        CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-        NSLog(@"SCFootTracking analyzed frame in %.1f ms", 1000.0 * (end - start));
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (success && !CGRectIsEmpty(boundingBox)) {
