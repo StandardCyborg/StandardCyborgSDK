@@ -41,7 +41,7 @@ Pod::Spec.new do |s|
     s.header_mappings_dir = "c++/scsdk"
     
     # Public Dependencies
-    s.dependency 'EigenCPPCocoa', '~> 3.3.0'
+    s.dependency 'EigenCPPCocoa', '~> 3.4.0'
 
     # Dependencies - For simplicity, we just forward these via
     # compiler settings NB: Eigen needs to be added differently
