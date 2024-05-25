@@ -49,11 +49,13 @@ NS_ASSUME_NONNULL_BEGIN
         _model = [[SCEarTrackingModel alloc] initWithContentsOfURL:modelURL configuration:modelConfig error:&error];
         if (_model == nil) {
             NSLog(@"Error instantiating SCEarTrackingModel with model at %@: %@", modelURL, error);
+            return nil;
         }
         
         _visionModel = [VNCoreMLModel modelForMLModel:[_model model] error:&error];
         if (_visionModel == nil) {
             NSLog(@"Failed to create VNCoreMLModel: %@", error);
+            return nil;
         }
         
         _visionRequest = [[VNCoreMLRequest alloc] initWithModel:_visionModel];
