@@ -62,8 +62,8 @@ post_install do |installer|
       configuration.build_settings.delete 'ARCHS'
 
       # Update minimum deployment target
-      if configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 12.0
-        configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      if configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 13.0
+        configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       end
       if configuration.build_settings['MACOSX_DEPLOYMENT_TARGET'].to_f < 11.0
         configuration.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '11.0'
