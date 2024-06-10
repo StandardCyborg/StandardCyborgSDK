@@ -246,13 +246,21 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 
                 int foundIndex = cloudGeometry.getClosestVertexIndex(pos);
                 
-                if (0 <= foundIndex && foundIndex < meshGeometry.vertexCount()) {
+                if (0 <= foundIndex && foundIndex < cloudGeometry.vertexCount()) {
                     math::Vec3 closestColor = cloudGeometry.getColors()[foundIndex];
                     newColors.push_back(closestColor);
                 } else {
-                    // use red if we can't find one.
-                    math::Vec3 col(1.0, 0.0, 0.0);
-                    newColors.push_back(col);
+                
+                    if(cloudGeometry.getColors().size() > 0) {
+                        // okay, if we can't find a closest point for some reason, just pick one color from the point cloud as fallback.
+                        math::Vec3 col = cloudGeometry.getColors()[0];
+                        newColors.push_back(col);
+                    } else {
+                        // just to cover all bases.
+                        math::Vec3 col(1.0, 0.0, 0.0);
+                        newColors.push_back(col);
+                    }
+                    
                 }
             }
             meshGeometry.setColors(newColors);
