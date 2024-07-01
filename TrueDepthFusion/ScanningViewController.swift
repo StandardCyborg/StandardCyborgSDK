@@ -94,7 +94,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
         _reconstructionManager.delegate = self
         _reconstructionManager.includesColorBuffersInMetadata = true
         
-        _reconstructionManager.luminanceBoostFactor = 1.8
+        _reconstructionManager.luminanceBoostFactor = 1.8   
         
         _algorithmCommandQueue.label = "ScanningViewController._algorithmCommandQueue"
         _visualizationCommandQueue.label = "ScanningViewController._visualizationCommandQueue"

@@ -323,30 +323,31 @@ float PBFModel::calculateExposure(float luminanceBoostingFactor) {
         luminances.push_back(luminance);
     }
 
+    // find max luminance.
     auto max_it = std::max_element(luminances.begin(), luminances.end());
     float maxLuminance = (max_it != luminances.end()) ? *max_it : 0.0f;
-    
-    float sum = 0.0f;
-    for(int i = 0; i < luminances.size(); ++i) {
-        sum += luminances[i];
-    }
-    
-    
-    std::sort(luminances.begin(), luminances.end());
-    
+        
     if(luminanceBoostingFactor < 1.00001) {
-        exposure = 1.0;
+        exposure = 1.0; // skip exposure.
     } else {
         
+        if(luminanceBoostingFactor > 5.0) { // clamp.
+            luminanceBoostingFactor = 5.0f;
+        }
+        
+        // this is our ad hoc method of estimating a good exposure value.  basing this on the max luminance,
+        // results in less over-exposed meshes, in my tests.
         exposure = luminanceBoostingFactor/ (float)maxLuminance;
         if(exposure < 1.0) {
             exposure = 1.0f;
         }
     }
     
+    /*
     printf("maxLuminance %f\n", maxLuminance);
     printf("luminanceBoostingFactor %f\n", luminanceBoostingFactor);
     printf("exposure %f\n", exposure);
+    */
     
     for (size_t index = 0; index < surfelCount; ++index) {
         Surfel& surfel = _surfels[index];
