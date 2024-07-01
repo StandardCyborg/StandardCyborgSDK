@@ -75,6 +75,7 @@ private:
     
     PBFAssimilatedFrameMetadata* _nthMostRecentValidFrameMetadata(size_t offset = 0);
     PBFFinalStatistics _calcFinalStatistics();
+    float calculateExposure(float luminanceBoostingFactor);
 
     // Prohibit copying and assignment
     PBFModel(const PBFModel&) = delete;

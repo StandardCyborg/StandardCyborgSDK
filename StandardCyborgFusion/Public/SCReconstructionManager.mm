@@ -27,9 +27,6 @@
 #import <standard_cyborg/util/DataUtils.hpp>
 #import <StandardCyborgFusion/SCReconstructionManagerParameters_Private.h>
 #import <StandardCyborgFusion/SCReconstructionManager_Private.h>
-#import <Photos/Photos.h>
-
-#import <UIKit/UIKit.h>
 
 
 #import <iostream>
@@ -579,29 +576,6 @@ static const float kCenterDepthExpansionRatio = 1.4;
             [weakSelf _modelQueueMain];
         });
     }
-}
-
-void getSamplePos(float x, float y, float* returnX, float* returnY) {
-    float ox = 2.0 * (x - 0.5);
-    float oy = 2.0 * (y - 0.5);
-
-    //# this is in [-1,1]
-
-    //# flip x.
-    float fx = -1.0 * ox;
-    float fy = +1.0 * oy;
-
-    //# rotate
-    float rx = +fy;
-    float ry = -fx;
-    
-    float px = (rx + 1.0) * 0.5;
-    float py = (ry + 1.0) * 0.5;
-
-    //return (px, py)
-    *returnX = px;
-    *returnY = py;
-    
 }
 
 /** @return float The assimilation quality as reported by PBFModel */
