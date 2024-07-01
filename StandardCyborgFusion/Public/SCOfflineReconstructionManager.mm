@@ -277,7 +277,7 @@ using namespace standard_cyborg;
 
 - (PBFFinalStatistics)finalize
 {
-    PBFFinalStatistics finalStatistics = _pbfModel->finishAssimilating(_surfelFusionConfig);
+    PBFFinalStatistics finalStatistics = _pbfModel->finishAssimilating(_surfelFusionConfig, 1.0);
 
     _hasFinalized = YES;
 
@@ -368,3 +368,4 @@ using namespace standard_cyborg;
 }
 
 @end
+

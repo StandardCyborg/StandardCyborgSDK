@@ -43,7 +43,7 @@ public:
                                            double currentTime,
                                            const std::vector<ScreenSpaceLandmark>* screenSpaceLandmarks = NULL);
 
-    PBFFinalStatistics finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration);
+    PBFFinalStatistics finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration, float luminanceBoostFactor);
 
     void reset(unsigned int randomSeed = 0);
     
@@ -79,3 +79,4 @@ private:
     PBFModel(const PBFModel&) = delete;
     PBFModel& operator=(const PBFModel&) = delete;
 };
+

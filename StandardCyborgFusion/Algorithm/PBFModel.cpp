@@ -300,7 +300,9 @@ PBFFinalStatistics PBFModel::_calcFinalStatistics()
     return finalStatistics;
 }
 
-PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration)
+#include <algorithm>
+
+PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration, float minLuminance)
 {
     PBFFinalStatistics finalStatistics = _calcFinalStatistics();
 
@@ -319,6 +321,113 @@ PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfel
     }
 
     _surfelFusion.finish(surfelFusionConfiguration, _surfels, _surfelLandmarksIndex, _deletedSurfelIndicesList);
+    
+    {
+        
+        size_t surfelCount = _surfels.size();
+        size_t compressedIndex = 0;
+        
+        
+        
+        std::vector<float> luminances;
+        
+        for (size_t index = 0; index < surfelCount; ++index) {
+            Surfel& surfel = _surfels[index];
+            
+            float r = surfel.color.x();
+            float g = surfel.color.y();
+            
+            float b = surfel.color.z();
+            
+            float luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            
+            luminances.push_back(luminance);
+            
+            /*
+            float exposure = luminanceBoostFactor;
+            
+            
+            surfel.color.x() = r * exposure;
+            surfel.color.y() = g * exposure;
+            surfel.color.z() = b * exposure;
+            
+            */
+            
+            
+        }
+
+        
+        
+        float exposure = 1.0f;
+        
+        auto max_it = std::max_element(luminances.begin(), luminances.end());
+        auto min_it = std::min_element(luminances.begin(), luminances.end());
+        
+        float max = (max_it != luminances.end()) ? *max_it : 0.0f;
+        float min = (min_it != luminances.end()) ? *min_it : 0.0f;
+        
+        
+        float sum = 0.0f;
+        for(int i = 0; i < luminances.size(); ++i) {
+            sum += luminances[i];
+        }
+        
+        float averageLuminance = sum / (float)luminances.size();
+        
+        
+        std::sort(luminances.begin(), luminances.end());
+        
+        float medianLuminance = luminances[luminances.size() / 2];
+        
+
+        printf("surfel count %d\n", surfelCount);
+        
+        printf("min %f\n", min);
+        printf("max %f\n", max);
+        
+        
+        printf("target minLuminance %f\n", minLuminance);
+        
+        printf("averageLuminance %f\n", averageLuminance);
+        printf("medianLuminance %f\n", medianLuminance);
+        
+        
+      //  exposure = 1.0f;
+        
+        //exposure = minLuminance / (0.8 * max);
+        
+        // ok. have a factor you can set here. luminance boosting factor.
+        
+        float boostingFactor =1.8; // for bottom
+        // 1.4 for other situation wrosk .
+        exposure = boostingFactor/ (float)max;
+        
+        if(exposure < 1.0) {
+            exposure = 1.0f;
+        }
+        
+        
+        printf("exposure %f\n", exposure);
+        
+        for (size_t index = 0; index < surfelCount; ++index) {
+            Surfel& surfel = _surfels[index];
+            
+            float r = surfel.color.x();
+            float g = surfel.color.y();
+            
+            float b = surfel.color.z();
+            
+            
+            surfel.color.x() = r * exposure;
+            surfel.color.y() = g * exposure;
+            surfel.color.z() = b * exposure;
+            
+            
+            
+        }
+        
+        
+    }
 
     return finalStatistics;
 }
@@ -417,3 +526,4 @@ ICPResult PBFModel::_runICP(ProcessedFrame& frame, SurfelFusionConfiguration sur
 
     return icpResult;
 }
+

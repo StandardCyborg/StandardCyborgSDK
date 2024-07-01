@@ -57,8 +57,19 @@ typedef struct {
 /** When YES, assimilated frame metadata will be provided with the color buffer for the frame that was assimilated. Uses more RAM. */
 @property (nonatomic) BOOL includesColorBuffersInMetadata;
 
+/** after assimilation, the the colors of the point cloud will be boosted, so that that minimum luminance value of all the colors exceed the specified value. If 0, then no boosting will occur. MAX possible value is 1.0 */
+@property (nonatomic) float minLuminance;
+
+
+@property (nonatomic, readonly) float luminanceBoostFactor;
+
 /** When non-empty, clips the reconstruction region of incoming depth buffers and frames to this position and size, each normalized from [0..1] */
 @property (nonatomic) CGRect normalizedFrameClipRegion;
+
+
+/** For estimating the luminance of the final point cloud, it samples and calculates the luminance from the incoming RGB frames within this specified rectangle. It gets samples around the center of this rectangle.  Top left corner is [0,0], and bottom right corner is [1,1]. */
+@property (nonatomic) CGRect luminanceSamplingRegion;
+
 
 /** The camera calibration data used by the most recently passed depth frame. */
 @property (nonatomic, readonly) AVCameraCalibrationData *latestCameraCalibrationData;
@@ -120,3 +131,4 @@ NS_SWIFT_NAME(accumulate(depthBuffer:colorBuffer:calibrationData:));
 NS_ASSUME_NONNULL_END
 
 #endif // !TARGET_OS_OSX
+

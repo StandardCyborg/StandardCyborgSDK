@@ -27,6 +27,10 @@
 #import <standard_cyborg/util/DataUtils.hpp>
 #import <StandardCyborgFusion/SCReconstructionManagerParameters_Private.h>
 #import <StandardCyborgFusion/SCReconstructionManager_Private.h>
+#import <Photos/Photos.h>
+
+#import <UIKit/UIKit.h>
+
 
 #import <iostream>
 #import <objc/runtime.h>
@@ -115,6 +119,10 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL _wroteIntrinsicsToFile;
     
     GravityEstimator _gravityEstimator;
+    
+    float _luminanceSum;
+    int _numLuminanceSamples;
+    
 }
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device
@@ -123,6 +131,11 @@ NS_ASSUME_NONNULL_BEGIN
 {
     self = [super init];
     if (self) {
+        _minLuminance = 0.0f;
+        
+        _luminanceSum = 0.0;
+        _numLuminanceSamples = 0;
+        
         _wroteIntrinsicsToFile = NO;
         _inputQueue_stopped = YES;
 
@@ -144,6 +157,11 @@ NS_ASSUME_NONNULL_BEGIN
         _incomingFrameDataSemaphore = dispatch_semaphore_create(0);
         
         _normalizedFrameClipRegion = CGRectZero;
+        
+        _luminanceSamplingRegion.origin.x = 0.0;
+        _luminanceSamplingRegion.origin.y = 0.0;
+        _luminanceSamplingRegion.size.width = 1.0;
+        _luminanceSamplingRegion.size.height = 1.0;
         
         __weak SCReconstructionManager *weakSelf = self;
         dispatch_async(_modelQueue, ^{
@@ -403,6 +421,43 @@ NS_ASSUME_NONNULL_BEGIN
     _gravityEstimator.accumulate(gravitySample, attitudeSample);
 }
 
+- (float)luminanceBoostFactor {
+    
+    float averageLuminance;
+    if(_numLuminanceSamples == 0) {
+        averageLuminance = _luminanceSum;
+    } else {
+        averageLuminance = _luminanceSum / _numLuminanceSamples;
+    }
+    
+    //float minLuminance = 0.9;
+    
+    float luminanceBoostFactor = 1.0;
+    
+    float minLuminance;
+    
+    if(_minLuminance < 0.0) {
+        minLuminance = 0.0;
+    } else if(_minLuminance > 1.0f) {
+        minLuminance = 1.0;
+    } else {
+        minLuminance = _minLuminance;
+    }
+    
+    if(minLuminance < 0.0001) {
+        luminanceBoostFactor = 1.0; // there's nothing to boost.
+    } else {
+        
+        if(averageLuminance < _minLuminance) {
+            luminanceBoostFactor = _minLuminance / averageLuminance; // boost.
+        } else {
+            luminanceBoostFactor = 1.0;
+        }
+    }
+    
+    return luminanceBoostFactor;
+}
+
 - (void)finalize:(dispatch_block_t)completion
 {
     _finalized = YES;
@@ -418,7 +473,10 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         dispatch_async(_modelQueue, ^{
-            _modelQueue_model->finishAssimilating(_surfelFusionConfig);
+            
+            float luminanceBoostFactor = [self luminanceBoostFactor];
+            
+            _modelQueue_model->finishAssimilating(_surfelFusionConfig, /*luminanceBoostFactor*/ _minLuminance);
             dispatch_async(dispatch_get_main_queue(), completion);
         });
     });
@@ -445,6 +503,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset
 {
     _finalized = NO;
+    _luminanceSum = 0.0;
+    _numLuminanceSamples = 0;
     
     dispatch_sync(_inputQueue, ^{
         _inputQueue_incomingFrameData = nil;
@@ -562,6 +622,29 @@ static const float kCenterDepthExpansionRatio = 1.4;
     }
 }
 
+void getSamplePos(float x, float y, float* returnX, float* returnY) {
+    float ox = 2.0 * (x - 0.5);
+    float oy = 2.0 * (y - 0.5);
+
+    //# this is in [-1,1]
+
+    //# flip x.
+    float fx = -1.0 * ox;
+    float fy = +1.0 * oy;
+
+    //# rotate
+    float rx = +fy;
+    float ry = -fx;
+    
+    float px = (rx + 1.0) * 0.5;
+    float py = (ry + 1.0) * 0.5;
+
+    //return (px, py)
+    *returnX = px;
+    *returnY = py;
+    
+}
+
 /** @return float The assimilation quality as reported by PBFModel */
 - (PBFAssimilatedFrameMetadata)_modelQueue_assimilateIncomingFrameData:(_IncomingFrameData *)data
 {
@@ -569,6 +652,9 @@ static const float kCenterDepthExpansionRatio = 1.4;
     
     [self _modelQueue_fillRawFrameWithData:data];
     
+    
+    [self _modelQueue_accumulateLuminance];
+
     [self _modelQueue_unprojectRawFrameIntoFrame];
     
     [self _modelQueue_configureModelForRawFrame];
@@ -623,6 +709,143 @@ static const float kCenterDepthExpansionRatio = 1.4;
     
     _modelQueue_depthProcessor->computeFrameValues(*_modelQueue_frame, _modelQueue_frame->rawFrame);
 }
+
+- (void)_modelQueue_accumulateLuminance
+{
+    
+    size_t frameWidth = _modelQueue_frame->rawFrame.width;
+    size_t frameHeight = _modelQueue_frame->rawFrame.height;
+
+    /*
+    printf("debug5 %d %d\n", frameWidth, frameHeight);
+    
+    {
+        UIGraphicsBeginImageContext(CGSizeMake(frameWidth, frameHeight));
+           CGContextRef context = UIGraphicsGetCurrentContext();
+           
+           // Create a color space
+           CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+           
+           // Create the bitmap context
+           unsigned char *imageData = (unsigned char *)malloc(frameWidth * frameHeight * 4);
+           
+           for (NSInteger i = 0; i < frameWidth * frameHeight; i++) {
+               //RGBColor color = [rgbColors[i] pointerValue]; // Assuming rgbColors is an NSArray of NSValue containing RGBColor structs
+               
+               math::Vec3 col2 = _modelQueue_frame->rawFrame.colors[i];
+
+               NSInteger pixelIndex = i * 4;
+               imageData[pixelIndex] = (unsigned char)(col2.x * 255);
+               imageData[pixelIndex + 1] = (unsigned char)(col2.y * 255);
+               imageData[pixelIndex + 2] = (unsigned char)(col2.z * 255);
+               imageData[pixelIndex + 3] = 255; // Alpha channel
+           }
+           
+           CGContextRef bitmapContext = CGBitmapContextCreate(imageData, frameWidth, frameHeight, 8, frameWidth * 4, colorSpace, kCGImageAlphaPremultipliedLast);
+           
+           // Create a CGImage from the bitmap context
+           CGImageRef cgImage = CGBitmapContextCreateImage(bitmapContext);
+           
+           // Create a UIImage from the CGImage
+           UIImage *image = [UIImage imageWithCGImage:cgImage];
+           
+           // Clean up
+           CGContextRelease(bitmapContext);
+           CGColorSpaceRelease(colorSpace);
+           free(imageData);
+           
+           UIGraphicsEndImageContext();
+           
+           // Convert UIImage to JPEG data
+           NSData *jpegData = UIImageJPEGRepresentation(image, 1.0);
+        
+        
+        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+            PHAssetCreationRequest *creationRequest = [PHAssetCreationRequest creationRequestForAsset];
+            [creationRequest addResourceWithType:PHAssetResourceTypePhoto data:jpegData options:nil];
+        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+            if (success) {
+                NSLog(@"Successfully saved image to Photos Library");
+            } else {
+                NSLog(@"Error saving image to Photos Library: %@", error.localizedDescription);
+            }
+        }];
+        
+           
+    }
+    */
+    
+    //_luminanceSamplingRegion
+    
+    float cx = _luminanceSamplingRegion.origin.x + _luminanceSamplingRegion.size.width * 0.5;
+    float cy = _luminanceSamplingRegion.origin.y + _luminanceSamplingRegion.size.height * 0.5;
+    
+    if(cx  > 1.0f) {
+        cx = 1.0f;
+    }
+    if(cx  < 0.0f) {
+        cx = 0.0f;
+    }
+    
+    if(cy  > 1.0f) {
+        cy = 1.0f;
+    }
+    if(cy  < 0.0f) {
+        cy = 0.0f;
+    }
+    
+    
+    float fx;
+    float fy;
+    
+    //printf("cx cy  %f %f\n", cx, cy);
+    
+    getSamplePos(cx, cy, &fx, &fy); // we make sure to flip on the x axis, and rotate it 90 degrees clockwise. the images we get from the camera are in this orientation,
+    
+    
+    //printf("fx fy  %f %f\n", fx, fy);
+    
+    
+    size_t ix = size_t(fx * (float)frameWidth);
+    size_t iy = (fy * (float)frameHeight);
+    
+    //printf("ix iy  %zu %zu\n", ix, iy);
+    
+    //printf("fwh  %zu %zu\n", frameWidth, frameHeight);
+    
+    size_t index2 = (iy * frameWidth) + ix;
+    
+    if(index2 >= _modelQueue_frame->rawFrame.colors.size()) {
+        index2 = _modelQueue_frame->rawFrame.colors.size() - 1;
+    }
+    
+    math::Vec3 col2 = _modelQueue_frame->rawFrame.colors[index2];
+    float depth = _modelQueue_frame->rawFrame.depths[index2];
+    
+    if(depth > -(1.0 - 0.0001)) {
+        printf("depth: %f\n", depth);
+        
+        printf("col: %f %f %f\n", col2.x, col2.y, col2.z);
+        
+        float r = col2.x;
+        float g = col2.y;
+        float b = col2.z;
+        
+        float luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        
+        _luminanceSum += luminance;
+        _numLuminanceSamples += 1;
+        
+        printf("_luminanceSum: %f\n", _luminanceSum);
+        
+        printf("numsaples: %d\n", _numLuminanceSamples);
+        
+
+    } else {
+        printf("dropped sample\n");
+    }
+}
+
 
 - (void)_modelQueue_configureModelForRawFrame
 {
@@ -769,3 +992,4 @@ static const float kCenterDepthExpansionRatio = 1.4;
 NS_ASSUME_NONNULL_END
 
 #endif // !TARGET_OS_OSX
+
