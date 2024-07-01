@@ -53,7 +53,7 @@ typedef NS_ENUM(NSUInteger, SCMeshColoringStrategy) {
 /** Flips the color input horizontally, such as when using with a mirror bracket */
 @property (nonatomic) BOOL flipsInputHorizontally;
 
-@property (nonatomic) float luminanceBoostFactor;
+@property (nonatomic) float exposure;
 
 
 /**

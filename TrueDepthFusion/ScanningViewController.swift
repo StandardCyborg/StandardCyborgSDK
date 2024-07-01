@@ -93,9 +93,8 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
         _cameraManager.configureCaptureSession(maxColorResolution: 1920, maxDepthResolution: _useFullResolutionDepthFrames ? 640 : 320, maxFramerate: 30)
         _reconstructionManager.delegate = self
         _reconstructionManager.includesColorBuffersInMetadata = true
-        _reconstructionManager.minLuminance = 0.7
         
-        _reconstructionManager.luminanceSamplingRegion = CGRect(x: 0, y: 0.0, width: 1.0, height: 1.0);
+        _reconstructionManager.luminanceBoostFactor = 1.8
         
         _algorithmCommandQueue.label = "ScanningViewController._algorithmCommandQueue"
         _visualizationCommandQueue.label = "ScanningViewController._visualizationCommandQueue"
@@ -421,7 +420,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
             _reconstructionManager.finalize {
                 let pointCloud = self._reconstructionManager.buildPointCloud()
                 
-                self._meshTexturing.luminanceBoostFactor = self._reconstructionManager.luminanceBoostFactor
+                self._meshTexturing.exposure = self._reconstructionManager.exposure
                 let scan = Scan(pointCloud: pointCloud,
                                 thumbnail: nil,
                                 meshTexturing: self._meshTexturing)

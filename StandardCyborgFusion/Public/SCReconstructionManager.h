@@ -57,18 +57,21 @@ typedef struct {
 /** When YES, assimilated frame metadata will be provided with the color buffer for the frame that was assimilated. Uses more RAM. */
 @property (nonatomic) BOOL includesColorBuffersInMetadata;
 
-/** after assimilation, the the colors of the point cloud will be boosted, so that that minimum luminance value of all the colors exceed the specified value. If 0, then no boosting will occur. MAX possible value is 1.0 */
-@property (nonatomic) float minLuminance;
 
+/** after assimilation, the the colors of the point cloud will be boosted, by applying this factor. This makes the colors appear less dark.
+ Recommended when scanning in darker environments. Range: [1.0, 5.0]. If value is 1.0 or below, then no boosting is applied.
+ 1.8 is a recomennded starter value.  */
 
-@property (nonatomic, readonly) float luminanceBoostFactor;
+@property (nonatomic) float luminanceBoostFactor;
+
+/*
+ The exposure that was applied to the point cloud. Was calculated using luminanceBoostFactor
+ */
+@property (nonatomic, readonly) float exposure;
+
 
 /** When non-empty, clips the reconstruction region of incoming depth buffers and frames to this position and size, each normalized from [0..1] */
 @property (nonatomic) CGRect normalizedFrameClipRegion;
-
-
-/** For estimating the luminance of the final point cloud, it samples and calculates the luminance from the incoming RGB frames within this specified rectangle. It gets samples around the center of this rectangle.  Top left corner is [0,0], and bottom right corner is [1,1]. */
-@property (nonatomic) CGRect luminanceSamplingRegion;
 
 
 /** The camera calibration data used by the most recently passed depth frame. */
