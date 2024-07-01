@@ -123,7 +123,8 @@ bool MetalTextureProjection::startProjecting(int frameWidth,
     return true;
 }
 
-std::vector<float> MetalTextureProjection::finishProjecting(const sc3d::Geometry& triangleMesh)
+
+std::vector<float> MetalTextureProjection::finishProjecting(const sc3d::Geometry& triangleMesh, float exposure)
 {
 #if TARGET_OS_OSX
     id<MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
@@ -176,9 +177,10 @@ std::vector<float> MetalTextureProjection::finishProjecting(const sc3d::Geometry
                 textureData[textureIndex + 3] = 1.0f;
 
             } else {
-                textureData[textureIndex + 0] = r / a;
-                textureData[textureIndex + 1] = g / a;
-                textureData[textureIndex + 2] = b / a;
+                
+                textureData[textureIndex + 0] = (r / a) * exposure;
+                textureData[textureIndex + 1] = (g / a) * exposure;
+                textureData[textureIndex + 2] = (b / a) * exposure;
                 textureData[textureIndex + 3] = 1.0f;
             }
         }

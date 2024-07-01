@@ -300,7 +300,73 @@ PBFFinalStatistics PBFModel::_calcFinalStatistics()
     return finalStatistics;
 }
 
-PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration)
+#include <algorithm>
+
+
+float PBFModel::calculateExposure(float luminanceBoostingFactor) {
+    
+    float exposure = 0.0f;
+    
+    size_t surfelCount = _surfels.size();
+    
+    // calculate luminance of all pixels.
+    std::vector<float> luminances;
+    for (size_t index = 0; index < surfelCount; ++index) {
+        Surfel& surfel = _surfels[index];
+        
+        float r = surfel.color.x();
+        float g = surfel.color.y();
+        float b = surfel.color.z();
+        
+        float luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        
+        luminances.push_back(luminance);
+    }
+
+    // find max luminance.
+    auto max_it = std::max_element(luminances.begin(), luminances.end());
+    float maxLuminance = (max_it != luminances.end()) ? *max_it : 0.0f;
+        
+    if(luminanceBoostingFactor < 1.00001) {
+        exposure = 1.0; // skip exposure.
+    } else {
+        
+        if(luminanceBoostingFactor > 5.0) { // clamp.
+            luminanceBoostingFactor = 5.0f;
+        }
+        
+        // this is our ad hoc method of estimating a good exposure value.  basing this on the max luminance,
+        // results in less over-exposed meshes, in my tests.
+        exposure = luminanceBoostingFactor/ (float)maxLuminance;
+        if(exposure < 1.0) {
+            exposure = 1.0f;
+        }
+    }
+    
+    /*
+    printf("maxLuminance %f\n", maxLuminance);
+    printf("luminanceBoostingFactor %f\n", luminanceBoostingFactor);
+    printf("exposure %f\n", exposure);
+    */
+    
+    for (size_t index = 0; index < surfelCount; ++index) {
+        Surfel& surfel = _surfels[index];
+        
+        float r = surfel.color.x();
+        float g = surfel.color.y();
+        float b = surfel.color.z();
+        
+        surfel.color.x() = r * exposure;
+        surfel.color.y() = g * exposure;
+        surfel.color.z() = b * exposure;
+        
+    }
+    
+    return exposure;
+}
+
+
+PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration, float luminanceBoostingFactor, float& exposure)
 {
     PBFFinalStatistics finalStatistics = _calcFinalStatistics();
 
@@ -319,6 +385,8 @@ PBFFinalStatistics PBFModel::finishAssimilating(SurfelFusionConfiguration surfel
     }
 
     _surfelFusion.finish(surfelFusionConfiguration, _surfels, _surfelLandmarksIndex, _deletedSurfelIndicesList);
+    
+    exposure = calculateExposure(luminanceBoostingFactor);
 
     return finalStatistics;
 }
@@ -417,3 +485,4 @@ ICPResult PBFModel::_runICP(ProcessedFrame& frame, SurfelFusionConfiguration sur
 
     return icpResult;
 }
+

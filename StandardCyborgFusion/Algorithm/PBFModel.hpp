@@ -43,8 +43,9 @@ public:
                                            double currentTime,
                                            const std::vector<ScreenSpaceLandmark>* screenSpaceLandmarks = NULL);
 
-    PBFFinalStatistics finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration);
-
+    
+    PBFFinalStatistics finishAssimilating(SurfelFusionConfiguration surfelFusionConfiguration, float luminanceBoostingFactor, float& exposure);
+    
     void reset(unsigned int randomSeed = 0);
     
     std::shared_ptr<sc3d::Geometry> buildPointCloud(float downsampledFraction = 1.0f);
@@ -74,8 +75,10 @@ private:
     
     PBFAssimilatedFrameMetadata* _nthMostRecentValidFrameMetadata(size_t offset = 0);
     PBFFinalStatistics _calcFinalStatistics();
+    float calculateExposure(float luminanceBoostingFactor);
 
     // Prohibit copying and assignment
     PBFModel(const PBFModel&) = delete;
     PBFModel& operator=(const PBFModel&) = delete;
 };
+

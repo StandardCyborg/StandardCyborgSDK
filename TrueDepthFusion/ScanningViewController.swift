@@ -94,6 +94,8 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
         _reconstructionManager.delegate = self
         _reconstructionManager.includesColorBuffersInMetadata = true
         
+        _reconstructionManager.luminanceBoostFactor = 1.8   
+        
         _algorithmCommandQueue.label = "ScanningViewController._algorithmCommandQueue"
         _visualizationCommandQueue.label = "ScanningViewController._visualizationCommandQueue"
         
@@ -316,7 +318,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
            set { UserDefaults.standard.set(newValue, forKey: "stop_scanning_on_reconstruction_failure") }
        }
     
-    private var _scanDurationSeconds: Int = 5 {
+    private var _scanDurationSeconds: Int = 2 {
         didSet { _updateUI() }
     }
     
@@ -418,6 +420,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
             _reconstructionManager.finalize {
                 let pointCloud = self._reconstructionManager.buildPointCloud()
                 
+                self._meshTexturing.exposure = self._reconstructionManager.exposure
                 let scan = Scan(pointCloud: pointCloud,
                                 thumbnail: nil,
                                 meshTexturing: self._meshTexturing)
@@ -459,10 +462,10 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
     
     @objc private func _volumeChanged(_ notification: Notification) {
         if  let userInfo = notification.userInfo,
-			let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String
+            let volumeChangeType = userInfo["AVSystemController_AudioVolumeChangeReasonNotificationParameter"] as? String
         {
-			if volumeChangeType == "ExplicitVolumeChange" {
-				shutterTapped(nil)
+            if volumeChangeType == "ExplicitVolumeChange" {
+                shutterTapped(nil)
             }
         }
     }
@@ -473,3 +476,4 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
 private func convertToUIApplicationOpenExternalURLOptionsKeyDictionary(_ input: [String: Any]) -> [UIApplication.OpenExternalURLOptionsKey: Any] {
     return Dictionary(uniqueKeysWithValues: input.map { key, value in (UIApplication.OpenExternalURLOptionsKey(rawValue: key), value)})
 }
+

@@ -52,7 +52,10 @@ std::unique_ptr<PBFModel> assimilatePointCloud(NSString *depthFramesDir,
         pbf->assimilate(processedFrame, pbfConfig, icpConfig, surfelFusionConfig, rawFrame->timestamp, &landmarks);
     }
     
-    pbf->finishAssimilating(surfelFusionConfig);
+    
+    float luminanceBoostingFactor = 0.0f;
+    float exposure = 0.0;
+    pbf->finishAssimilating(surfelFusionConfig, luminanceBoostingFactor, exposure);
     
     return pbf;
 }

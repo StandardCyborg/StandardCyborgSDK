@@ -290,8 +290,10 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             
             // Step 3: Project onto the UV-mapped mesh
             {
+                float exposure = [self exposure];
                 BOOL projectionSuccess = [self _doProjectionWithUvMappedMesh:meshGeometry
                                                             outputTextureRes:textureResolution
+                                                                    exposure:exposure
                                                                       result:textureData
                                                                        error:&error
                                                              progressHandler:^(float progress) {
@@ -525,6 +527,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
 
 - (BOOL)_doProjectionWithUvMappedMesh:(const sc3d::Geometry &)meshGeo
                      outputTextureRes:(NSInteger)outputTextureRes
+                            exposure:(float)exposure
                                result:(std::vector<float> &)resultOut
                                 error:(NSError **)errorOut
                       progressHandler:(void (^)(float progress))progressHandler
@@ -612,7 +615,7 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         ++frameIndex;
     }
     
-    resultOut = textureProjection.finishProjecting(meshGeo);
+    resultOut = textureProjection.finishProjecting(meshGeo, exposure);
     
     return YES;
 }

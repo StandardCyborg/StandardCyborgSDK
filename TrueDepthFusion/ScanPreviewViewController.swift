@@ -97,7 +97,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             pointCloud: scan.pointCloud,
             textureResolution: textureResolutionPixels,
             meshingParameters: meshingParameters,
-            coloringStrategy: .vertex,
+            coloringStrategy: .uvMap,
             progress: { percentComplete, shouldStop in
                 DispatchQueue.main.async {
                     self.meshingProgressView.progress = percentComplete

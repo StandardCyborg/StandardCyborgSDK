@@ -41,7 +41,7 @@ public:
      Returned is a texture, that uses the uv coords of the mesh, that contains
      the colors that has been projected onto the mesh.
      */
-    std::vector<float> finishProjecting(const sc3d::Geometry& triangleMesh);
+    std::vector<float> finishProjecting(const sc3d::Geometry& triangleMesh, float exposure);
 
     /**
      Given a RGB frame gotten from the iPhone, and the view and projection
