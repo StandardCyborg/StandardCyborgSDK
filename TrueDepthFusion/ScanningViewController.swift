@@ -343,7 +343,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
     }
     
     private func _startCountdown(_ completion: @escaping () -> Void) {
-        _countdownSeconds = 3
+        _countdownSeconds = 1
         _iterateCountdown(completion)
     }
     
