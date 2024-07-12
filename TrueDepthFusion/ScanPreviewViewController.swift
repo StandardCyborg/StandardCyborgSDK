@@ -132,151 +132,20 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         #pragma transparent
         #pragma body
 
-                
+    
+            float t = param.x;
             float4 transformed_position = scn_frame.inverseViewTransform * float4(_surface.position, 1.0);
     
-                        float3 p;
-                                    p.r = transformed_position.r + 0.1;
-                                    p.g =  transformed_position.g + 0.1;
-                                    p.b = transformed_position.b + 0.1;
-                                    p = p * 450.0;
+            float3 p;
+            p.r = transformed_position.r + 0.1;
+            p.g =  transformed_position.g + 0.1;
+            p.b = transformed_position.b + 0.1;
+            p = p * 450.0;
     
-                        float noise =  snoise(p ); //+ 0.6;
-                
-
-            float t = param.x; // from 0 to 1
-
-    /*
-        float t = lazerCol.z; // from 0 to 1
-
-        float minY = lazerCol.x;
-        float maxY = lazerCol.y;
-
-        float myY = (_surface.position.y - minY) / (maxY - minY); // go from 0 to 1 from bottom to top of mesh.
+            float noise =  snoise(p ); //+ 0.6;
     
-      
-    
-       // if (t < myY) { // dissolve from up to down as t goes from 0 to 1.
-      //      discard_fragment();
-     //   }
-
-    
-    
-    
-                    float3 p;
-                                p.r = transformed_position.r + 0.1;
-                                p.g =  transformed_position.g + 0.1;
-                                p.b = transformed_position.b + 0.1;
-                                p = p * 19.0;
-            
-                    // in -1 to +1 range.
-            
-            
-              //  _output.color.rgba = float4(noise, 0.0, 0.0, 1.0);
-           
-          
-            float remap = noise - 0.6; // in range -1 to +1
-    
-            float cutoff_height = t; // t goes from 0 to 1
-    //        cutoff_height = 0.5; // ok while testing.
-    
-            float add = 2.0 * cutoff_height + remap; // goes from -1 to +1 as time goes by.
-    
-            if(add > 1.0) {
-                add = 1.0;
-            }
-    
-            //float myY = (_surface.position.y - minY) / (maxY - minY); // go from 0 to 1 from bottom to top of mesh.
-    
-            if(add > -1.0 + 2.0 * myY) {
-    
-                    if(add < -1.0 + 2.0 * myY + 0.07) {
-                        //_output.color.rgb = float3(  10.0, 0.0, 0.0);
-    
-                                _output.color.rgb = 4.0 * float3(173.0 / 255, 216.0 / 255.0, 230.0 / 255.0);
-    
-                    }
-
-                //_output.color.rgba = float4(1.0, 0.0, 0.0, 1.0);
-    
-         
-            } else {
-                    discard_fragment();
-               // _output.color.rgba = float4(0.0, 1.0, 0.0, 1.0);
-            }
-    
-    
-    
-            //cutoff_height
-            
-            float step = 1000.0;
-    
-            if(myY > add) {
-                step = 1.0;
-            } else {
-                step = 0.0;
-            }
-    
-            if(step > 0.90) {
-            } else {
-    //            discard_fragment();
-            }
-    
-    
-    
-    
-          //  float3 col = 0.0;
-    
-            //  col = float3(remap, 0.0, 0.0);
-    
-    
-    float3 col =_output.color.rgb;;
-                
-    col = float3(step, 0.0, 0.0);
-        
-        
-    
-        _output.color.rgb = col;
-    */
-    
-            float3 col = float3(0., 0.0, 0.0);
-    
-    //            float val = random(p);
             float val = (noise + 1.0) * 0.5 ;
-    /*
-            if(val > 1.0) {
-                val = 1.0;
-            }
-    
-            if(val < 0.0) {
-                val = 0.0;
-            }
-    */
-    
-            if(val < 0.0) {
-                col = float3(1.0, 0.0, 0.0);
-            } else if(0.0 <= val && val < 0.4) {
-                col = float3(0.0, 1.0, 0.0);
-            }else if(0.4 <= val && val < 0.8) {
-                col = float3(0.0, 0.0, 1.0);
-            }else if(0.8 <= val && val < 1.0) {
-                col = float3(1.0, 1.0, 0.0);
-            }else if(1.0 <= val) {
-                col = float3(0.3, 0.3, 0.3);
-            }
-    
-            //_output.color.rgb = float3(1.0, 0.0, 0.0) * _output.color.rgb;
-            //_output.color.rgb = col;
-    
-            /*
-            _output.color.rgb = float3(val);
-                _output.color.rgb = float3(val);
-    
-    
-            _output.color.rgb = float3(1.0, 0.0, 0.0);
-            _output.color.a = 0.5;
-    */
-    
+
             if(val > t) {
                  discard_fragment();
             } else {
@@ -422,6 +291,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         
     }
     
+    private var A:Float = 0.975
+    
     override func viewDidAppear(_ animated: Bool) {
         if let scan = scan, scan.thumbnail == nil {
             let snapshot = sceneView.snapshot()
@@ -452,6 +323,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         meshingParameters.closed = true
         
         let textureResolutionPixels = 2048
+        
+        self._addedTriMeshNode = false
         
         scan.meshTexturing.reconstructMesh(
             pointCloud: scan.pointCloud,
@@ -492,24 +365,31 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                 
                                 print("vertex count ", meshUv.vertexCount)
                                 
+                                self._triMeshNode = meshUv.buildMeshNode()
                                 
-                                self._containerNode.addChildNode(meshUv.buildMeshNode())
-
+                                guard let geometry = self._triMeshNode .geometry else { return }
+                                  
                                 
+                                geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
+                                let material = SCNMaterial()
+                                material.diffuse.contents = UIColor.white
+                                material.isDoubleSided = false
+                                material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
                                 
-                                //nodeUv.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
+                            
+                                self._triMeshNode.scale.x = self.A
+                                self._triMeshNode.scale.y = self.A
+                                self._triMeshNode.scale.z = self.A
+                             
                                 
-                                //print("node.transform, ", nodeUv.transform)
+                                self._addedTriMeshNode = true
+                                
+                                self._containerNode.addChildNode(self._triMeshNode)
                                 
                             }
                         }
                     }
                 )
-                
-                
-                
-                
-                
                 
                 
                 // run meshing code here.
@@ -521,47 +401,95 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         print("face count ", mesh.faceCount)
                         print("vertex count ", mesh.vertexCount)
                         
-                        
                         //node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
                         
                         self._containerNode.addChildNode(node)
+                        
 
-                        
                         print("node.transform, ", node.transform)
-                        
-                        
-                        //self._pointCloudNode = node
                         
                         
                         self._mesh = mesh
                         
                         guard let geometry = node.geometry else { return }
-                                
-                        geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
+                          
+                       // node.isHidden = true
                         
+                        geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
                         let material = SCNMaterial()
                         material.diffuse.contents = UIColor.white
                         material.isDoubleSided = false
-                        
                         material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
+                         
+                         
+                         geometry.materials = [material]
+                          
                         
-                        let timeAction = SCNAction.customAction(duration: 5.0) { (node, elapsedTime) in
+                        let X = 3.0
+                        
+                        let Y = 0.3
+                        
+                        let timeAction = SCNAction.customAction(duration: 20.0) { (node, elapsedTime) in
                             
-                            var t = elapsedTime / 2.5
+                            var at:Float = 0.0
+                            var bt:Float = 0.0
                             
-                            if(t > 1.0) {
-                                t = 1.0
+                            var bs:Float = 1.0
+                            
+                            if(elapsedTime < 2.5) {
+                                at = Float(elapsedTime / 2.5)
+                                
+                            } else if(2.5 <= elapsedTime && elapsedTime < X) {
+                                at = 1.0
+                                
+                            }else if(X <= elapsedTime && elapsedTime < X+Y) {
+                                //
+                                at = 1.0
+                                   
+                                if(self._addedTriMeshNode) {
+                                    bs = (1 - self.A) * Float( (elapsedTime - X) / Y) + (self.A)
+                                    
+                                    bt = Float( (elapsedTime - X) / Y)
+                                    
+                                    print("lol ", bs, bt)
+                                }
+                                
+                                at = Float((1.0 - (elapsedTime - X) / Y))
+                                
+                                
+                                
+                            } else {
+                                bs = 1.0
+                                
+                                at = 0.0
+                                bt = 1.0
+                               
+                                print("ok BT: ", bt)
+                
                             }
-                            var vv =  SCNVector3(t, 0.0, 0.0 )
-                             
-                            node.geometry?.firstMaterial?.setValue(vv, forKey: "param")
+                            
+                            node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
+                            
+                            if(self._addedTriMeshNode) {
+                                
+                                guard let triMeshMat = self._triMeshNode.geometry?.firstMaterial else { return }
+                                
+                                //var bt:Float = 1.0
+                                //var bs:Float = 1.0
+                                
+                                triMeshMat.setValue(SCNVector3(bt, 0.0, 0.0), forKey: "param")
+                                
+                                self._triMeshNode.scale.x = bs
+                                self._triMeshNode.scale.y = bs
+                                self._triMeshNode.scale.z = bs
+                                
+                                
+                            }
                         }
                         
                         let repeatAction = SCNAction.repeatForever(timeAction)
                         node.runAction(repeatAction)
 
-                        geometry.materials = [material]
-                         
                         
                     }
                     
@@ -593,6 +521,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     private var _initialPointOfView = SCNMatrix4Identity
     private var _containerNode = SCNNode()
 
+    private var _triMeshNode = SCNNode()
+    private var _addedTriMeshNode = false
     
     
     /*
