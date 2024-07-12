@@ -341,13 +341,14 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     }
     
     @IBAction private func _runMeshing(_ sender: Any) {
+        /*
         guard let scan = scan else { return }
         
-        /*
-        meshingProgressContainer.isHidden = false
-        meshingProgressContainer.alpha = 0
-        meshingProgressView.progress = 0
-        */
+        
+        //meshingProgressContainer.isHidden = false
+       // meshingProgressContainer.alpha = 0
+       // meshingProgressView.progress = 0
+        
         
         UIView.animate(withDuration: 0.4) {
             self.meshingProgressContainer.alpha = 1
@@ -395,6 +396,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                 }
             }
         )
+        */
     }
     
     @IBAction private func cancelMeshing(_ sender: Any) {
@@ -405,13 +407,19 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     
     override func viewDidLoad() {
         _initialPointOfView = sceneView.pointOfView!.transform
+        
+        sceneView.scene?.rootNode.addChildNode(_containerNode)
+        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
         sceneView.pointOfView!.transform = _initialPointOfView
         meshButton.isHidden = scan?.plyPath == nil
         
-        self._pointCloudNode?.isHidden = true
+        //self._pointCloudNode?.isHidden = true
+        
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -438,7 +446,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         }
         
         let meshingParameters = SCMeshingParameters()
-        meshingParameters.resolution = 4
+        meshingParameters.resolution = 2
         meshingParameters.smoothness = 1
         meshingParameters.surfaceTrimmingAmount = 5
         meshingParameters.closed = true
@@ -462,6 +470,45 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                 
                 
                 
+                scan.meshTexturing.reconstructMesh(
+                    pointCloud: scan.pointCloud,
+                    textureResolution: textureResolutionPixels,
+                    meshingParameters: meshingParameters,
+                    coloringStrategy: .uvMap,
+                    progress: { percentComplete, shouldStop in
+                    },
+                    completion: { error, scMeshUv in
+                        if let error = error {
+                            print("Meshing error: \(error)")
+                            return
+                        }
+                        
+                        print("MESHED UV MAP")
+                        DispatchQueue.main.async {
+                            
+                            if let meshUv = scMeshUv {
+                                //let nodeUv = meshUv.buildMeshNode()
+                                print("face count ", meshUv.faceCount)
+                                
+                                print("vertex count ", meshUv.vertexCount)
+                                
+                                
+                                self._containerNode.addChildNode(meshUv.buildMeshNode())
+
+                                
+                                
+                                //nodeUv.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
+                                
+                                //print("node.transform, ", nodeUv.transform)
+                                
+                            }
+                        }
+                    }
+                )
+                
+                
+                
+                
                 
                 
                 
@@ -471,8 +518,21 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     
                     if let mesh = scMesh {
                         let node = mesh.buildMeshNode()
-                        node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
-                        self._pointCloudNode = node
+                        print("face count ", mesh.faceCount)
+                        print("vertex count ", mesh.vertexCount)
+                        
+                        
+                        //node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
+                        
+                        self._containerNode.addChildNode(node)
+
+                        
+                        print("node.transform, ", node.transform)
+                        
+                        
+                        //self._pointCloudNode = node
+                        
+                        
                         self._mesh = mesh
                         
                         guard let geometry = node.geometry else { return }
@@ -501,6 +561,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         node.runAction(repeatAction)
 
                         geometry.materials = [material]
+                         
                         
                     }
                     
@@ -515,7 +576,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     
     var scan: Scan? {
         didSet {
-            _pointCloudNode = scan?.pointCloud.buildNode()
+            //_pointCloudNode = scan?.pointCloud.buildNode()
         }
     }
     
@@ -530,6 +591,11 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     private var _meshURL: URL?
     private var _mesh: SCMesh?
     private var _initialPointOfView = SCNMatrix4Identity
+    private var _containerNode = SCNNode()
+
+    
+    
+    /*
     private var _pointCloudNode: SCNNode? {
         willSet {
             _pointCloudNode?.removeFromParentNode()
@@ -545,5 +611,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             }
         }
     }
+    */
     
 }
