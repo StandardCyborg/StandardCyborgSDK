@@ -451,22 +451,24 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             meshingParameters: meshingParameters,
             coloringStrategy: .vertex,
             progress: { percentComplete, shouldStop in
-                DispatchQueue.main.async {
-                    self.meshingProgressView.progress = percentComplete
-                }
-                
-                shouldStop.pointee = ObjCBool(self._shouldCancelMeshing)
             },
             completion: { error, scMesh in
                 if let error = error {
                     print("Meshing error: \(error)")
+                    return
                 }
                 
-                DispatchQueue.main.async {
-                    self.meshingProgressContainer.isHidden = true
-                    self._shouldCancelMeshing = false
-                    
                 
+                
+                
+                
+                
+                
+                
+                // run meshing code here.
+                
+                DispatchQueue.main.async {
+                    
                     if let mesh = scMesh {
                         let node = mesh.buildMeshNode()
                         node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
@@ -475,19 +477,15 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         
                         guard let geometry = node.geometry else { return }
                                 
-                                
                         geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
                         
-                        // Add a custom material to use the shader
                         let material = SCNMaterial()
                         material.diffuse.contents = UIColor.white
                         material.isDoubleSided = false
                         
                         material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
                         
-                        
                         let timeAction = SCNAction.customAction(duration: 5.0) { (node, elapsedTime) in
-                            
                             
                             var t = elapsedTime / 2.5
                             
@@ -496,23 +494,15 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             }
                             var vv =  SCNVector3(t, 0.0, 0.0 )
                              
-                           // print("vv ", vv)
                             node.geometry?.firstMaterial?.setValue(vv, forKey: "param")
-                           
                         }
-                        
-                        //SCNAction.repeat(timeAction, count: 1)
                         
                         let repeatAction = SCNAction.repeatForever(timeAction)
                         node.runAction(repeatAction)
 
-                        
                         geometry.materials = [material]
                         
-                        
                     }
-                    
-                    
                     
                 }
             }
