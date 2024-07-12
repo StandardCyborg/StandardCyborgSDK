@@ -223,7 +223,7 @@ class BPLYScanningViewController: UIViewController, CameraManagerDelegate {
         return UserDefaults.standard.bool(forKey: "tap_to_start_stop")
     }
     
-    private var _scanDurationSeconds: Int = 5 {
+    private var _scanDurationSeconds: Int = 2 {
         didSet { _updateUI() }
     }
     

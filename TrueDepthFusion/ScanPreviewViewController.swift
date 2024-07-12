@@ -21,6 +21,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     @IBOutlet private weak var meshButton: UIButton!
     @IBOutlet private weak var meshingProgressContainer: UIView!
     @IBOutlet private weak var meshingProgressView: UIProgressView!
+    
     private var _quickLookUSDZURL: URL?
     
     @IBAction private func _export(_ sender: AnyObject) {
@@ -78,9 +79,12 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     @IBAction private func _runMeshing(_ sender: Any) {
         guard let scan = scan else { return }
         
+        /*
         meshingProgressContainer.isHidden = false
         meshingProgressContainer.alpha = 0
         meshingProgressView.progress = 0
+        */
+        
         UIView.animate(withDuration: 0.4) {
             self.meshingProgressContainer.alpha = 1
         }
@@ -145,6 +149,66 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             let snapshot = sceneView.snapshot()
             scan.thumbnail = snapshot.resized(toWidth: 640)
         }
+        
+        
+        
+        
+        
+        guard let scan = scan else { return }
+        
+        /*
+        meshingProgressContainer.isHidden = false
+        meshingProgressContainer.alpha = 0
+        meshingProgressView.progress = 0
+        */
+        
+        UIView.animate(withDuration: 0.4) {
+            //self.meshingProgressContainer.alpha = 1
+            
+        }
+        
+        let meshingParameters = SCMeshingParameters()
+        meshingParameters.resolution = 4
+        meshingParameters.smoothness = 1
+        meshingParameters.surfaceTrimmingAmount = 5
+        meshingParameters.closed = true
+        
+        let textureResolutionPixels = 2048
+        
+        scan.meshTexturing.reconstructMesh(
+            pointCloud: scan.pointCloud,
+            textureResolution: textureResolutionPixels,
+            meshingParameters: meshingParameters,
+            coloringStrategy: .vertex,
+            progress: { percentComplete, shouldStop in
+                DispatchQueue.main.async {
+                    self.meshingProgressView.progress = percentComplete
+                }
+                
+                shouldStop.pointee = ObjCBool(self._shouldCancelMeshing)
+            },
+            completion: { error, scMesh in
+                if let error = error {
+                    print("Meshing error: \(error)")
+                }
+                
+                DispatchQueue.main.async {
+                    self.meshingProgressContainer.isHidden = true
+                    self._shouldCancelMeshing = false
+                    
+                
+                    if let mesh = scMesh {
+                        let node = mesh.buildMeshNode()
+                        node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
+                        self._pointCloudNode = node
+                        self._mesh = mesh
+                    }
+                    
+                    
+                }
+            }
+        )
+        
     }
     
     // MARK: - Public

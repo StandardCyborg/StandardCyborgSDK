@@ -316,7 +316,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
            set { UserDefaults.standard.set(newValue, forKey: "stop_scanning_on_reconstruction_failure") }
        }
     
-    private var _scanDurationSeconds: Int = 5 {
+    private var _scanDurationSeconds: Int = 2 {
         didSet { _updateUI() }
     }
     
