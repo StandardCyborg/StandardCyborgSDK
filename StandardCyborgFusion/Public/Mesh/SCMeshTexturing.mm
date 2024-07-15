@@ -212,6 +212,8 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         SCMesh *result = nil;
         
         // Step 1: Build a mesh
+        
+        CFAbsoluteTime meshStartTime = CFAbsoluteTimeGetCurrent();
         {
             BOOL meshingSuccess = [self _meshPointCloud:pointCloud
                                              parameters:meshingParameters
@@ -226,6 +228,10 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 return;
             }
         }
+        CFAbsoluteTime meshEndTime = CFAbsoluteTimeGetCurrent();
+        printf("meshes %f\n", 1000.0 * (meshEndTime - meshStartTime));
+        
+
         
         if (!reportProgress(1.0 / 3.0)) {
             completion(nil, nil);
@@ -272,6 +278,8 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             std::vector<float> textureData;
             
             // Step 2: UV map the mesh
+            
+            CFAbsoluteTime uvBegTime = CFAbsoluteTimeGetCurrent();
             {
                 BOOL uvMapSuccess = algorithms::uvmapMesh(meshGeometry);
                 
@@ -287,9 +295,15 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                 completion(nil, nil);
                 return;
             }
+            CFAbsoluteTime uvEndTime = CFAbsoluteTimeGetCurrent();
+            printf("uv map %f\n", 1000.0 * (uvEndTime - uvBegTime));
+            
+            
             
             // Step 3: Project onto the UV-mapped mesh
             {
+                CFAbsoluteTime projBegTime = CFAbsoluteTimeGetCurrent();
+                
                 BOOL projectionSuccess = [self _doProjectionWithUvMappedMesh:meshGeometry
                                                             outputTextureRes:textureResolution
                                                                       result:textureData
@@ -305,6 +319,10 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
                     completion(error, nil);
                     return;
                 }
+                
+                CFAbsoluteTime projEndTime = CFAbsoluteTimeGetCurrent();
+                printf("proj map %f\n", 1000.0 * (projEndTime - projBegTime));
+                
             }
             
             // Step 4: Convert from sc3d::Geometry to SCMesh
@@ -539,6 +557,9 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
     
     MetalTextureProjection textureProjection(_metalDevice, (int)outputTextureRes);
     
+    
+    CFAbsoluteTime initBegTime = CFAbsoluteTimeGetCurrent();
+    
     // initialize for texture projection.
     std::vector<math::Vec4> vecFrameData;
     {
@@ -569,9 +590,17 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         
         vecFrameData.resize(imageFrame.getWidth() * imageFrame.getHeight(), math::Vec4());
     }
+    CFAbsoluteTime initEndTime = CFAbsoluteTimeGetCurrent();
+    printf("     init text proj %f\n", 1000.0 * (initEndTime - initBegTime));
+    
+    
+    
+    
     
     sc3d::ColorImage imageFrame;
     int frameIndex = 0;
+    
+    CFAbsoluteTime projAllBegTime = CFAbsoluteTimeGetCurrent();
     
     for (_RGBFrameMetadata *metadata in _metadatas) {
         NSURL *imageURL = metadata.imageURL;
@@ -582,6 +611,8 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
             int height = 0;
             int channels = 0;
             
+            NSLog( @"url is %@", [imageURL absoluteString]);
+
             [self _loadImageFromFileAtURL:imageURL
                                intoVector:vecFrameData
                                     width:&width
@@ -612,7 +643,15 @@ static NSString * const _MetadataJSONFilename = @"Metadata.json";
         ++frameIndex;
     }
     
+    CFAbsoluteTime projAllEndTime = CFAbsoluteTimeGetCurrent();
+    printf("     proj all %f\n", 1000.0 * (projAllEndTime - projAllBegTime));
+    
+    
+    CFAbsoluteTime finishProjBegTime = CFAbsoluteTimeGetCurrent();
     resultOut = textureProjection.finishProjecting(meshGeo);
+    CFAbsoluteTime finishProjEndTime = CFAbsoluteTimeGetCurrent();
+    
+    printf("    finish proj %f\n", 1000.0 * (finishProjEndTime - finishProjBegTime));
     
     return YES;
 }

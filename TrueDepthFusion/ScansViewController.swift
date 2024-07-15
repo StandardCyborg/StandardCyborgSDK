@@ -130,7 +130,7 @@ class ScansViewController: UITableViewController {
             present(controller, animated: true)
         }
     }
-    
+        
     private func _deleteScan(at indexPath: IndexPath) {
         let scan = _scans[indexPath.row]
         

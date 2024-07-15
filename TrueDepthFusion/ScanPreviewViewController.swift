@@ -291,8 +291,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
 
         
         _containerNode = SCNNode()
-        _triMeshNode = SCNNode()
-        _addedTriMeshNode = false
+        //_triMeshNode = SCNNode()
+        //_addedTriMeshNode = false
         
         sceneView.scene?.rootNode.addChildNode(_containerNode)
         
@@ -336,15 +336,17 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         meshingParameters.surfaceTrimmingAmount = 5
         meshingParameters.closed = true
         
-        let textureResolutionPixels = 2048
+        let textureResolutionPixels = 2048 / 2
         
-        self._addedTriMeshNode = false
+        
+    
+       // self._addedTriMeshNode = false
         
         scan.meshTexturing.reconstructMesh(
             pointCloud: scan.pointCloud,
             textureResolution: textureResolutionPixels,
             meshingParameters: meshingParameters,
-            coloringStrategy: .vertex,
+            coloringStrategy: .uvMap,
             progress: { percentComplete, shouldStop in
             },
             completion: { error, scMesh in
@@ -353,9 +355,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     return
                 }
                 
-                
-                
-                
+                /*
                 
                 scan.meshTexturing.reconstructMesh(
                     pointCloud: scan.pointCloud,
@@ -379,7 +379,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                 self._triMeshNode = meshUv.buildMeshNode()
                                 
                                 guard let geometry = self._triMeshNode .geometry else { return }
-                                  
                                 
                                 geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
                                 let material = SCNMaterial()
@@ -402,6 +401,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     }
                 )
                 
+                */
                 
                 // run meshing code here.
                 
@@ -423,20 +423,33 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         
                         geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
                         let material = SCNMaterial()
-                        material.diffuse.contents = UIColor.white
-                        material.isDoubleSided = false
-                        material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
+                        //material.diffuse.contents = UIColor.white
+                        
+                       // material.isDoubleSided = false
+                       // material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
                          
-                         
-                         geometry.materials = [material]
-                          
+                        //geometry.materials = [material]
                         
                         let X = 3.0
                         
                         let Y = 0.3
                         
-                        let timeAction = SCNAction.customAction(duration: 7.0) { (node, elapsedTime) in
+                        let timeAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
                             
+                            var at:Float = 0.0
+                            
+                            if(elapsedTime < 3.1) {
+                                at = Float(elapsedTime / 3.1)
+                                
+                                //at = self.easeOutExpo(x: at)
+                                
+                            } else if(3.1 < elapsedTime && elapsedTime < 7.0) {
+                                at = 1.0
+                            } else {
+                                at = 0.0
+                            }
+                            
+                            /*
                             var at:Float = 0.0
                             var bt:Float = 0.0
                             
@@ -480,7 +493,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             }
                             
                             // self.easeOutExpo
-                            node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
                             
                             if(self._addedTriMeshNode) {
                                 
@@ -497,6 +509,10 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                 
                                 
                             }
+                            */
+                            
+                            node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
+                            
                         }
                         
                         let repeatAction = SCNAction.repeatForever(timeAction)
@@ -533,8 +549,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     private var _initialPointOfView = SCNMatrix4Identity
     private var _containerNode = SCNNode()
 
-    private var _triMeshNode = SCNNode()
-    private var _addedTriMeshNode = false
+    //private var _triMeshNode = SCNNode()
+    //private var _addedTriMeshNode = false
     
     
     /*
