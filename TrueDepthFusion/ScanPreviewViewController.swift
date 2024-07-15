@@ -277,7 +277,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     override func viewDidLoad() {
         _initialPointOfView = sceneView.pointOfView!.transform
         
-        sceneView.scene?.rootNode.addChildNode(_containerNode)
         
 
     }
@@ -288,10 +287,29 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         
         //self._pointCloudNode?.isHidden = true
         
+        sceneView.scene?.rootNode.childNodes.forEach { $0.removeFromParentNode() }
+
+        
+        _containerNode = SCNNode()
+        _triMeshNode = SCNNode()
+        _addedTriMeshNode = false
+        
+        sceneView.scene?.rootNode.addChildNode(_containerNode)
         
     }
     
     private var A:Float = 0.975
+    
+    func easeOutExpo(x: Float) -> Float {
+      
+        if(x >= 1.0) {
+            return 1.0
+        } else {
+            return 1 - pow(2, -10 * x);
+        }
+        //return 1.0
+    //return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         if let scan = scan, scan.thumbnail == nil {
@@ -300,9 +318,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         }
         
         
-        
-        
-        
+    
         guard let scan = scan else { return }
         
         
@@ -310,14 +326,12 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         //meshingProgressContainer.alpha = 0
         //meshingProgressView.progress = 0
         
-        
         UIView.animate(withDuration: 0.4) {
             //self.meshingProgressContainer.alpha = 1
-            
         }
         
         let meshingParameters = SCMeshingParameters()
-        meshingParameters.resolution = 2
+        meshingParameters.resolution = 4 //4
         meshingParameters.smoothness = 1
         meshingParameters.surfaceTrimmingAmount = 5
         meshingParameters.closed = true
@@ -361,9 +375,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             
                             if let meshUv = scMeshUv {
                                 //let nodeUv = meshUv.buildMeshNode()
-                                print("face count ", meshUv.faceCount)
-                                
-                                print("vertex count ", meshUv.vertexCount)
                                 
                                 self._triMeshNode = meshUv.buildMeshNode()
                                 
@@ -398,15 +409,10 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     
                     if let mesh = scMesh {
                         let node = mesh.buildMeshNode()
-                        print("face count ", mesh.faceCount)
-                        print("vertex count ", mesh.vertexCount)
                         
                         //node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
                         
                         self._containerNode.addChildNode(node)
-                        
-
-                        print("node.transform, ", node.transform)
                         
                         
                         self._mesh = mesh
@@ -429,7 +435,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         
                         let Y = 0.3
                         
-                        let timeAction = SCNAction.customAction(duration: 20.0) { (node, elapsedTime) in
+                        let timeAction = SCNAction.customAction(duration: 7.0) { (node, elapsedTime) in
                             
                             var at:Float = 0.0
                             var bt:Float = 0.0
@@ -451,7 +457,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                     
                                     bt = Float( (elapsedTime - X) / Y)
                                     
-                                    print("lol ", bs, bt)
                                 }
                                 
                                 at = Float((1.0 - (elapsedTime - X) / Y))
@@ -464,10 +469,17 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                 at = 0.0
                                 bt = 1.0
                                
-                                print("ok BT: ", bt)
                 
                             }
                             
+                            
+                            if(elapsedTime > 6.0) {
+                                at = 0.0
+                                bt = 0.0
+                                
+                            }
+                            
+                            // self.easeOutExpo
                             node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
                             
                             if(self._addedTriMeshNode) {
