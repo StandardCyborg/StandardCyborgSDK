@@ -355,54 +355,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     return
                 }
                 
-                /*
-                
-                scan.meshTexturing.reconstructMesh(
-                    pointCloud: scan.pointCloud,
-                    textureResolution: textureResolutionPixels,
-                    meshingParameters: meshingParameters,
-                    coloringStrategy: .uvMap,
-                    progress: { percentComplete, shouldStop in
-                    },
-                    completion: { error, scMeshUv in
-                        if let error = error {
-                            print("Meshing error: \(error)")
-                            return
-                        }
-                        
-                        print("MESHED UV MAP")
-                        DispatchQueue.main.async {
-                            
-                            if let meshUv = scMeshUv {
-                                //let nodeUv = meshUv.buildMeshNode()
-                                
-                                self._triMeshNode = meshUv.buildMeshNode()
-                                
-                                guard let geometry = self._triMeshNode .geometry else { return }
-                                
-                                geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
-                                let material = SCNMaterial()
-                                material.diffuse.contents = UIColor.white
-                                material.isDoubleSided = false
-                                material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
-                                
-                            
-                                self._triMeshNode.scale.x = self.A
-                                self._triMeshNode.scale.y = self.A
-                                self._triMeshNode.scale.z = self.A
-                             
-                                
-                                self._addedTriMeshNode = true
-                                
-                                self._containerNode.addChildNode(self._triMeshNode)
-                                
-                            }
-                        }
-                    }
-                )
-                
-                */
-                
                 // run meshing code here.
                 
                 DispatchQueue.main.async {
@@ -410,31 +362,66 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     if let mesh = scMesh {
                         let node = mesh.buildMeshNode()
                         
-                        //node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
-                        
                         self._containerNode.addChildNode(node)
-                        
                         
                         self._mesh = mesh
                         
                         guard let geometry = node.geometry else { return }
-                          
-                       // node.isHidden = true
                         
-                        geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
-                        let material = SCNMaterial()
-                        //material.diffuse.contents = UIColor.white
+                        var gmin = geometry.boundingBox.min
+                        var gmax = geometry.boundingBox.max
                         
-                       // material.isDoubleSided = false
-                       // material.setValue(SCNVector3(0.0, 0.0, 0.0), forKey: "param")
+                        print("min ", geometry.boundingBox.min)
+                        print("max ", geometry.boundingBox.max)
+                        
+                        
+                        let x_center = (gmin.x + gmax.x) * 0.5
+                        let z_center = (gmin.z + gmax.z) * 0.5
+                        
+                        let pivotMatrix = SCNMatrix4MakeTranslation(x_center, 0, z_center)
+
+                        node.pivot = pivotMatrix
+                        
+                        print( "mat count ", node.geometry?.materials.count)
+                        
+                        if let mat = node.geometry?.firstMaterial {
+                            print("light model ", mat.lightingModel)
+                            
+                            print("name ", mat.name)
+                            
+                            
+                            print("diffuse ", mat.diffuse)
+                            
+                            print("metal ", mat.metalness)
+                            
+                            print("roughness ", mat.roughness)
+                            
+                            print("normal ", mat.normal)
+                            
+                            print("selfIllumination ", mat.selfIllumination)
+                            
+                            
+                            print("ambient ", mat.ambient)
+                            
+                            print("shininess ", mat.shininess)
+                            
+                            
+                            print("multiply ", mat.multiply)
+                            
+                            
+                            print("reflecitve ", mat.reflective)
+                            
+                            print("spec ", mat.specular)
+                            
+                        }
                          
-                        //geometry.materials = [material]
+                        geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
                         
-                        let X = 3.0
+                        node.geometry?.firstMaterial?.setValue(SCNVector3(1.0, 0.0, 0.0 ), forKey: "param")
+                       
+                        node.geometry?.firstMaterial?.lightingModel = .constant
                         
-                        let Y = 0.3
-                        
-                        let timeAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
+                        let timeAction = SCNAction.customAction(duration: 80.0) { (node, elapsedTime) in
                             
                             var at:Float = 0.0
                             
@@ -446,78 +433,23 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             } else if(3.1 < elapsedTime && elapsedTime < 7.0) {
                                 at = 1.0
                             } else {
-                                at = 0.0
-                            }
-                            
-                            /*
-                            var at:Float = 0.0
-                            var bt:Float = 0.0
-                            
-                            var bs:Float = 1.0
-                            
-                            if(elapsedTime < 2.5) {
-                                at = Float(elapsedTime / 2.5)
-                                
-                            } else if(2.5 <= elapsedTime && elapsedTime < X) {
                                 at = 1.0
-                                
-                            }else if(X <= elapsedTime && elapsedTime < X+Y) {
-                                //
-                                at = 1.0
-                                   
-                                if(self._addedTriMeshNode) {
-                                    bs = (1 - self.A) * Float( (elapsedTime - X) / Y) + (self.A)
-                                    
-                                    bt = Float( (elapsedTime - X) / Y)
-                                    
-                                }
-                                
-                                at = Float((1.0 - (elapsedTime - X) / Y))
-                                
-                                
-                                
-                            } else {
-                                bs = 1.0
-                                
-                                at = 0.0
-                                bt = 1.0
-                               
-                
                             }
-                            
-                            
-                            if(elapsedTime > 6.0) {
-                                at = 0.0
-                                bt = 0.0
-                                
-                            }
-                            
-                            // self.easeOutExpo
-                            
-                            if(self._addedTriMeshNode) {
-                                
-                                guard let triMeshMat = self._triMeshNode.geometry?.firstMaterial else { return }
-                                
-                                //var bt:Float = 1.0
-                                //var bs:Float = 1.0
-                                
-                                triMeshMat.setValue(SCNVector3(bt, 0.0, 0.0), forKey: "param")
-                                
-                                self._triMeshNode.scale.x = bs
-                                self._triMeshNode.scale.y = bs
-                                self._triMeshNode.scale.z = bs
-                                
-                                
-                            }
-                            */
                             
                             node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
-                            
                         }
                         
                         let repeatAction = SCNAction.repeatForever(timeAction)
                         node.runAction(repeatAction)
 
+                        
+                        
+                        let rotationAction2 = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: 3.1)
+                        rotationAction2.timingMode = .easeInEaseOut
+                        node.runAction(rotationAction2)
+                        
+
+                        
                         
                     }
                     
