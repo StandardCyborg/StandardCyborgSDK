@@ -421,30 +421,69 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                        
                         node.geometry?.firstMaterial?.lightingModel = .constant
                         
-                        let timeAction = SCNAction.customAction(duration: 80.0) { (node, elapsedTime) in
+                        let A:Float = 4.5
+                        
+                        let timeAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
                             
                             var at:Float = 0.0
                             
-                            if(elapsedTime < 3.1) {
-                                at = Float(elapsedTime / 3.1)
+                            if(Float(elapsedTime) < 0.2) {
+                                at = Float(Float(elapsedTime) / 0.2) * 0.1
+                              
+                            } else if(0.2 <= Float(elapsedTime) && elapsedTime < 3.5) {
                                 
-                                //at = self.easeOutExpo(x: at)
+                                at = 0.1 + 0.2 *  (Float(elapsedTime) - 0.2) / (3.5 - 0.2);
+                            
+                            } else if(3.5 <= Float(elapsedTime) && elapsedTime < 4.5) {
                                 
-                            } else if(3.1 < elapsedTime && elapsedTime < 7.0) {
+                                at = 0.30 +  0.70 * (Float(elapsedTime) - 3.5) / (4.5-3.5) ;
+                                
+                            }
+                            
+                            /*
+                             if(0.0 <= Float(elapsedTime) && elapsedTime < 4.5) {
+                                                             
+                                                            let a:Float = 0.06031
+                                                             let b:Float =  -0.04919
+                                                             
+                                                             
+                                                             let t:Float = Float(elapsedTime)
+                                                             at =  (a * t*t + b * t + 0.10) * (1.0  / 1.10)
+                                                           
+
+                                                         }
+
+
+                                                         
+                             */
+                            else if(A < Float(elapsedTime) && elapsedTime < 7.0) {
                                 at = 1.0
                             } else {
                                 at = 1.0
                             }
                             
+                            print("at done ", at)
+                            
                             node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
                         }
+                        
                         
                         let repeatAction = SCNAction.repeatForever(timeAction)
                         node.runAction(repeatAction)
 
                         
+                        //var e = 0.5
+                      //  node.geometry?.firstMaterial?.setValue(SCNVector3(e*e, 0.0, 0.0 ), forKey: "param")
                         
-                        let rotationAction2 = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: 3.1)
+                        //  at = at * at
+                          
+                          //at = Float(1 - cos((at * Float(CGFloat.pi )) / 2.0));
+                          
+                          //at = self.easeOutExpo(x: at)
+                          
+                        
+                        
+                          let rotationAction2 = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: Double(A))
                         rotationAction2.timingMode = .easeInEaseOut
                         node.runAction(rotationAction2)
                         
