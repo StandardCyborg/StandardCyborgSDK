@@ -440,6 +440,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                                 
                             }
                             
+                            
                             /*
                              if(0.0 <= Float(elapsedTime) && elapsedTime < 4.5) {
                                                              
@@ -461,8 +462,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             } else {
                                 at = 1.0
                             }
-                            
-                            print("at done ", at)
                             
                             node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
                         }
