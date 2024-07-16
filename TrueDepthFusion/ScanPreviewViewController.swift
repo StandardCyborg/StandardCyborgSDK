@@ -25,13 +25,24 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     private var _quickLookUSDZURL: URL?
     
     
-    private var shaderModifier: String = """
+    private var dissolveAnimationShaderModifier: String = """
+    
         #pragma arguments
         float3 param;
     
         #pragma declaration
     
-    
+    //
+    // Description : Array and textureless GLSL 2D/3D/4D simplex
+    //               noise functions.
+    //      Author : Ian McEwan, Ashima Arts.
+    //  Maintainer : ijm
+    //     Lastmod : 20110822 (ijm)
+    //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.
+    //               Distributed under the MIT License. See LICENSE file.
+    //               https://github.com/ashima/webgl-noise
+    //
+
     float random(float3 pos){
         return fract(sin(dot(pos, float3(64.25375463, 23.27536534, 86.29678483))) * 59482.7542);
     }
@@ -127,33 +138,39 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
       return 42.0 * dot( m*m, float4( dot(p0,x0), dot(p1,x1),
                                     dot(p2,x2), dot(p3,x3) ) );
       }
-
     
+        //
+        // END SIMPLEX NOISE IMPLEMENTATION.
+        //
+
         #pragma transparent
         #pragma body
 
+        float t = param.x;
     
-            float t = param.x;
-            float4 transformed_position = scn_frame.inverseViewTransform * float4(_surface.position, 1.0);
     
-            float3 p;
-            p.r = transformed_position.r + 0.1;
-            p.g =  transformed_position.g + 0.1;
-            p.b = transformed_position.b + 0.1;
-            p = p * 450.0;
-    
-            float noise =  snoise(p ); //+ 0.6;
-    
-            float val = (noise + 1.0) * 0.5 ;
+        
+        float4 worldspace_position = scn_frame.inverseViewTransform * float4(_surface.position, 1.0);
+        
+        float3 p;
+        p.r = worldspace_position.r + 0.1;
+        p.g = worldspace_position.g + 0.1;
+        p.b = worldspace_position.b + 0.1;
+        p = p * 450.0;
+        
+        // sample the noise function.
+        float noise =  snoise(p);
+        
+        float val = (noise + 1.0) * 0.5 ; // val is in range [0, 1]
 
-            if(val > t) {
-                 discard_fragment();
-            } else {
-                
-            }
-    
-               // _output.color.rgb = float3(t, 0.0, 0.0);
-                
+                // t will go from 0 to 1. thus, more and more of the mesh will be revealed
+        if(val > t) {
+            // dont show this fragment
+            discard_fragment();
+        } else {
+            // DO show this fragment.
+        }
+     
 
     """
     
@@ -210,62 +227,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     }
     
     @IBAction private func _runMeshing(_ sender: Any) {
-        /*
-        guard let scan = scan else { return }
         
-        
-        //meshingProgressContainer.isHidden = false
-       // meshingProgressContainer.alpha = 0
-       // meshingProgressView.progress = 0
-        
-        
-        UIView.animate(withDuration: 0.4) {
-            self.meshingProgressContainer.alpha = 1
-        }
-        
-        let meshingParameters = SCMeshingParameters()
-        meshingParameters.resolution = 5
-        meshingParameters.smoothness = 1
-        meshingParameters.surfaceTrimmingAmount = 5
-        meshingParameters.closed = true
-        
-        let textureResolutionPixels = 2048
-        
-        scan.meshTexturing.reconstructMesh(
-            pointCloud: scan.pointCloud,
-            textureResolution: textureResolutionPixels,
-            meshingParameters: meshingParameters,
-            coloringStrategy: .vertex,
-            progress: { percentComplete, shouldStop in
-                DispatchQueue.main.async {
-                    self.meshingProgressView.progress = percentComplete
-                }
-                
-                shouldStop.pointee = ObjCBool(self._shouldCancelMeshing)
-            },
-            completion: { error, scMesh in
-                if let error = error {
-                    print("Meshing error: \(error)")
-                }
-                
-                DispatchQueue.main.async {
-                    self.meshingProgressContainer.isHidden = true
-                    self._shouldCancelMeshing = false
-                    
-                    if let mesh = scMesh {
-                        let node = mesh.buildMeshNode()
-                        node.transform = self._pointCloudNode?.transform ?? SCNMatrix4Identity
-                        self._pointCloudNode = node
-                        self._mesh = mesh
-                        
-                        
-                        
-                        
-                    }
-                }
-            }
-        )
-        */
     }
     
     @IBAction private func cancelMeshing(_ sender: Any) {
@@ -277,8 +239,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     override func viewDidLoad() {
         _initialPointOfView = sceneView.pointOfView!.transform
         
-        
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -289,7 +249,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         
         sceneView.scene?.rootNode.childNodes.forEach { $0.removeFromParentNode() }
 
-        
         _containerNode = SCNNode()
         //_triMeshNode = SCNNode()
         //_addedTriMeshNode = false
@@ -300,35 +259,13 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     
     private var A:Float = 0.975
     
-    func easeOutExpo(x: Float) -> Float {
-      
-        if(x >= 1.0) {
-            return 1.0
-        } else {
-            return 1 - pow(2, -10 * x);
-        }
-        //return 1.0
-    //return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         if let scan = scan, scan.thumbnail == nil {
             let snapshot = sceneView.snapshot()
             scan.thumbnail = snapshot.resized(toWidth: 640)
         }
         
-        
-    
         guard let scan = scan else { return }
-        
-        
-        //meshingProgressContainer.isHidden = false
-        //meshingProgressContainer.alpha = 0
-        //meshingProgressView.progress = 0
-        
-        UIView.animate(withDuration: 0.4) {
-            //self.meshingProgressContainer.alpha = 1
-        }
         
         let meshingParameters = SCMeshingParameters()
         meshingParameters.resolution = 4 //4
@@ -337,10 +274,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
         meshingParameters.closed = true
         
         let textureResolutionPixels = 2048 / 2
-        
-        
-    
-       // self._addedTriMeshNode = false
         
         scan.meshTexturing.reconstructMesh(
             pointCloud: scan.pointCloud,
@@ -355,109 +288,42 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                     return
                 }
                 
-                // run meshing code here.
-                
                 DispatchQueue.main.async {
                     
                     if let mesh = scMesh {
                         let node = mesh.buildMeshNode()
-                        
                         self._containerNode.addChildNode(node)
                         
                         self._mesh = mesh
                         
                         guard let geometry = node.geometry else { return }
                         
-                        var gmin = geometry.boundingBox.min
-                        var gmax = geometry.boundingBox.max
-                        
-                        print("min ", geometry.boundingBox.min)
-                        print("max ", geometry.boundingBox.max)
-                        
-                        
+                        // TODO put in func.
+                        let gmin = geometry.boundingBox.min
+                        let gmax = geometry.boundingBox.max
                         let x_center = (gmin.x + gmax.x) * 0.5
                         let z_center = (gmin.z + gmax.z) * 0.5
-                        
                         let pivotMatrix = SCNMatrix4MakeTranslation(x_center, 0, z_center)
-
-                        node.pivot = pivotMatrix
+                        node.pivot = pivotMatrix // we make sure the mesh rotates about its own center.
                         
-                        print( "mat count ", node.geometry?.materials.count)
+                        geometry.shaderModifiers = [ .fragment: self.dissolveAnimationShaderModifier ]
                         
-                        if let mat = node.geometry?.firstMaterial {
-                            print("light model ", mat.lightingModel)
-                            
-                            print("name ", mat.name)
-                            
-                            
-                            print("diffuse ", mat.diffuse)
-                            
-                            print("metal ", mat.metalness)
-                            
-                            print("roughness ", mat.roughness)
-                            
-                            print("normal ", mat.normal)
-                            
-                            print("selfIllumination ", mat.selfIllumination)
-                            
-                            
-                            print("ambient ", mat.ambient)
-                            
-                            print("shininess ", mat.shininess)
-                            
-                            
-                            print("multiply ", mat.multiply)
-                            
-                            
-                            print("reflecitve ", mat.reflective)
-                            
-                            print("spec ", mat.specular)
-                            
-                        }
-                         
-                        geometry.shaderModifiers = [ .fragment: self.shaderModifier ]
-                        
-                        node.geometry?.firstMaterial?.setValue(SCNVector3(1.0, 0.0, 0.0 ), forKey: "param")
-                       
+                        // constant lighting looks best when spinning the mesh.
                         node.geometry?.firstMaterial?.lightingModel = .constant
                         
                         let A:Float = 4.5
                         
-                        let timeAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
+                        let dissolveAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
                             
                             var at:Float = 0.0
                             
                             if(Float(elapsedTime) < 0.2) {
                                 at = Float(Float(elapsedTime) / 0.2) * 0.1
-                              
                             } else if(0.2 <= Float(elapsedTime) && elapsedTime < 3.5) {
-                                
                                 at = 0.1 + 0.2 *  (Float(elapsedTime) - 0.2) / (3.5 - 0.2);
-                            
                             } else if(3.5 <= Float(elapsedTime) && elapsedTime < 4.5) {
-                                
                                 at = 0.30 +  0.70 * (Float(elapsedTime) - 3.5) / (4.5-3.5) ;
-                                
-                            }
-                            
-                            
-                            /*
-                             if(0.0 <= Float(elapsedTime) && elapsedTime < 4.5) {
-                                                             
-                                                            let a:Float = 0.06031
-                                                             let b:Float =  -0.04919
-                                                             
-                                                             
-                                                             let t:Float = Float(elapsedTime)
-                                                             at =  (a * t*t + b * t + 0.10) * (1.0  / 1.10)
-                                                           
-
-                                                         }
-
-
-                                                         
-                             */
-                            else if(A < Float(elapsedTime) && elapsedTime < 7.0) {
+                            } else if(A < Float(elapsedTime) && elapsedTime < 7.0) {
                                 at = 1.0
                             } else {
                                 at = 1.0
@@ -466,29 +332,15 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             node.geometry?.firstMaterial?.setValue(SCNVector3(at, 0.0, 0.0 ), forKey: "param")
                         }
                         
-                        
-                        let repeatAction = SCNAction.repeatForever(timeAction)
+                        let repeatAction = SCNAction.repeatForever(dissolveAction)
                         node.runAction(repeatAction)
-
-                        
-                        //var e = 0.5
-                      //  node.geometry?.firstMaterial?.setValue(SCNVector3(e*e, 0.0, 0.0 ), forKey: "param")
-                        
-                        //  at = at * at
-                          
-                          //at = Float(1 - cos((at * Float(CGFloat.pi )) / 2.0));
-                          
-                          //at = self.easeOutExpo(x: at)
-                          
                         
                         
-                          let rotationAction2 = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: Double(A))
-                        rotationAction2.timingMode = .easeInEaseOut
-                        node.runAction(rotationAction2)
-                        
-
-                        
-                        
+                        // rotate mesh around its own y axis, 360 degrees.
+                        let rotationAction = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: Double(A))
+                        rotationAction.timingMode = .easeInEaseOut
+                        node.runAction(rotationAction)
+                      
                     }
                     
                 }
