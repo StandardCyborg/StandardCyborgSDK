@@ -265,6 +265,37 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             scan.thumbnail = snapshot.resized(toWidth: 640)
         }
         
+        
+        //self._containerNode.childNode(withName: <#T##String#>, recursively: <#T##Bool#>)
+        //var cameraNode = self._containerNode.childNode(withName: "cameraNodeName", recursively: true)
+        
+        
+        //self._containerNode.
+        
+        
+        var stack: [SCNNode] = [sceneView.scene!.rootNode]
+
+        /*
+        print("stack ", stack)
+        while !stack.isEmpty {
+            let currentNode = stack.removeLast()
+
+            // Process the current node (e.g., print its name)
+            print("Node name: \(currentNode.name ?? "Unnamed")")
+
+            // Add all child nodes to the stack
+            stack.append(contentsOf: currentNode.childNodes)
+        }
+        
+         */
+        
+        
+        
+        
+       // var cameraNode = sceneView.scene!.rootNode.childNode(withName: "camera", recursively: true)
+        
+        //print("camera node ", cameraNode, cameraNode?.name)
+        
         guard let scan = scan else { return }
         
         let meshingParameters = SCMeshingParameters()
@@ -279,7 +310,7 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
             pointCloud: scan.pointCloud,
             textureResolution: textureResolutionPixels,
             meshingParameters: meshingParameters,
-            coloringStrategy: .uvMap,
+            coloringStrategy: .vertex,
             progress: { percentComplete, shouldStop in
             },
             completion: { error, scMesh in
@@ -305,6 +336,23 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         let z_center = (gmin.z + gmax.z) * 0.5
                         let pivotMatrix = SCNMatrix4MakeTranslation(x_center, 0, z_center)
                         node.pivot = pivotMatrix // we make sure the mesh rotates about its own center.
+                        
+                        let xside = gmax.x - gmin.x
+                        let yside = gmax.y - gmin.y
+                        let zside = gmax.z - gmin.z
+                        
+                        let maxSide = max(xside, yside, zside)
+                        
+                        print("max side ", maxSide)
+                        
+                        if let cameraNode = self.sceneView.pointOfView {
+                            let zoom = maxSide / 0.33     //  1.0
+                            cameraNode.position = SCNVector3(0.0, 0.0, -1.0 * zoom)
+                            cameraNode.eulerAngles = SCNVector3(Float.pi, 0.0, Float.pi)
+                            cameraNode.scale = SCNVector3(1.0, 1.0, 1.0)
+                        }
+                        
+                        
                         
                         geometry.shaderModifiers = [ .fragment: self.dissolveAnimationShaderModifier ]
                         
