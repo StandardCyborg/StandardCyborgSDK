@@ -259,6 +259,45 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     
     private var A:Float = 0.975
     
+    enum MeshOrientation {
+        case portrait
+        case landscapeLeft // volume buttons down
+        case landscapeRight // volume buttons up
+        
+        case onGround // phone is laying on ground
+        case above // scanning from above
+        
+    }
+    
+    func gravityToMeshOrientation(gravity:simd_float3) -> MeshOrientation   {
+        let ax = abs(gravity.x)
+        let ay = abs(gravity.y)
+        let az = abs(gravity.z)
+        
+        if ax > ay && ax > az {
+            
+            if gravity.x < 0.0 {
+                return MeshOrientation.landscapeLeft
+            } else {
+                return MeshOrientation.landscapeRight
+            }
+        } else if ay > ax && ay > az {
+            
+            return MeshOrientation.portrait
+        } else if az > ax && az > ay {
+            
+            if gravity.z > 0.0 {
+                return MeshOrientation.onGround
+            } else {
+                return MeshOrientation.above
+            }
+            
+        } else {
+            return MeshOrientation.portrait
+        }
+    }
+
+    
     override func viewDidAppear(_ animated: Bool) {
         if let scan = scan, scan.thumbnail == nil {
             let snapshot = sceneView.snapshot()
@@ -352,6 +391,32 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                             cameraNode.scale = SCNVector3(1.0, 1.0, 1.0)
                         }
                         
+                        //node.eulerAngles =
+                        
+                        print("grav " , self.gravity!)
+                        
+                        let meshOrientation = self.gravityToMeshOrientation(gravity: self.gravity!)
+                        
+                        print("meshOrientation " , meshOrientation)
+                        
+                        
+                        var rotation = SCNVector3(0.0, 0.0, 0.0)
+                        
+                        if(meshOrientation == MeshOrientation.portrait) {
+                            rotation = SCNVector3(x: 0, y: Float.pi * 2, z: 0);
+                        } else if(meshOrientation == MeshOrientation.landscapeLeft)  {
+                            rotation = SCNVector3(x: Float.pi * 2, y: 0, z: 0);
+                            node.eulerAngles = SCNVector3(0.0, 0.0, +Float.pi * 0.5)
+                        } else if(meshOrientation == MeshOrientation.landscapeRight)  {
+                            
+                            rotation = SCNVector3(x: Float.pi * 2, y: 0, z: 0);
+                            node.eulerAngles = SCNVector3(0.0, 0.0, -Float.pi * 0.5)
+                        } else {
+                            rotation = SCNVector3(x: 0, y: Float.pi * 2, z: 0);
+                        }
+                        
+                        
+                        let A:Float = 4.5
                         
                         
                         geometry.shaderModifiers = [ .fragment: self.dissolveAnimationShaderModifier ]
@@ -359,7 +424,6 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         // constant lighting looks best when spinning the mesh.
                         node.geometry?.firstMaterial?.lightingModel = .constant
                         
-                        let A:Float = 4.5
                         
                         let dissolveAction = SCNAction.customAction(duration: 8.0) { (node, elapsedTime) in
                             
@@ -384,10 +448,14 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
                         node.runAction(repeatAction)
                         
                         
-                        // rotate mesh around its own y axis, 360 degrees.
-                        let rotationAction = SCNAction.rotateBy(x: 0, y: CGFloat.pi * 2, z: 0, duration: Double(A))
+                        // rotate mesh around its own y axis, 360 degrees.z
+                        
+                        
+                        let rotationAction = SCNAction.rotateBy(x: CGFloat(rotation.x), y: CGFloat(rotation.y) * 2, z: CGFloat(rotation.z), duration: Double(A))
                         rotationAction.timingMode = .easeInEaseOut
                         node.runAction(rotationAction)
+                         
+                        
                       
                     }
                     
@@ -399,6 +467,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
     }
     
     // MARK: - Public
+    
+    var gravity: simd_float3?
     
     var scan: Scan? {
         didSet {
@@ -421,6 +491,8 @@ class ScanPreviewViewController: UIViewController, QLPreviewControllerDataSource
 
     //private var _triMeshNode = SCNNode()
     //private var _addedTriMeshNode = false
+    
+    //public var gravity:Ve
     
     
     /*

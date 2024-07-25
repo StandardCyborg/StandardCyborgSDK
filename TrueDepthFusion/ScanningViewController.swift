@@ -418,11 +418,19 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
             _reconstructionManager.finalize {
                 let pointCloud = self._reconstructionManager.buildPointCloud()
                 
+                var gravity: simd_float3 = self._reconstructionManager.gravity
+                
+                
                 let scan = Scan(pointCloud: pointCloud,
                                 thumbnail: nil,
                                 meshTexturing: self._meshTexturing)
                 
                 self._scanPreviewViewController.scan = scan
+                
+                self._scanPreviewViewController.gravity = gravity
+                
+                //self._scanPreviewViewController = scan
+                
                 self.present(self._scanPreviewViewController, animated: true, completion: nil)
                 
                 self._reconstructionManager.reset()

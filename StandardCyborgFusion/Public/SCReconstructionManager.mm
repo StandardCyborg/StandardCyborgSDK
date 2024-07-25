@@ -459,6 +459,9 @@ NS_ASSUME_NONNULL_BEGIN
         
         // Allows _modelQueue to run a loop
         dispatch_semaphore_signal(_incomingFrameDataSemaphore);
+        
+        _gravityEstimator.reset();
+
     });
 }
 
