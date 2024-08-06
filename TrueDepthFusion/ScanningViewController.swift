@@ -316,7 +316,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
            set { UserDefaults.standard.set(newValue, forKey: "stop_scanning_on_reconstruction_failure") }
        }
     
-    private var _scanDurationSeconds: Int = 5 {
+    private var _scanDurationSeconds: Int = 2 {
         didSet { _updateUI() }
     }
     
@@ -343,7 +343,7 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
     }
     
     private func _startCountdown(_ completion: @escaping () -> Void) {
-        _countdownSeconds = 3
+        _countdownSeconds = 1
         _iterateCountdown(completion)
     }
     
@@ -418,11 +418,19 @@ class ScanningViewController: UIViewController, CameraManagerDelegate, SCReconst
             _reconstructionManager.finalize {
                 let pointCloud = self._reconstructionManager.buildPointCloud()
                 
+                var gravity: simd_float3 = self._reconstructionManager.gravity
+                
+                
                 let scan = Scan(pointCloud: pointCloud,
                                 thumbnail: nil,
                                 meshTexturing: self._meshTexturing)
                 
                 self._scanPreviewViewController.scan = scan
+                
+                self._scanPreviewViewController.gravity = gravity
+                
+                //self._scanPreviewViewController = scan
+                
                 self.present(self._scanPreviewViewController, animated: true, completion: nil)
                 
                 self._reconstructionManager.reset()
