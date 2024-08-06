@@ -53,6 +53,9 @@ typedef NS_ENUM(NSUInteger, SCMeshColoringStrategy) {
 /** Flips the color input horizontally, such as when using with a mirror bracket */
 @property (nonatomic) BOOL flipsInputHorizontally;
 
+@property (nonatomic) float exposure;
+
+
 /**
  For typical usage in a scanning session, use this default init method.
  */
@@ -110,3 +113,4 @@ NS_SWIFT_NAME(reconstructMesh(pointCloud:textureResolution:meshingParameters:col
 @end
 
 NS_ASSUME_NONNULL_END
+

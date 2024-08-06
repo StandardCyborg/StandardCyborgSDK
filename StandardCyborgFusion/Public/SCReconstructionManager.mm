@@ -28,6 +28,7 @@
 #import <StandardCyborgFusion/SCReconstructionManagerParameters_Private.h>
 #import <StandardCyborgFusion/SCReconstructionManager_Private.h>
 
+
 #import <iostream>
 #import <objc/runtime.h>
 
@@ -115,6 +116,8 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL _wroteIntrinsicsToFile;
     
     GravityEstimator _gravityEstimator;
+    
+    float _exposure;
 }
 
 - (instancetype)initWithDevice:(id<MTLDevice>)device
@@ -123,6 +126,9 @@ NS_ASSUME_NONNULL_BEGIN
 {
     self = [super init];
     if (self) {
+        _luminanceBoostFactor = 0.0f;
+        
+        
         _wroteIntrinsicsToFile = NO;
         _inputQueue_stopped = YES;
 
@@ -403,6 +409,12 @@ NS_ASSUME_NONNULL_BEGIN
     _gravityEstimator.accumulate(gravitySample, attitudeSample);
 }
 
+- (float)exposure {
+    
+    return _exposure;
+    
+}
+
 - (void)finalize:(dispatch_block_t)completion
 {
     _finalized = YES;
@@ -418,7 +430,11 @@ NS_ASSUME_NONNULL_BEGIN
         }
         
         dispatch_async(_modelQueue, ^{
-            _modelQueue_model->finishAssimilating(_surfelFusionConfig);
+            
+            float luminanceBoostFactor = [self luminanceBoostFactor];
+            
+            
+            _modelQueue_model->finishAssimilating(_surfelFusionConfig, _luminanceBoostFactor, _exposure);
             dispatch_async(dispatch_get_main_queue(), completion);
         });
     });
@@ -624,6 +640,7 @@ static const float kCenterDepthExpansionRatio = 1.4;
     _modelQueue_depthProcessor->computeFrameValues(*_modelQueue_frame, _modelQueue_frame->rawFrame);
 }
 
+
 - (void)_modelQueue_configureModelForRawFrame
 {
     if (_modelQueue_hasCalculatedModelConfig) { return; }
@@ -769,3 +786,4 @@ static const float kCenterDepthExpansionRatio = 1.4;
 NS_ASSUME_NONNULL_END
 
 #endif // !TARGET_OS_OSX
+
