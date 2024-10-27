@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03AB25389E722CF129D03913 /* libPods-StandardCyborgAlgorithmsTestbed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E24EF9BF29B2FDD64D17A57 /* libPods-StandardCyborgAlgorithmsTestbed.a */; };
 		0702F9AD234FFF8F0027D10D /* SCMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 0702F9AA234FFF8E0027D10D /* SCMesh.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0702F9AE234FFF8F0027D10D /* SCMesh_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 0702F9AB234FFF8F0027D10D /* SCMesh_Private.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		0702F9AF234FFF8F0027D10D /* SCMesh.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0702F9AC234FFF8F0027D10D /* SCMesh.mm */; };
@@ -42,8 +43,7 @@
 		07F0169F24E4516900EBAB19 /* maxrects.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 07F0169D24E4516900EBAB19 /* maxrects.hpp */; };
 		07F016A024E4516900EBAB19 /* maxrects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07F0169E24E4516900EBAB19 /* maxrects.cpp */; };
 		07F4A70924E496D70059D80E /* MeshUvMapTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 07F4A70824E496D70059D80E /* MeshUvMapTests.mm */; };
-		15E0F2A098DCDEE62B30EBD5 /* libPods-VisualTesteriOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 69247DA574AC900403951CD1 /* libPods-VisualTesteriOS.a */; };
-		6B9816FD8F02211130330768 /* libPods-TrueDepthFusion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA81DA3DF046A3784855882C /* libPods-TrueDepthFusion.a */; };
+		75079CB449930783ED401F1B /* libPods-StandardCyborgFusion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0707F5A724928EB516F1BF3C /* libPods-StandardCyborgFusion.a */; };
 		7609B71321167D4200C0C8D2 /* PointCloudIO_OBJ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7609B71221167D4200C0C8D2 /* PointCloudIO_OBJ.cpp */; };
 		7609B7192117B4C600C0C8D2 /* ProcessedFrame.hpp in Headers */ = {isa = PBXBuildFile; fileRef = 7609B7182117B4C600C0C8D2 /* ProcessedFrame.hpp */; settings = {ATTRIBUTES = (Private, ); }; };
 		7609B71B21190F0500C0C8D2 /* EigenHelperTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7609B71A21190F0500C0C8D2 /* EigenHelperTests.mm */; };
@@ -232,9 +232,8 @@
 		76EE33DA212E131800D62C3D /* Countdown.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 76EE33D6212E131700D62C3D /* Countdown.m4a */; };
 		76EE33DB212E131800D62C3D /* ScanningFinished.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 76EE33D7212E131800D62C3D /* ScanningFinished.m4a */; };
 		76FFDF122150559300500A84 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 76FFDF112150559300500A84 /* Settings.bundle */; };
-		8167FC94A2378AF9446C76A2 /* libPods-StandardCyborgAlgorithmsTestbed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C1C0F66BDE5865F2607028FC /* libPods-StandardCyborgAlgorithmsTestbed.a */; };
-		88BA7AB739982588FB572F57 /* libPods-StandardCyborgFusion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5DA3002761C57C1A4A60A12 /* libPods-StandardCyborgFusion.a */; };
-		8EA73AA1833631D8B65ABC1F /* libPods-VisualTesterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1912A79DDFB763D1987EA793 /* libPods-VisualTesterMac.a */; };
+		7D1F2D2BC1ABD85DC0453DA6 /* libPods-VisualTesteriOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A6C93955F9D56AC9010462FF /* libPods-VisualTesteriOS.a */; };
+		A4130292EC0C27E692B9EF84 /* libPods-VisualTesterMac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 542369A8C29974799FD116A8 /* libPods-VisualTesterMac.a */; };
 		A5092C3021C1BC50003B20BC /* crc32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5092C2E21C1BC50003B20BC /* crc32.cpp */; };
 		A5092C3121C1BC50003B20BC /* crc32.hpp in Headers */ = {isa = PBXBuildFile; fileRef = A5092C2F21C1BC50003B20BC /* crc32.hpp */; };
 		A51A3575225E95650016D70A /* PlaneRemovalViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A51A3574225E95650016D70A /* PlaneRemovalViewController.mm */; };
@@ -289,6 +288,7 @@
 		A5A5A86921C45F4A000978E9 /* CVPixelBufferHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A5A86821C45F4A000978E9 /* CVPixelBufferHelpers.m */; };
 		A5A5A86F21C46843000978E9 /* SCReconstructionManagerParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = A5A5A86E21C46843000978E9 /* SCReconstructionManagerParameters.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5A5CE912159ACCE00768FB3 /* MetalDepthProcessorData.mm in Sources */ = {isa = PBXBuildFile; fileRef = A5A5CE902159ACCE00768FB3 /* MetalDepthProcessorData.mm */; };
+		D3E611F8D755108530FFF107 /* libPods-TrueDepthFusion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FAE23DD5FF5A397EC09D443D /* libPods-TrueDepthFusion.a */; };
 		E208CC3F17BF98DBA674E69C /* libPods-StandardCyborgFusionOSX.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 24D3338D00CB49BE1B7CC35E /* libPods-StandardCyborgFusionOSX.a */; };
 		E8A637A02480771400A8B0EC /* StandardCyborgFusion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8EB32C024739C8C00EF7A01 /* StandardCyborgFusion.framework */; };
 		E8E0EA572497FDD200A33D75 /* StandardCyborgFusion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E8EB32C024739C8C00EF7A01 /* StandardCyborgFusion.framework */; };
@@ -566,6 +566,7 @@
 		0702F9AA234FFF8E0027D10D /* SCMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMesh.h; sourceTree = "<group>"; };
 		0702F9AB234FFF8F0027D10D /* SCMesh_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCMesh_Private.h; sourceTree = "<group>"; };
 		0702F9AC234FFF8F0027D10D /* SCMesh.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SCMesh.mm; sourceTree = "<group>"; };
+		0707F5A724928EB516F1BF3C /* libPods-StandardCyborgFusion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusion.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0711265A241AACCD0078C349 /* SurfelFusion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SurfelFusion.cpp; sourceTree = "<group>"; };
 		0711265B241AACCD0078C349 /* SurfelFusion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SurfelFusion.hpp; sourceTree = "<group>"; };
 		0711EFFF2342C52F00F93DEB /* UvToColor.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = UvToColor.metal; sourceTree = "<group>"; };
@@ -611,7 +612,6 @@
 		07F0169E24E4516900EBAB19 /* maxrects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maxrects.cpp; sourceTree = "<group>"; };
 		07F4A70824E496D70059D80E /* MeshUvMapTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MeshUvMapTests.mm; sourceTree = "<group>"; };
 		127B640E07CD3829D52F87BA /* Pods-StandardCyborgFusionTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusionTests.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusionTests/Pods-StandardCyborgFusionTests.release.xcconfig"; sourceTree = "<group>"; };
-		1912A79DDFB763D1987EA793 /* libPods-VisualTesterMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VisualTesterMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F23236D28AB6434007143EE /* SCEarLandmarking.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SCEarLandmarking.mlmodel; sourceTree = "<group>"; };
 		1F23236E28AB6434007143EE /* EarLandmarkingAnalysis.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EarLandmarkingAnalysis.m; sourceTree = "<group>"; };
 		1F23236F28AB6434007143EE /* EarLandmarkingAnalysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EarLandmarkingAnalysis.h; sourceTree = "<group>"; };
@@ -620,11 +620,11 @@
 		24D3338D00CB49BE1B7CC35E /* libPods-StandardCyborgFusionOSX.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusionOSX.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F5B1DA7375E5B9BE3D137F7 /* Pods-VisualTesterMac.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesterMac.release.xcconfig"; path = "Target Support Files/Pods-VisualTesterMac/Pods-VisualTesterMac.release.xcconfig"; sourceTree = "<group>"; };
 		393601E903C325BFB12CF074 /* Pods-StandardCyborgFusion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgFusion.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgFusion/Pods-StandardCyborgFusion.release.xcconfig"; sourceTree = "<group>"; };
-		4444296B9E2996BC3C82815F /* libPods-StandardCyborgAlgorithmsTestbedMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgAlgorithmsTestbedMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47146284F4E2ED08D4BCBA37 /* Pods-TrueDepthFusion.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueDepthFusion.release.xcconfig"; path = "Target Support Files/Pods-TrueDepthFusion/Pods-TrueDepthFusion.release.xcconfig"; sourceTree = "<group>"; };
 		4B8A869C6ABA6C24FE824293 /* Pods-VisualTesteriOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VisualTesteriOS.release.xcconfig"; path = "Target Support Files/Pods-VisualTesteriOS/Pods-VisualTesteriOS.release.xcconfig"; sourceTree = "<group>"; };
-		69247DA574AC900403951CD1 /* libPods-VisualTesteriOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VisualTesteriOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		542369A8C29974799FD116A8 /* libPods-VisualTesterMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VisualTesterMac.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BA7DCB706A86532C3F884E6 /* libPods-StandardCyborgFusionTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusionTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E24EF9BF29B2FDD64D17A57 /* libPods-StandardCyborgAlgorithmsTestbed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgAlgorithmsTestbed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7609B71221167D4200C0C8D2 /* PointCloudIO_OBJ.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PointCloudIO_OBJ.cpp; sourceTree = "<group>"; };
 		7609B7182117B4C600C0C8D2 /* ProcessedFrame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ProcessedFrame.hpp; sourceTree = "<group>"; };
 		7609B71A21190F0500C0C8D2 /* EigenHelperTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EigenHelperTests.mm; sourceTree = "<group>"; };
@@ -884,13 +884,12 @@
 		A5F19813229336E400D72A12 /* SceneKit+Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SceneKit+Geometry.h"; sourceTree = "<group>"; };
 		A5F198212293404C00D72A12 /* SceneKit+Polyline.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "SceneKit+Polyline.mm"; sourceTree = "<group>"; };
 		A5F198232293405500D72A12 /* SceneKit+Polyline.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SceneKit+Polyline.h"; sourceTree = "<group>"; };
-		BA81DA3DF046A3784855882C /* libPods-TrueDepthFusion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrueDepthFusion.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6C93955F9D56AC9010462FF /* libPods-VisualTesteriOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VisualTesteriOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD9F19495B7CE2877D348A64 /* Pods-StandardCyborgAlgorithmsTestbed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgAlgorithmsTestbed.release.xcconfig"; path = "Target Support Files/Pods-StandardCyborgAlgorithmsTestbed/Pods-StandardCyborgAlgorithmsTestbed.release.xcconfig"; sourceTree = "<group>"; };
-		C1C0F66BDE5865F2607028FC /* libPods-StandardCyborgAlgorithmsTestbed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgAlgorithmsTestbed.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C5DA3002761C57C1A4A60A12 /* libPods-StandardCyborgFusion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StandardCyborgFusion.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C89A39FC2B177E662133A75F /* Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig"; path = "Target Support Files/Pods-StandardCyborgAlgorithmsTestbed/Pods-StandardCyborgAlgorithmsTestbed.debug.xcconfig"; sourceTree = "<group>"; };
 		E6689CCA27ED6C9280FE8C2A /* Pods-TrueDepthFusion.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TrueDepthFusion.debug.xcconfig"; path = "Target Support Files/Pods-TrueDepthFusion/Pods-TrueDepthFusion.debug.xcconfig"; sourceTree = "<group>"; };
 		E8EB32C024739C8C00EF7A01 /* StandardCyborgFusion.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StandardCyborgFusion.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAE23DD5FF5A397EC09D443D /* libPods-TrueDepthFusion.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TrueDepthFusion.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -914,7 +913,7 @@
 				A53A598E21B0B2DC00CD4638 /* QuartzCore.framework in Frameworks */,
 				768967EF2394305D007179B2 /* SceneKit.framework in Frameworks */,
 				76B0788422937904005CA179 /* Vision.framework in Frameworks */,
-				88BA7AB739982588FB572F57 /* libPods-StandardCyborgFusion.a in Frameworks */,
+				75079CB449930783ED401F1B /* libPods-StandardCyborgFusion.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -944,7 +943,7 @@
 				767F31EE227B4EB200D75BC3 /* QuartzCore.framework in Frameworks */,
 				768967F023943068007179B2 /* SceneKit.framework in Frameworks */,
 				E8E0EA572497FDD200A33D75 /* StandardCyborgFusion.framework in Frameworks */,
-				8EA73AA1833631D8B65ABC1F /* libPods-VisualTesterMac.a in Frameworks */,
+				A4130292EC0C27E692B9EF84 /* libPods-VisualTesterMac.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -955,7 +954,7 @@
 				767001C8227B8C830037210E /* QuartzCore.framework in Frameworks */,
 				072182C42294B9CE0003BDEB /* StandardCyborgFusion.framework in Frameworks */,
 				768967F223943069007179B2 /* SceneKit.framework in Frameworks */,
-				8167FC94A2378AF9446C76A2 /* libPods-StandardCyborgAlgorithmsTestbed.a in Frameworks */,
+				03AB25389E722CF129D03913 /* libPods-StandardCyborgAlgorithmsTestbed.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,7 +965,7 @@
 				767001C3227B82580037210E /* MetalKit.framework in Frameworks */,
 				768F651221215F8C00C1B1DA /* StandardCyborgFusion.framework in Frameworks */,
 				768967F42394306D007179B2 /* SceneKit.framework in Frameworks */,
-				6B9816FD8F02211130330768 /* libPods-TrueDepthFusion.a in Frameworks */,
+				D3E611F8D755108530FFF107 /* libPods-TrueDepthFusion.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -977,7 +976,7 @@
 				767001C4227B827C0037210E /* Metal.framework in Frameworks */,
 				768967F123943068007179B2 /* SceneKit.framework in Frameworks */,
 				76A636862134DED40008546D /* StandardCyborgFusion.framework in Frameworks */,
-				15E0F2A098DCDEE62B30EBD5 /* libPods-VisualTesteriOS.a in Frameworks */,
+				7D1F2D2BC1ABD85DC0453DA6 /* libPods-VisualTesteriOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1043,14 +1042,13 @@
 				A53A598D21B0B2DC00CD4638 /* QuartzCore.framework */,
 				768967EE2394305D007179B2 /* SceneKit.framework */,
 				76B0788322937904005CA179 /* Vision.framework */,
-				C1C0F66BDE5865F2607028FC /* libPods-StandardCyborgAlgorithmsTestbed.a */,
-				4444296B9E2996BC3C82815F /* libPods-StandardCyborgAlgorithmsTestbedMac.a */,
-				C5DA3002761C57C1A4A60A12 /* libPods-StandardCyborgFusion.a */,
 				24D3338D00CB49BE1B7CC35E /* libPods-StandardCyborgFusionOSX.a */,
 				6BA7DCB706A86532C3F884E6 /* libPods-StandardCyborgFusionTests.a */,
-				BA81DA3DF046A3784855882C /* libPods-TrueDepthFusion.a */,
-				1912A79DDFB763D1987EA793 /* libPods-VisualTesterMac.a */,
-				69247DA574AC900403951CD1 /* libPods-VisualTesteriOS.a */,
+				6E24EF9BF29B2FDD64D17A57 /* libPods-StandardCyborgAlgorithmsTestbed.a */,
+				0707F5A724928EB516F1BF3C /* libPods-StandardCyborgFusion.a */,
+				FAE23DD5FF5A397EC09D443D /* libPods-TrueDepthFusion.a */,
+				542369A8C29974799FD116A8 /* libPods-VisualTesterMac.a */,
+				A6C93955F9D56AC9010462FF /* libPods-VisualTesteriOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

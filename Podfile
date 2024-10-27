@@ -41,11 +41,6 @@ target 'VisualTesteriOS' do
   pod 'scsdk', :path => 'scsdk/'
 end
 
-# target 'StandardCyborgAlgorithmsTestbedMac' do
-#   platform :osx, '11.0'
-#   pod 'scsdk', :path => 'scsdk/'
-# end
-
 target 'StandardCyborgAlgorithmsTestbed' do
   platform :ios, '13.0'
   pod 'scsdk', :path => 'scsdk/'
