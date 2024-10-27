@@ -10,10 +10,7 @@
 
 #include <standard_cyborg/math/Vec3.hpp>
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
 #include <nanoflann.hpp>
-#pragma clang diagnostic pop
 
 /** Squared Euclidean (L2) distance functor (suitable for low-dimensionality
  * datasets, like 2D or 3D point clouds) Corresponding distance traits:
@@ -113,7 +110,8 @@ struct KdTreeAdaptor {
         m_data_matrix(mat)
     {
         const int rowCount = 3;
-        auto adaptorParams = nanoflann::KDTreeSingleIndexAdaptorParams(leafMaxSize);
+        // The last param is # threads, and 0 means auto-determine
+        auto adaptorParams = nanoflann::KDTreeSingleIndexAdaptorParams(leafMaxSize, KDTreeSingleIndexAdaptorFlags::None, 2);
         index = new index_t(rowCount, *this, adaptorParams);
         index->buildIndex();
     }
@@ -127,7 +125,7 @@ struct KdTreeAdaptor {
     {
         SingleNNResultSet resultSet;
         resultSet.init(out_indices, out_distances_sq);
-        index->findNeighbors(resultSet, query_point, nanoflann::SearchParams());
+        index->findNeighbors(resultSet, query_point, nanoflann::SearchParameters());
     }
     
     const self_t& derived() const { return *this; }
