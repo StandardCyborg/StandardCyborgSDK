@@ -15,14 +15,10 @@ limitations under the License.
 */
 
 #include "standard_cyborg/sc3d/Geometry.hpp"
-
 #include "standard_cyborg/util/DataUtils.hpp"
 #include "standard_cyborg/util/nanort.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
 #include <nanoflann.hpp>
-#pragma clang diagnostic pop
 
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -54,7 +50,7 @@ struct KDTreeVectorOfVectorsAdaptor {
         m_data(mat)
     {
         const size_t dims = 3;
-        index = new index_t(static_cast<int>(dims), *this /* adaptor */, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_max_size));
+        index = new index_t(static_cast<int>(dims), *this /* adaptor */, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_max_size, nanoflann::KDTreeSingleIndexAdaptorFlags::None, 0));
         index->buildIndex();
     }
 
@@ -74,7 +70,7 @@ struct KDTreeVectorOfVectorsAdaptor {
     {
         nanoflann::KNNResultSet<float, IndexType> resultSet(num_closest);
         resultSet.init(out_indices, out_distances_sq);
-        index->findNeighbors(resultSet, query_point, nanoflann::SearchParams());
+        index->findNeighbors(resultSet, query_point);
     }
 
     /** @name Interface expected by KDTreeSingleIndexAdaptor
@@ -474,7 +470,7 @@ int Geometry::getClosestVertexIndex(const Vec3& queryPoint) const
     float pt[3] = {queryPoint.x, queryPoint.y, queryPoint.z};
 
     resultSet.init(&retIndex, &retDistSquared);
-    pImpl->_kdTree->index->findNeighbors(resultSet, pt, nanoflann::SearchParams(10));
+    pImpl->_kdTree->index->findNeighbors(resultSet, pt);
 
     return (int)retIndex;
 }
@@ -505,7 +501,7 @@ std::vector<int> Geometry::getNClosestVertexIndices(const Vec3& queryPosition, i
         float pt[3] = {queryPosition.x, queryPosition.y, queryPosition.z};
 
         resultSet.init(results.data(), retDistsSquared.data());
-        pImpl->_kdTree->index->findNeighbors(resultSet, pt, nanoflann::SearchParams(10));
+        pImpl->_kdTree->index->findNeighbors(resultSet, pt, nanoflann::SearchParameters(10));
     }
 
     return results;
@@ -517,8 +513,8 @@ std::vector<int> Geometry::getVertexIndicesInRadius(const Vec3& queryPosition, f
 
     float position[3] = {queryPosition.x, queryPosition.y, queryPosition.z};
     float squaredRadius = radius * radius;
-    std::vector<std::pair<unsigned long, float>> resultIndicesAndSquaredDistances;
-    nanoflann::SearchParams params;
+    std::vector<nanoflann::ResultItem<unsigned long, float>> resultIndicesAndSquaredDistances;
+    nanoflann::SearchParameters params;
     params.sorted = false;
 
     pImpl->_kdTree->index->radiusSearch(&position[0], squaredRadius, resultIndicesAndSquaredDistances, params);

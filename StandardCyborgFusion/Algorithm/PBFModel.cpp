@@ -79,14 +79,13 @@ std::shared_ptr<sc3d::Geometry> PBFModel::buildPointCloud(float downsampledFract
 
     size_t surfelCount = _surfels.size();
     size_t surfelStride = (size_t)(1.0f / downsampledFraction);
-    size_t resultCount = surfelCount / surfelStride + (surfelCount % surfelStride == 0 ? 0 : 1);
+    size_t resultCount = surfelCount / surfelStride;
 
     std::vector<math::Vec3> vertices;
     vertices.reserve(resultCount);
    
     std::vector<math::Vec3> normals;
     normals.reserve(resultCount);
-    
     
     std::vector<math::Vec3> colors;
     colors.reserve(resultCount);

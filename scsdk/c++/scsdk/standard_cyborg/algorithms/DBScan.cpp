@@ -14,16 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 #include "standard_cyborg/algorithms/DBScan.hpp"
-
 #include "standard_cyborg/math/Vec3.hpp"
 
 #include <algorithm>
 #include <random>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wconversion"
 #include <nanoflann.hpp>
-#pragma clang diagnostic pop
 
 
 namespace standard_cyborg {
@@ -44,7 +39,7 @@ struct KDTreeVec3VectorAdaptor {
     {
         assert(mat.size() != 0);
         const size_t dims = 3;
-        index = new index_t(static_cast<int>(dims), *this /* adaptor */, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_max_size));
+        index = new index_t(static_cast<int>(dims), *this /* adaptor */, nanoflann::KDTreeSingleIndexAdaptorParams(leaf_max_size, nanoflann::KDTreeSingleIndexAdaptorFlags::None, 0));
         index->buildIndex();
     }
     
@@ -64,7 +59,7 @@ struct KDTreeVec3VectorAdaptor {
     {
         nanoflann::KNNResultSet<num_t, IndexType> resultSet(num_closest);
         resultSet.init(out_indices, out_distances_sq);
-        index->findNeighbors(resultSet, query_point, nanoflann::SearchParams());
+    index->findNeighbors(resultSet, query_point, nanoflann::SearchParameters());
     }
     
     /** @name Interface expected by KDTreeSingleIndexAdaptor
@@ -164,13 +159,13 @@ std::vector<int> DBScan::compute(const std::vector<math::Vec3>& argpoints, size_
     kdTree.index->buildIndex();
     
     for (int i = 0; i < points.size(); ++i) {
-        std::vector<std::pair<size_t, float>> matches;
+        std::vector<nanoflann::ResultItem<size_t, float>> matches;
         
         float point[3] = {points[i].p.x, points[i].p.y, points[i].p.z};
-        kdTree.index->radiusSearch(&point[0], epsilon, matches, nanoflann::SearchParams(10));
+        kdTree.index->radiusSearch(&point[0], epsilon, matches);
         
         for (int j = 0; j < matches.size(); ++j) {
-            std::pair<size_t, float> iter = matches[j];
+            auto iter = matches[j];
             adjPoints[i].push_back((int)iter.first);
             points[i].ptsCnt++;
         }

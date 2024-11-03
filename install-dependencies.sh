@@ -36,15 +36,6 @@ if ! [ "$(command -v pod)" ]; then
     exit 1
 fi
 
-## xcpretty ###################################################################
-
-if ! [ "$(command -v xcpretty)" ]; then
-    echo "Pretty please install xcpretty:"
-	echo "https://github.com/xcpretty/xcpretty"
-	echo "Pretty please run: $ gem install xcpretty"
-	exit 1
-fi
-
 if ! test -e .git/hooks/pre-commit; then
     pushd .git/hooks &>/dev/null
     echo "Installing git pre-commit hook"

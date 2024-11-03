@@ -78,7 +78,6 @@ src/traces/local_traces
 
 .svn/
 
-deps/
 env/
 
 protoc

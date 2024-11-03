@@ -18,7 +18,7 @@ limitations under the License.
 #include "standard_cyborg/sc3d/ColorImage.hpp"
 
 #define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include "stb_image_resize.h"
+#include "stb_image_resize2.h"
 
 namespace standard_cyborg {
 namespace sc3d {
@@ -104,8 +104,8 @@ void ColorImage::resizeFrom(const ColorImage& src)
 {
     const float* srcData = reinterpret_cast<const float*>(src.getData().data());
     float* dstData = reinterpret_cast<float*>(const_cast<Vec4*>(rgba.data()));
-    stbir_resize_float(srcData, src.getWidth(), src.getHeight(), 0,
-                       dstData, width, height, 0, 4);
+    stbir_resize_float_linear(srcData, src.getWidth(), src.getHeight(), 0,
+                              dstData, width, height, 0, STBIR_RGBA);
 }
 
 void ColorImage::resize(int newWidth, int newHeight)
@@ -117,8 +117,8 @@ void ColorImage::resize(int newWidth, int newHeight)
     std::vector<Vec4> newRgba(newWidth * newHeight);
     float* dstData = reinterpret_cast<float*>(newRgba.data());
 
-    stbir_resize_float(srcData, width, height, 0,
-                       dstData, newWidth, newHeight, 0, 4);
+    stbir_resize_float_linear(srcData, width, height, 0,
+                              dstData, newWidth, newHeight, 0, STBIR_RGBA);
 
     width = newWidth;
     height = newHeight;
