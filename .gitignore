@@ -25,62 +25,10 @@ Pods
 *.xcscmblueprint
 OptimizationProfiles
 
-
 **/.DS_Store
 StandardCyborgGeometryTests/TestCases/Scans
 
 node_modules
-*.wasm
 
-SceneGraphWebViewer/dist
-SceneGraphWebViewer/package-lock.json
+.build
 
-# Ignored here; it would make sense to commit these build products in a public release
-scsdk/js/dist
-
-SceneGraphWebViewer/package-lock.json
-
-**/*.o
-StandardCyborgEmscripten/build/
-build-all
-
-## enable local testing without throwing off the diff
-
-ScratchSpace
-
-VisualTesteriOS/AccessSecretKey.h
-
-*.so
-StandardCyborgPython/out.gltf
-StandardCyborgPython/out.ply
-
-StandardCyborgPython/dist/
-StandardCyborgPython/StandardCyborgSDK.egg-info/
-
-__pycache__
-.mypy_cache/
-*.pyc
-
-StandardCyborgOrbDemo/out.jpeg
-
-src/utils/fusion/components-build
-src/utils/fusion/test.ply
-src/utils/fusion/ate.png
-src/utils/fusion/rpe.png
-
-src/utils/fusion/fusion-ate.png
-src/utils/fusion/fusion-rpe.png
-
-src/utils/fusion/gt-ate.png
-src/utils/fusion/gt-rpe.png
-
-src/traces/local_traces
-
-.svn/
-
-env/
-
-protoc
-
-
-temp.tar

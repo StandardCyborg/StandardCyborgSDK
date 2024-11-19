@@ -1,18 +1,31 @@
-# scsdk
+# scsdk - A Highly Portable C++ Library for 3D Perception and More
 
-- *c++/* The C++ source code of our Core SDK. It is included in the open source release for documentation purposes, and for
-allowing outside developers to fix minor bugs they come across. But the C++ SDK is not the official recommended and supported way of using our SDK
+In the directory `scsdk/`, are the components of the library:
 
+ * `math` - Integral containers and linear algebra for 3D Perception.
+ * `sc3d` - Core classes for 3D geometry, imaging, selection, and annotation.
+ * `scene_graph` - A portable representation for a complete 3D scene.
+ * `algorithms` - A small suite of 3D Perception algorithms that operate
+      on scsdk data structures.
+ * `io` - SERDES for the above data structures supporting a mix of
+      JSON, PLY, GLTF, and other file formats.
+ * `util` - Various supporting utilities.
+
+`scsdk_test/` contains GTest-based tests for all of the above components. `test_fixture_data/` contains data used in the tests.
 
 ## Development
 
-scsdk currently relies on dependencies through both CocoaPods 
-as well as the StandardCyborgSDK repo's more general dependencies directory.
-When adding a new dependency, you must update configuration in [scsdk.podspec](scsdk.podspec)
+### Building scsdk
 
-When modifying the root `Podfile`, run this command to update the `Pods/`
-directory at the root of the repo.  (You'll also want to `git add Pods/`
-to include your changes with your branch).
+#### CMake
 
-Pod update command, run from root of repo:
-`rm -rf Pods Podfile.lock && pod cache clean --all && pod install --clean-install --verbose --repo-update`
+To do an out-of-source build, use the following on Mac or Linux:
+```
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Debug ..
+make -j `nproc`
+./scsdk_test
+```
+
+(On a Mac, you might need to `alias nproc='sysctl -n hw.logicalcpu'`).

@@ -1,38 +1,23 @@
 PODS:
   - EigenCPPCocoa (3.4.0)
-  - PoissonRecon (9.011)
   - scsdk (1.0.0):
     - EigenCPPCocoa (~> 3.4.0)
-  - SSZipArchive (2.4.3)
 
 DEPENDENCIES:
-  - PoissonRecon (from `StandardCyborgFusion/PoissonRecon.podspec`)
   - scsdk (from `scsdk/`)
-  - SSZipArchive
 
 SPEC REPOS:
-  "git@github.com:StandardCyborg/SCCocoaPods.git":
-    - EigenCPPCocoa
   https://github.com/CocoaPods/Specs.git:
-    - SSZipArchive
+    - EigenCPPCocoa
 
 EXTERNAL SOURCES:
-  PoissonRecon:
-    :podspec: StandardCyborgFusion/PoissonRecon.podspec
   scsdk:
     :path: scsdk/
 
-CHECKOUT OPTIONS:
-  PoissonRecon:
-    :commit: 9f30316c1b247736654652c72e06b3f0db2e79ed
-    :git: "git@github.com:StandardCyborg/PoissonRecon.git"
-
 SPEC CHECKSUMS:
-  EigenCPPCocoa: a4709e53380aeb15f6027f6b3e4190abdbef3897
-  PoissonRecon: 80674507001fec81666c982732f66d6ceb71d54c
+  EigenCPPCocoa: 4b79c92db8d6e634c34e28e3cf5e97ba1ab100b5
   scsdk: 8bdcc08321923d9b4b0f3766b265c2091e70966b
-  SSZipArchive: fe6a26b2a54d5a0890f2567b5cc6de5caa600aef
 
-PODFILE CHECKSUM: c9158b3a95922262409caf6678703172e1087244
+PODFILE CHECKSUM: 855f6d6ef41d7020fd797538aa68a79411810167
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

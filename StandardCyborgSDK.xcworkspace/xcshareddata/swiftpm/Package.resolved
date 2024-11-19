@@ -1,0 +1,15 @@
+{
+  "originHash" : "9ef9332628c6f6383bf282744217315aeb421532a698d3a218f12707afaf12fd",
+  "pins" : [
+    {
+      "identity" : "json",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/nlohmann/json.git",
+      "state" : {
+        "revision" : "9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03",
+        "version" : "3.11.3"
+      }
+    }
+  ],
+  "version" : 3
+}

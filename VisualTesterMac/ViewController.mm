@@ -32,7 +32,7 @@
 #import "DrawSurfelIndexMap.hpp"
 #import "EigenSceneKitHelpers.hpp"
 #import "ViewController.h"
-#import <nlohmann/json.hpp>
+#import <json.hpp>
 
 NS_ASSUME_NONNULL_BEGIN
 

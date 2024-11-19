@@ -21,9 +21,6 @@ if ! [ "$(command -v brew)" ]; then
 fi
 
 homebrewInstall cmake
-homebrewInstall swiftlint
-homebrewInstall ccache
-homebrewInstall clang-format
 homebrewInstall git-lfs
 homebrewInstall libiconv
 
